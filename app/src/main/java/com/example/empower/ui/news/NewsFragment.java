@@ -4,15 +4,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.empower.R;
+import com.example.empower.entity.News;
+import com.example.empower.entity.NewsWarehouse;
+
+import java.util.List;
 
 public class NewsFragment extends Fragment {
 
@@ -23,13 +26,33 @@ public class NewsFragment extends Fragment {
         newsViewModel =
                 ViewModelProviders.of(this).get(NewsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_news, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        newsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+
+
+        List<News> newsList = NewsWarehouse.createNews(100);
+        NewsAdapter newsAdapter = new NewsAdapter(getActivity(), newsList);
+
+
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,false);
+        RecyclerView recyclerView = root.findViewById(R.id.news_recyclerView);
+        recyclerView.setAdapter(newsAdapter);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new NewsItemDecoration(2));
+
+
+//        final TextView textView = root.findViewById(R.id.text_home);
+//        newsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+//            @Override
+//            public void onChanged(@Nullable String s) {
+//                textView.setText(s);
+//            }
+//        });
+
+
+
+
+
+
         return root;
     }
 }
