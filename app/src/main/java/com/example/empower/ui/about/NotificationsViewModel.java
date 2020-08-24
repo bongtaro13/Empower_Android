@@ -1,4 +1,4 @@
-package com.example.empower.ui.notifications;
+package com.example.empower.ui.about;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
