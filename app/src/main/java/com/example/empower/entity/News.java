@@ -5,8 +5,7 @@ public class News {
     private String title;
 
 
-
-    public News (String imageUrl, String title){
+    public News(String imageUrl, String title) {
         this.imageUrl = imageUrl;
         this.title = title;
     }

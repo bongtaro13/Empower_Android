@@ -29,7 +29,7 @@ public class NewsFragment extends Fragment {
 
 
         List<News> newsList = NewsWarehouse.createNews(100);
-        NewsAdapter newsAdapter = new NewsAdapter(getActivity(), newsList);
+        NewsAdapter newsAdapter = new NewsAdapter(getActivity().getApplicationContext(), newsList);
 
 
 
@@ -37,6 +37,8 @@ public class NewsFragment extends Fragment {
         RecyclerView recyclerView = root.findViewById(R.id.news_recyclerView);
         recyclerView.setAdapter(newsAdapter);
         recyclerView.setLayoutManager(layoutManager);
+
+        // add item decoration among different news item
         recyclerView.addItemDecoration(new NewsItemDecoration(2));
 
 
