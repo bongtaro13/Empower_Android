@@ -15,6 +15,12 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.empower.R;
 import com.example.empower.entity.SportsVenue;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,16 +29,27 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-public class MapFragment extends Fragment {
+public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private MapViewModel mapViewModel;
+
+    GoogleMap mapAPI;
+    SupportMapFragment mapFragment;
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        View root = inflater.inflate(R.layout.fragment_map, container, false);
+        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapAPI);
+        mapFragment.getMapAsync(this);
+
+
+
 //        mapViewModel =
 //                ViewModelProviders.of(this).get(MapViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_map, container, false);
+
 //        final TextView textView = root.findViewById(R.id.text_dashboard);
 //        mapViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
 //            @Override
@@ -40,9 +57,21 @@ public class MapFragment extends Fragment {
 //                textView.setText(s);
 //            }
 //        });
+
+
+
+
+
         return root;
     }
 
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mapAPI = googleMap;
+        LatLng monashClayton = new LatLng(-37.913342, 145.131799);
+        mapAPI.addMarker(new MarkerOptions().position(monashClayton).title("Monash Clayton"));
 
+        mapAPI.moveCamera(CameraUpdateFactory.newLatLng(monashClayton));
+    }
 }
