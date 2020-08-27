@@ -1,5 +1,6 @@
 package com.example.empower.ui.news;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,12 +30,16 @@ public class NewsFragment extends Fragment {
 
 
         List<News> newsList = NewsWarehouse.createNews(100);
+
+        //bind new list with view adapter
         NewsAdapter newsAdapter = new NewsAdapter(getActivity().getApplicationContext(), newsList);
 
 
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,false);
         RecyclerView recyclerView = root.findViewById(R.id.news_recyclerView);
+
+        //manage recycle view contents with new adapter
         recyclerView.setAdapter(newsAdapter);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -57,4 +62,9 @@ public class NewsFragment extends Fragment {
 
         return root;
     }
+
+
+
+
+
 }
