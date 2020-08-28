@@ -1,29 +1,41 @@
 package com.example.empower.ui.map;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.empower.R;
 import com.example.empower.entity.SportsVenue;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,8 +44,12 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
+
 
     private MapViewModel mapViewModel;
 
@@ -43,7 +59,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
 
     private ArrayList<SportsVenue> sportsVenueList = new ArrayList<>();
-    private  ArrayList<LatLng> latLngList = new ArrayList<>();
+    private ArrayList<LatLng> latLngList = new ArrayList<>();
+
+
+    Location currentLocation;
+    FusedLocationProviderClient fusedLocationProviderClient;
+    private static final int REQUEST_CODE = 101;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -51,22 +72,32 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         View root = inflater.inflate(R.layout.fragment_map, container, false);
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapAPI);
+
+
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
+
 
         createSportsVenueList();
 
 
-
         new AsyncAddMarker().execute(sportsVenueList);
+
+
         return root;
     }
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+        MapsInitializer.initialize(getContext());
         googleMap.getUiSettings().setZoomControlsEnabled(true);
+
+
         mapAPI = googleMap;
+
+
         LatLng monashClayton = new LatLng(-37.913342, 145.131799);
         mapAPI.addMarker(new MarkerOptions().position(monashClayton).title("Monash Clayton")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
@@ -80,12 +111,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
 
-
     }
 
 
 
-
+    // put markers of selected sports venues on the google map
     private class AsyncAddMarker extends AsyncTask<ArrayList<SportsVenue>, Void, ArrayList<LatLng>> {
 
         @Override
@@ -116,13 +146,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<LatLng> latLngList){
+        protected void onPostExecute(ArrayList<LatLng> latLngList) {
             super.onPostExecute(latLngList);
-            if (latLngList.size() != 0){
-                for (int i = 0; i < latLngList.size(); i++){
+            if (latLngList.size() != 0) {
+                for (int i = 0; i < latLngList.size(); i++) {
                     LatLng tempSportsVenue = latLngList.get(i);
                     mapAPI.addMarker(new MarkerOptions().position(tempSportsVenue)
-                            .title(sportsVenueList.get(i).getName() + " " + sportsVenueList.get(i).getAddress()));
+                            .title(sportsVenueList.get(i).getName())
+                            .snippet(sportsVenueList.get(i).getAddress() + " " + sportsVenueList.get(i).getPostcode()));
 
                 }
             }
@@ -131,6 +162,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
+    // get location with latlng from the address
     public LatLng getLocationFromAddress(Context context, String venueAddress) {
         Geocoder geocoder = new Geocoder(context);
         List<Address> addresses;
@@ -153,8 +185,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         return resultLatLon;
 
     }
-
-
 
 
     public void createSportsVenueList() {
