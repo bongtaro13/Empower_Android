@@ -3,6 +3,7 @@ package com.example.empower.ui.map;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -56,34 +57,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         createSportsVenueList();
 
 
-        // Use index number to mapping of real address and latitude-longitude address
 
-        for (SportsVenue tempSportsVenue : sportsVenueList) {
-
-            String tempSportsVenueAddress = tempSportsVenue.getAddress() + " "
-                    + tempSportsVenue.getPostcode() + " "
-                    + tempSportsVenue.getState();
-            LatLng tempSportsVenueLatlng = getLocationFromAddress(root.getContext(), tempSportsVenueAddress);
-
-            if (tempSportsVenueLatlng != null) {
-                latLngList.add(tempSportsVenueLatlng);
-            }
-        }
-
-
-
-//        mapViewModel =
-//                ViewModelProviders.of(this).get(MapViewModel.class);
-
-//        final TextView textView = root.findViewById(R.id.text_dashboard);
-//        mapViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
-
-
+        new AsyncAddMarker().execute(sportsVenueList);
         return root;
     }
 
@@ -96,20 +71,62 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapAPI.addMarker(new MarkerOptions().position(monashClayton).title("Monash Clayton")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
 
-        for (int i = 0; i < latLngList.size(); i++){
-            LatLng tempSportsVenue = latLngList.get(i);
-            mapAPI.addMarker(new MarkerOptions().position(tempSportsVenue)
-                    .title(sportsVenueList.get(i).getName() + " " + sportsVenueList.get(i).getAddress()));
-
-        }
-
 
         // set the camera position of application when oping the map on ready
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(monashClayton).zoom(12).build();
 
         mapAPI.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-//
+
+
+
+
+    }
+
+
+
+
+    private class AsyncAddMarker extends AsyncTask<ArrayList<SportsVenue>, Void, ArrayList<LatLng>> {
+
+        @Override
+        protected ArrayList<LatLng> doInBackground(ArrayList<SportsVenue>... arrayLists) {
+
+            // input parameter of the sports venues array list
+            ArrayList<SportsVenue> sportsVenueArrayList = arrayLists[0];
+
+            ArrayList<LatLng> latLngList = new ArrayList<>();
+
+
+            // Use index number to mapping of real address and latitude-longitude address
+            for (SportsVenue tempSportsVenue : sportsVenueArrayList) {
+
+                String tempSportsVenueAddress = tempSportsVenue.getAddress() + " "
+                        + tempSportsVenue.getPostcode() + " "
+                        + tempSportsVenue.getState();
+                LatLng tempSportsVenueLatlng = getLocationFromAddress(getContext(), tempSportsVenueAddress);
+
+                if (tempSportsVenueLatlng != null) {
+                    latLngList.add(tempSportsVenueLatlng);
+                }
+            }
+
+
+            return latLngList;
+
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<LatLng> latLngList){
+            super.onPostExecute(latLngList);
+            if (latLngList.size() != 0){
+                for (int i = 0; i < latLngList.size(); i++){
+                    LatLng tempSportsVenue = latLngList.get(i);
+                    mapAPI.addMarker(new MarkerOptions().position(tempSportsVenue)
+                            .title(sportsVenueList.get(i).getName() + " " + sportsVenueList.get(i).getAddress()));
+
+                }
+            }
+        }
 
     }
 
@@ -136,6 +153,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         return resultLatLon;
 
     }
+
+
 
 
     public void createSportsVenueList() {
