@@ -13,6 +13,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -57,9 +61,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private SupportMapFragment mapFragment;
 
     private MapView mapView;
+    private View root;
 
     private ArrayList<SportsVenue> sportsVenueList = new ArrayList<>();
+
     private ArrayList<LatLng> latLngList = new ArrayList<>();
+
+
+    private EditText mapPostcodeEditText;
+    private Button mapSearchButton;
+    private ProgressBar mapProgressBar;
+
+    private static final String TAG = "searchApp";
+    static String result = null;
+    Integer responseCode = null;
+    String responseMessage = "";
+
 
 
     Location currentLocation;
@@ -70,7 +87,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_map, container, false);
+        root = inflater.inflate(R.layout.fragment_map, container, false);
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapAPI);
 
 
@@ -80,8 +97,37 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         createSportsVenueList();
 
+        mapPostcodeEditText = root.findViewById(R.id.map_postcode_editText);
+        mapSearchButton = root.findViewById(R.id.map_search_button);
+        mapProgressBar = root.findViewById(R.id.map_search_progressBar);
 
-        new AsyncAddMarker().execute(sportsVenueList);
+        mapSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String searchPostcode = mapPostcodeEditText.getText().toString();
+                String txt = "Searching sports venues for: " + searchPostcode;
+                Log.d(TAG, txt);
+
+
+                // remove spaces
+                String searchPostcodeNoSpaces = searchPostcode.replace(" ", "");
+                ArrayList<SportsVenue> selectedSportsVenueList = new ArrayList<>();
+                selectedSportsVenueList =  createSelectedSportsVenueListByPostcode(searchPostcodeNoSpaces);
+
+                if (selectedSportsVenueList.size() > 0) {
+                    new AsyncAddMarker().execute(selectedSportsVenueList);
+                }else {
+                    Toast toast_error = Toast.makeText(getContext(),"No result find", Toast.LENGTH_SHORT);
+                    toast_error.show();
+                }
+
+            }
+        });
+
+
+
+
+
 
 
         return root;
@@ -121,6 +167,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         @Override
         protected ArrayList<LatLng> doInBackground(ArrayList<SportsVenue>... arrayLists) {
 
+            //mapProgressBar.setVisibility(View.VISIBLE);
+
             // input parameter of the sports venues array list
             ArrayList<SportsVenue> sportsVenueArrayList = arrayLists[0];
 
@@ -151,12 +199,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             if (latLngList.size() != 0) {
                 for (int i = 0; i < latLngList.size(); i++) {
                     LatLng tempSportsVenue = latLngList.get(i);
+                    mapAPI.clear();
                     mapAPI.addMarker(new MarkerOptions().position(tempSportsVenue)
                             .title(sportsVenueList.get(i).getName())
                             .snippet(sportsVenueList.get(i).getAddress() + " " + sportsVenueList.get(i).getPostcode()));
 
                 }
             }
+            CameraPosition newCameraPosition = new CameraPosition.Builder()
+                    .target(latLngList.get(0)).zoom(12).build();
+
+            mapAPI.moveCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition));
+            mapProgressBar.setVisibility(View.GONE);
+            Toast toast_success = Toast.makeText(getContext(),"Result found", Toast.LENGTH_SHORT);
+            toast_success.show();
         }
 
     }
@@ -184,6 +240,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
         return resultLatLon;
 
+    }
+
+
+    public ArrayList<SportsVenue> createSelectedSportsVenueListByPostcode (String inputPostcode){
+        ArrayList<SportsVenue> selectedSportsVenuList = new ArrayList<>();
+        if (inputPostcode.length() == 0){
+            return selectedSportsVenuList;
+        }
+        for (SportsVenue tempSportsVenue: sportsVenueList){
+            if (tempSportsVenue.getPostcode().equals(inputPostcode)){
+                selectedSportsVenuList.add(tempSportsVenue);
+            }
+        }
+
+        return selectedSportsVenuList;
     }
 
 
