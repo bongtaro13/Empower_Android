@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.empower.R;
+import com.example.empower.api.NewsAPI;
 import com.example.empower.entity.News;
 import com.example.empower.entity.NewsWarehouse;
 
@@ -92,20 +93,6 @@ public class NewsFragment extends Fragment {
                 searchTask.execute(url);
             }
         });
-
-
-
-
-
-
-
-//        final TextView textView = root.findViewById(R.id.text_home);
-//        newsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
 
 
 
@@ -205,7 +192,9 @@ public class NewsFragment extends Fragment {
             newsProgressBar.setVisibility(View.GONE);
 
 
-            List<News> newsList = NewsWarehouse.createNews(100);
+            NewsAPI newsAPI = new NewsAPI(result);
+
+            List<News> newsList = newsAPI.getNewsFromJsonResult();
 
 
             //bind new list with view adapter

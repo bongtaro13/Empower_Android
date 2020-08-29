@@ -27,16 +27,16 @@ public class NewsWarehouse {
 
 
 
-    public static List<News> createNews(int num){
-        Random random = new Random();
-        List<News> newsList = new ArrayList<>();
-        int arySize = imageUrls.length;
-        for (int i = 0; i< num; i++){
-            int a = i % arySize;
-            String url = imageUrls[a];
-            String title = titles[a];
-            newsList.add(new News(url, title));
-        }
-        return newsList;
-    }
+//    public static List<News> createNews(int num){
+//        Random random = new Random();
+//        List<News> newsList = new ArrayList<>();
+//        int arySize = imageUrls.length;
+//        for (int i = 0; i< num; i++){
+//            int a = i % arySize;
+//            String url = imageUrls[a];
+//            String title = titles[a];
+//            newsList.add(new News(url, title));
+//        }
+//        return newsList;
+//    }
 }

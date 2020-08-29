@@ -51,6 +51,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 .load(news.getImageUrl())
                 .into(holder.image);
 
+
         holder.title.setText(news.getTitle());
 
 
@@ -65,6 +66,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         ConstraintLayout newsItem;      // get new recycle view item layout
         ImageView image;
         TextView title;
+        String newsLink;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
