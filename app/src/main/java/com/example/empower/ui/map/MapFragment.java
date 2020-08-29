@@ -1,13 +1,16 @@
 package com.example.empower.ui.map;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,16 +20,21 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.empower.R;
 import com.example.empower.entity.SportsVenue;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -48,12 +56,15 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import static android.content.Context.LOCATION_SERVICE;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
+
+    //user current location
 
     private MapViewModel mapViewModel;
 
@@ -76,7 +87,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     static String result = null;
     Integer responseCode = null;
     String responseMessage = "";
-
 
 
     Location currentLocation;
@@ -112,22 +122,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 // remove spaces
                 String searchPostcodeNoSpaces = searchPostcode.replace(" ", "");
                 ArrayList<SportsVenue> selectedSportsVenueList = new ArrayList<>();
-                selectedSportsVenueList =  createSelectedSportsVenueListByPostcode(searchPostcodeNoSpaces);
+                selectedSportsVenueList = createSelectedSportsVenueListByPostcode(searchPostcodeNoSpaces);
 
                 if (selectedSportsVenueList.size() > 0) {
                     new AsyncAddMarker().execute(selectedSportsVenueList);
                     mapProgressBar.setVisibility(View.VISIBLE);
-                }else {
-                    Toast toast_error = Toast.makeText(getContext(),"No result find", Toast.LENGTH_SHORT);
+                } else {
+                    Toast toast_error = Toast.makeText(getContext(), "No result find", Toast.LENGTH_SHORT);
                     toast_error.show();
                 }
 
             }
         });
-
-
-
-
 
 
 
@@ -157,9 +163,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapAPI.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
 
-
     }
-
 
 
     // put markers of selected sports venues on the google map
@@ -211,7 +215,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             mapAPI.moveCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition));
             mapProgressBar.setVisibility(View.GONE);
-            Toast toast_success = Toast.makeText(getContext(),"Result found", Toast.LENGTH_SHORT);
+            Toast toast_success = Toast.makeText(getContext(), "Result found", Toast.LENGTH_SHORT);
             toast_success.show();
         }
 
@@ -243,13 +247,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    public ArrayList<SportsVenue> createSelectedSportsVenueListByPostcode (String inputPostcode){
+    public ArrayList<SportsVenue> createSelectedSportsVenueListByPostcode(String inputPostcode) {
         ArrayList<SportsVenue> selectedSportsVenuList = new ArrayList<>();
-        if (inputPostcode.length() == 0){
+        if (inputPostcode.length() == 0) {
             return selectedSportsVenuList;
         }
-        for (SportsVenue tempSportsVenue: sportsVenueList){
-            if (tempSportsVenue.getPostcode().equals(inputPostcode)){
+        for (SportsVenue tempSportsVenue : sportsVenueList) {
+            if (tempSportsVenue.getPostcode().equals(inputPostcode)) {
                 selectedSportsVenuList.add(tempSportsVenue);
             }
         }
@@ -295,5 +299,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
 
     }
+
 
 }
