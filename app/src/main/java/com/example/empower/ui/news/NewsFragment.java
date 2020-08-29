@@ -34,6 +34,7 @@ import java.util.List;
 public class NewsFragment extends Fragment {
 
     private NewsViewModel newsViewModel;
+    private View root;
 
     private EditText newsEditText;
     private Button newsSearchButton;
@@ -50,7 +51,7 @@ public class NewsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         newsViewModel =
                 ViewModelProviders.of(this).get(NewsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_news, container, false);
+        root = inflater.inflate(R.layout.fragment_news, container, false);
 
         newsEditText = root.findViewById(R.id.news_keyword_editText);
         newsSearchButton = root.findViewById(R.id.news_searchButton);
@@ -84,29 +85,18 @@ public class NewsFragment extends Fragment {
                     Log.e(TAG, "ERROR converting String to URL " + e.toString());
                 }
                 Log.d(TAG, "Url = "+  urlString);
+
+
+                // start AsyncTask
+                GoogleSearchAsyncTask searchTask = new GoogleSearchAsyncTask();
+                searchTask.execute(url);
             }
         });
 
 
 
 
-        List<News> newsList = NewsWarehouse.createNews(100);
 
-
-        //bind new list with view adapter
-        NewsAdapter newsAdapter = new NewsAdapter(getActivity().getApplicationContext(), newsList);
-
-
-
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,false);
-        RecyclerView recyclerView = root.findViewById(R.id.news_recyclerView);
-
-        //manage recycle view contents with new adapter
-        recyclerView.setAdapter(newsAdapter);
-        recyclerView.setLayoutManager(layoutManager);
-
-        // add item decoration among different news item
-        recyclerView.addItemDecoration(new NewsItemDecoration(2));
 
 
 //        final TextView textView = root.findViewById(R.id.text_home);
@@ -213,6 +203,25 @@ public class NewsFragment extends Fragment {
 
             // hide mProgressBar
             newsProgressBar.setVisibility(View.GONE);
+
+
+            List<News> newsList = NewsWarehouse.createNews(100);
+
+
+            //bind new list with view adapter
+            NewsAdapter newsAdapter = new NewsAdapter(getActivity().getApplicationContext(), newsList);
+
+
+
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,false);
+            RecyclerView recyclerView = root.findViewById(R.id.news_recyclerView);
+
+            //manage recycle view contents with new adapter
+            recyclerView.setAdapter(newsAdapter);
+            recyclerView.setLayoutManager(layoutManager);
+
+            // add item decoration among different news item
+            recyclerView.addItemDecoration(new NewsItemDecoration(2));
 
 
         }
