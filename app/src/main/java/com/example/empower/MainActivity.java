@@ -26,9 +26,6 @@ import androidx.navigation.ui.NavigationUI;
 //get current location
 
 import android.location.Location;
-import android.provider.Settings;
-import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.List;
