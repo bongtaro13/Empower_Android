@@ -29,6 +29,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.empower.MainActivity;
 import com.example.empower.R;
 import com.example.empower.entity.SportsVenue;
 import com.google.android.gms.common.ConnectionResult;
@@ -88,6 +89,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     Integer responseCode = null;
     String responseMessage = "";
 
+    private Location currentLocationFromActivity;
+
 
     Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
@@ -97,12 +100,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        MainActivity mainActivity = (MainActivity) getActivity();
+        currentLocationFromActivity = mainActivity.getCurrentLocation();
+
         root = inflater.inflate(R.layout.fragment_map, container, false);
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapAPI);
 
 
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
+
+
+
+
 
 
         createSportsVenueList();
@@ -151,14 +161,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapAPI = googleMap;
 
 
-        LatLng monashClayton = new LatLng(-37.913342, 145.131799);
-        mapAPI.addMarker(new MarkerOptions().position(monashClayton).title("Monash Clayton")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+
+        LatLng currentLocation = new LatLng(currentLocationFromActivity.getLatitude(), currentLocationFromActivity.getLongitude());
+        mapAPI.addMarker(new MarkerOptions().position(currentLocation).title("You current location")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
 
         // set the camera position of application when oping the map on ready
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(monashClayton).zoom(10).build();
+                .target(currentLocation).zoom(10).build();
 
         mapAPI.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
@@ -209,6 +220,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             .snippet(sportsVenueList.get(i).getAddress() + " " + sportsVenueList.get(i).getPostcode()));
 
                 }
+                LatLng currentLocation = new LatLng(currentLocationFromActivity.getLatitude(), currentLocationFromActivity.getLongitude());
+                mapAPI.addMarker(new MarkerOptions().position(currentLocation).title("You current location")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
             }
             CameraPosition newCameraPosition = new CameraPosition.Builder()
                     .target(latLngList.get(0)).zoom(12).build();
@@ -299,6 +313,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
 
     }
+
 
 
 }
