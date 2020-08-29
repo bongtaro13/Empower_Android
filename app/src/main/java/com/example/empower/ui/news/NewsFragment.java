@@ -3,7 +3,6 @@ package com.example.empower.ui.news;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.empower.R;
 import com.example.empower.api.NewsAPI;
 import com.example.empower.entity.News;
-import com.example.empower.entity.NewsWarehouse;
 
 import java.io.BufferedReader;
 import java.io.IOException;

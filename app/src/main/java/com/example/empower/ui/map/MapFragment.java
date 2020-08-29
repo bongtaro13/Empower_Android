@@ -116,6 +116,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                 if (selectedSportsVenueList.size() > 0) {
                     new AsyncAddMarker().execute(selectedSportsVenueList);
+                    mapProgressBar.setVisibility(View.VISIBLE);
                 }else {
                     Toast toast_error = Toast.makeText(getContext(),"No result find", Toast.LENGTH_SHORT);
                     toast_error.show();
@@ -151,7 +152,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         // set the camera position of application when oping the map on ready
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(monashClayton).zoom(12).build();
+                .target(monashClayton).zoom(10).build();
 
         mapAPI.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
@@ -167,7 +168,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         @Override
         protected ArrayList<LatLng> doInBackground(ArrayList<SportsVenue>... arrayLists) {
 
-            //mapProgressBar.setVisibility(View.VISIBLE);
 
             // input parameter of the sports venues array list
             ArrayList<SportsVenue> sportsVenueArrayList = arrayLists[0];
