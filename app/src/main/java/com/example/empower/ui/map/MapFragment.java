@@ -17,9 +17,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -84,6 +87,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private Button mapSearchButton;
     private ProgressBar mapProgressBar;
 
+    private Spinner sportSpinner;
+    private List<String> sportDataList;
+    private ArrayAdapter<String> sportSpinnerAdapter;
+
+
     private static final String TAG = "searchApp";
     static String result = null;
     Integer responseCode = null;
@@ -121,6 +129,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapSearchButton = root.findViewById(R.id.map_search_button);
         mapProgressBar = root.findViewById(R.id.map_search_progressBar);
 
+
+
         mapSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,6 +154,52 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             }
         });
+
+
+        sportSpinner = root.findViewById(R.id.map_sports_spinner);
+        sportDataList = new ArrayList<>();
+        sportDataList.add("Sport");
+        sportDataList.add("Wheelchair");
+        sportDataList.add("Football");
+        sportDataList.add("Basketball");
+        sportDataList.add("Cricket");
+
+        sportSpinnerAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item,sportDataList);
+        sportSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        sportSpinner.setAdapter(sportSpinnerAdapter);
+
+
+
+
+        sportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // create new sports venue with selected sport
+                if (!sportSpinnerAdapter.getItem(position).equals("Sport")){
+                    Toast.makeText(getActivity(), "you selected sport is: " + sportSpinnerAdapter.getItem(position), Toast.LENGTH_SHORT).show();
+                    ArrayList<SportsVenue> selectedSportsVenueList = createSelectedSportsVenueListBySport(Objects.requireNonNull(sportSpinnerAdapter.getItem(position)));
+                    if (selectedSportsVenueList.size() > 0) {
+                        new AsyncAddMarker().execute(selectedSportsVenueList);
+                        mapProgressBar.setVisibility(View.VISIBLE);
+                    } else {
+                        Toast toast_error = Toast.makeText(getContext(), "No result find", Toast.LENGTH_SHORT);
+                        toast_error.show();
+                    }
+                }else {
+
+                }
+               }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // ask user to select the sport
+                Toast.makeText(getActivity(), "please select a sport you want", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
 
 
 
@@ -269,6 +325,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         for (SportsVenue tempSportsVenue : sportsVenueList) {
             if (tempSportsVenue.getPostcode().equals(inputPostcode)) {
                 selectedSportsVenuList.add(tempSportsVenue);
+            }
+        }
+
+        return selectedSportsVenuList;
+    }
+
+    public ArrayList<SportsVenue> createSelectedSportsVenueListBySport(String inputSportName){
+        ArrayList<SportsVenue> selectedSportsVenuList = new ArrayList<>();
+        String sportName = inputSportName.toLowerCase();
+        if (! inputSportName.equals("sport")){
+            for (SportsVenue tempSportsVenue : sportsVenueList){
+                if (tempSportsVenue.getBusinessCategory().toLowerCase().contains(sportName)){
+                    selectedSportsVenuList.add(tempSportsVenue);
+                }
             }
         }
 
