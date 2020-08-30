@@ -6,12 +6,19 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class SplashActivity extends AppCompatActivity{
+
+    private TextView tv_version;
+    private ImageView logoImage;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,14 +29,18 @@ public class SplashActivity extends AppCompatActivity{
     }
 
     private void init() {
-        TextView tv_version = findViewById(R.id.tv_version);
-        try {
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(),0);
-            tv_version.setText("version:"+packageInfo.versionName);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            tv_version.setText("version");
-        }
+         tv_version = findViewById(R.id.tv_version);
+         logoImage = findViewById(R.id.splash_logo_image);
+
+         tv_version.bringToFront();
+
+//        try {
+//            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(),0);
+//            tv_version.setText("version:"+packageInfo.versionName);
+//        } catch (PackageManager.NameNotFoundException e) {
+//            e.printStackTrace();
+//            tv_version.setText("version");
+//        }
         //Use the timer to delay the interface for 3 seconds before jumping. The timer has a thread that continuously executes tasks
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
