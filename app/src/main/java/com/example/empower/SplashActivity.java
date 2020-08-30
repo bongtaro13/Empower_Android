@@ -32,7 +32,6 @@ public class SplashActivity extends AppCompatActivity{
          tv_version = findViewById(R.id.tv_version);
          logoImage = findViewById(R.id.splash_logo_image);
 
-         tv_version.bringToFront();
 
 //        try {
 //            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(),0);

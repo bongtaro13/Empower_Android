@@ -1,5 +1,6 @@
 package com.example.empower.ui.about;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -34,12 +35,16 @@ public class AboutFragment extends Fragment {
 
         feedbackButton = root.findViewById(R.id.about_feedback_button);
         feedbackButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetJavaScriptEnabled")
             @Override
             public void onClick(View v) {
 
+                webView = (WebView) root.findViewById(R.id.about_web_view);
+                webView.getSettings().setJavaScriptEnabled(true);
+                //load WebView
+                webView.loadUrl("https://docs.google.com/forms/d/e/1FAIpQLSdtNt9-3_nZlKA4ZjP0uaClP6-B1Ok9EoU-qlcYuS0oOxWWkw/viewform");
+                feedbackButton.setVisibility(View.GONE);
 
-                init();
-                feedbackButton.setVisibility(root.GONE);
             }
         });
 
@@ -47,10 +52,4 @@ public class AboutFragment extends Fragment {
         return root;
     }
 
-
-    private void init() {
-        webView = (WebView) root.findViewById(R.id.about_web_view);
-        //load WebView
-        webView.loadUrl("https://stackoverflow.com/questions/27709238/edittext-change-border-color-with-shape-xml/27709426");
-    }
 }

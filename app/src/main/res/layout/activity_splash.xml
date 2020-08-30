@@ -24,12 +24,10 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
 
-        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:layout_marginStart="49dp"
         android:layout_marginTop="109dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginBottom="98dp"
         android:gravity="center"
         android:text="Empowering disabled people to stay healthy"
         android:textColor="@color/black"

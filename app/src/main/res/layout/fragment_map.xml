@@ -42,7 +42,7 @@
 
     <EditText
         android:id="@+id/map_postcode_editText"
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:layout_height="49dp"
         android:layout_marginStart="16dp"
         android:ems="10"
@@ -54,7 +54,7 @@
 
     <Spinner
         android:id="@+id/map_sports_spinner"
-        android:layout_width="161dp"
+        android:layout_width="100dp"
         android:layout_height="20dp"
         android:layout_marginEnd="6dp"
         app:layout_constraintBottom_toTopOf="@+id/mapAPI"

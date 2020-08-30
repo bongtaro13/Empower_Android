@@ -57,10 +57,11 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
 
-        //获取定位服务
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        //获取当前可用的位置控制器
+        //Get location services
+        locationManager = (LocationManager) getBaseContext().getSystemService(Context.LOCATION_SERVICE);
+        //Gets the currently available location controller
         List<String> list = locationManager.getProviders(true);
+
 
         if (list.contains(LocationManager.GPS_PROVIDER)) {
             //是否为GPS位置控制器
@@ -70,10 +71,12 @@ public class MainActivity extends AppCompatActivity {
             provider = LocationManager.NETWORK_PROVIDER;
 
         } else {
-            Toast.makeText(this, "Please check if the GPS is open",
+            Toast.makeText(this, "Please check if the GPS is open Or you are in good GPS signal",
                     Toast.LENGTH_LONG).show();
             return;
         }
+
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -94,8 +97,7 @@ public class MainActivity extends AppCompatActivity {
         //绑定定位事件，监听位置是否改变
         //第一个参数为控制器类型第二个参数为监听位置变化的时间间隔（单位：毫秒）
         //第三个参数为位置变化的间隔（单位：米）第四个参数为位置监听器
-        locationManager.requestLocationUpdates(provider, 2000, 2,
-                locationListener);
+        locationManager.requestLocationUpdates(provider, 2000, 2, locationListener);
 
     }
 
@@ -139,6 +141,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     public Location getCurrentLocation(){
+        if (currentLocation  == null){
+            currentLocation = new Location("tempLocation");
+            currentLocation.setLongitude(145.13170297689055);
+            currentLocation.setLatitude(-37.91341883508321);
+        }
         return currentLocation;
     }
 }
