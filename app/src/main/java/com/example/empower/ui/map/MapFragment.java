@@ -34,6 +34,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.empower.MainActivity;
 import com.example.empower.R;
+import com.example.empower.entity.LocationAddressPair;
 import com.example.empower.entity.SportsVenue;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -59,8 +60,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 import static android.content.Context.LOCATION_SERVICE;
@@ -230,17 +235,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
     // put markers of selected sports venues on the google map
-    private class AsyncAddMarker extends AsyncTask<ArrayList<SportsVenue>, Void, ArrayList<LatLng>> {
+    private class AsyncAddMarker extends AsyncTask<ArrayList<SportsVenue>, Void, ArrayList<LocationAddressPair>> {
 
         @Override
-        protected ArrayList<LatLng> doInBackground(ArrayList<SportsVenue>... arrayLists) {
-
+        protected ArrayList<LocationAddressPair> doInBackground(ArrayList<SportsVenue>... arrayLists) {
 
             // input parameter of the sports venues array list
             ArrayList<SportsVenue> sportsVenueArrayList = arrayLists[0];
 
-            ArrayList<LatLng> latLngList = new ArrayList<>();
-
+            ArrayList<LocationAddressPair> combineLocationMapping = new ArrayList<>();
 
             // Use index number to mapping of real address and latitude-longitude address
             for (SportsVenue tempSportsVenue : sportsVenueArrayList) {
@@ -251,38 +254,46 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 LatLng tempSportsVenueLatlng = getLocationFromAddress(getContext(), tempSportsVenueAddress);
 
                 if (tempSportsVenueLatlng != null) {
-                    latLngList.add(tempSportsVenueLatlng);
+                    combineLocationMapping.add(new LocationAddressPair(tempSportsVenueLatlng, tempSportsVenue));
                 }
             }
 
 
-            return latLngList;
+
+            return combineLocationMapping;
 
         }
 
         @Override
-        protected void onPostExecute(ArrayList<LatLng> latLngList) {
-            super.onPostExecute(latLngList);
-            if (latLngList.size() != 0) {
-                for (int i = 0; i < latLngList.size(); i++) {
-                    LatLng tempSportsVenue = latLngList.get(i);
-                    mapAPI.clear();
-                    mapAPI.addMarker(new MarkerOptions().position(tempSportsVenue)
-                            .title(sportsVenueList.get(i).getName())
-                            .snippet(sportsVenueList.get(i).getAddress() + " " + sportsVenueList.get(i).getPostcode()));
+        protected void onPostExecute(ArrayList<LocationAddressPair> combineLocationMapping) {
+            super.onPostExecute(combineLocationMapping);
+
+            if (combineLocationMapping.size() != 0) {
+                mapAPI.clear();
+                for (LocationAddressPair tempLocationAddressPair : combineLocationMapping) {
+
+                    LatLng tempSportsVenueLocation = tempLocationAddressPair.getLatLngInfo();
+                    SportsVenue tempSportsVenue = tempLocationAddressPair.getSportsVenueInfo();
+
+
+                    mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
+                            .title(tempSportsVenue.getName())
+                            .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode()));
 
                 }
                 LatLng currentLocation = new LatLng(currentLocationFromActivity.getLatitude(), currentLocationFromActivity.getLongitude());
                 mapAPI.addMarker(new MarkerOptions().position(currentLocation).title("You current location")
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-            }
-            CameraPosition newCameraPosition = new CameraPosition.Builder()
-                    .target(latLngList.get(0)).zoom(12).build();
 
-            mapAPI.moveCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition));
-            mapProgressBar.setVisibility(View.GONE);
-            Toast toast_success = Toast.makeText(getContext(), "Result found", Toast.LENGTH_SHORT);
-            toast_success.show();
+                CameraPosition newCameraPosition = new CameraPosition.Builder()
+                        .target(currentLocation).zoom(11).build();
+
+
+                mapAPI.moveCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition));
+                mapProgressBar.setVisibility(View.GONE);
+                Toast toast_success = Toast.makeText(getContext(), "Result found", Toast.LENGTH_SHORT);
+                toast_success.show();
+            }
         }
 
     }
