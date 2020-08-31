@@ -31,7 +31,7 @@
     <fragment
         android:id="@+id/mapAPI"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="413dp"
+        android:layout_width="match_parent"
         android:layout_height="684dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

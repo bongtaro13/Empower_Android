@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_green"
     tools:context=".ui.about.AboutFragment">
 
-
-    <TextView
-        android:id="@+id/ContactDetail_TextView"
+    <WebView
+        android:id="@+id/about_web_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </WebView>
 
     <Button
         android:id="@+id/about_feedback_button"
@@ -23,14 +23,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="visible"
-        />
+        android:visibility="visible" />
 
-    <WebView
-        android:id="@+id/about_web_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </WebView>
+    <TextView
+        android:id="@+id/about_contactdetail_textView"
+        android:layout_width="317dp"
+        android:layout_height="65dp"
+        android:layout_x="3dp"
+        android:layout_y="60dp"
+        android:text="Please contact us with email: \n empower@gmail.com"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/about_feedback_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/about_web_view"
+        app:layout_constraintTop_toTopOf="@+id/about_web_view" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
