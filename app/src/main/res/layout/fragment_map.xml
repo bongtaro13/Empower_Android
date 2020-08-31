@@ -54,7 +54,7 @@
 
     <Spinner
         android:id="@+id/map_sports_spinner"
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="20dp"
         android:layout_marginEnd="6dp"
         app:layout_constraintBottom_toTopOf="@+id/mapAPI"
