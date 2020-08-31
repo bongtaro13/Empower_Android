@@ -76,7 +76,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     //user current location
 
     private MapViewModel mapViewModel;
-
     private GoogleMap mapAPI;
     private SupportMapFragment mapFragment;
 
@@ -122,7 +121,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-
 
 
 

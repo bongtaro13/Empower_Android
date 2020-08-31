@@ -7,6 +7,13 @@
     tools:context=".ui.about.AboutFragment">
 
 
+    <TextView
+        android:id="@+id/ContactDetail_TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+
     <Button
         android:id="@+id/about_feedback_button"
         android:layout_width="wrap_content"

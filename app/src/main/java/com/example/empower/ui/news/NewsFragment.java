@@ -56,6 +56,8 @@ public class NewsFragment extends Fragment {
         newsSearchButton = root.findViewById(R.id.news_searchButton);
         newsProgressBar = root.findViewById(R.id.news_search_progressbar);
 
+        searchNewsWithKeyword("disability sport");
+
         newsSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,25 +72,7 @@ public class NewsFragment extends Fragment {
                 // remove spaces
                 String searchStringNoSpaces = searchString.replace(" ", "+");
 
-                // Your Google API key
-                String key="AIzaSyBenJ8IiMcO7vlKFYcZXb9WhKWuTQEJeo4";
-
-                // Your Google Search Engine ID
-                String cx = "968c0e899a94db872";
-
-                String urlString = "https://www.googleapis.com/customsearch/v1?q=" + searchStringNoSpaces + "&key=" + key + "&cx=" + cx + "&alt=json";
-                URL url = null;
-                try {
-                    url = new URL(urlString);
-                } catch (MalformedURLException e) {
-                    Log.e(TAG, "ERROR converting String to URL " + e.toString());
-                }
-                Log.d(TAG, "Url = "+  urlString);
-
-
-                // start AsyncTask
-                GoogleSearchAsyncTask searchTask = new GoogleSearchAsyncTask();
-                searchTask.execute(url);
+                searchNewsWithKeyword(searchStringNoSpaces);
             }
         });
 
@@ -96,6 +80,29 @@ public class NewsFragment extends Fragment {
 
 
         return root;
+    }
+
+
+    public void searchNewsWithKeyword(String searchStringNoSpaces){
+        // Your Google API key
+        String key="AIzaSyBenJ8IiMcO7vlKFYcZXb9WhKWuTQEJeo4";
+
+        // Your Google Search Engine ID
+        String cx = "968c0e899a94db872";
+
+        String urlString = "https://www.googleapis.com/customsearch/v1?q=" + searchStringNoSpaces + "&key=" + key + "&cx=" + cx + "&alt=json";
+        URL url = null;
+        try {
+            url = new URL(urlString);
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "ERROR converting String to URL " + e.toString());
+        }
+        Log.d(TAG, "Url = "+  urlString);
+
+
+        // start AsyncTask
+        GoogleSearchAsyncTask searchTask = new GoogleSearchAsyncTask();
+        searchTask.execute(url);
     }
 
 
