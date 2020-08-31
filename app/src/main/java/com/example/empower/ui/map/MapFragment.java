@@ -219,7 +219,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         LatLng currentLocation = new LatLng(currentLocationFromActivity.getLatitude(), currentLocationFromActivity.getLongitude());
         mapAPI.addMarker(new MarkerOptions().position(currentLocation).title("You current location")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))).showInfoWindow();
 
 
         // set the camera position of application when oping the map on ready
