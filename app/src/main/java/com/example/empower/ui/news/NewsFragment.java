@@ -18,9 +18,12 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.empower.MainActivity;
 import com.example.empower.R;
 import com.example.empower.api.NewsAPI;
 import com.example.empower.entity.News;
+import com.example.empower.ui.dialog.GuideDialogMapFragment;
+import com.example.empower.ui.dialog.GuideDialogNewsFragment;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -45,7 +48,6 @@ public class NewsFragment extends Fragment {
     String responseMessage = "";
 
 
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         newsViewModel =
@@ -55,6 +57,16 @@ public class NewsFragment extends Fragment {
         newsEditText = root.findViewById(R.id.news_keyword_editText);
         newsSearchButton = root.findViewById(R.id.news_searchButton);
         newsProgressBar = root.findViewById(R.id.news_search_progressbar);
+
+
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (mainActivity.checkFirstTime()) {
+            // pop up window for
+            GuideDialogNewsFragment dialogFragment = new GuideDialogNewsFragment();
+            dialogFragment.show(getFragmentManager(), "GuideDialogFragment");
+            dialogFragment.setCancelable(true);
+        }
+
 
         searchNewsWithKeyword("disability sport");
 
@@ -77,15 +89,13 @@ public class NewsFragment extends Fragment {
         });
 
 
-
-
         return root;
     }
 
 
-    public void searchNewsWithKeyword(String searchStringNoSpaces){
+    public void searchNewsWithKeyword(String searchStringNoSpaces) {
         // Your Google API key
-        String key="AIzaSyBenJ8IiMcO7vlKFYcZXb9WhKWuTQEJeo4";
+        String key = "AIzaSyBenJ8IiMcO7vlKFYcZXb9WhKWuTQEJeo4";
 
         // Your Google Search Engine ID
         String cx = "968c0e899a94db872";
@@ -97,7 +107,7 @@ public class NewsFragment extends Fragment {
         } catch (MalformedURLException e) {
             Log.e(TAG, "ERROR converting String to URL " + e.toString());
         }
-        Log.d(TAG, "Url = "+  urlString);
+        Log.d(TAG, "Url = " + urlString);
 
 
         // start AsyncTask
@@ -106,9 +116,9 @@ public class NewsFragment extends Fragment {
     }
 
 
-    private class GoogleSearchAsyncTask extends AsyncTask<URL, Integer, String>{
+    private class GoogleSearchAsyncTask extends AsyncTask<URL, Integer, String> {
 
-        protected void onPreExecute(){
+        protected void onPreExecute() {
 
             Log.d(TAG, "AsyncTask - onPreExecute");
             // show mProgressBar
@@ -144,7 +154,7 @@ public class NewsFragment extends Fragment {
 
             try {
 
-                if(responseCode != null && responseCode == 200) {
+                if (responseCode != null && responseCode == 200) {
 
                     // response OK
 
@@ -165,14 +175,14 @@ public class NewsFragment extends Fragment {
 
                     return result;
 
-                }else{
+                } else {
 
                     // response problem
 
                     String errorMsg = "Http ERROR response " + responseMessage + "\n" + "Are you online ? " + "\n" + "Make sure to replace in code your own Google API key and Search Engine ID";
                     Log.e(TAG, errorMsg);
                     result = errorMsg;
-                    return  result;
+                    return result;
 
                 }
             } catch (IOException e) {
@@ -206,8 +216,7 @@ public class NewsFragment extends Fragment {
             NewsAdapter newsAdapter = new NewsAdapter(getActivity().getApplicationContext(), newsList);
 
 
-
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,false);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             RecyclerView recyclerView = root.findViewById(R.id.news_recyclerView);
 
             //manage recycle view contents with new adapter
@@ -222,9 +231,6 @@ public class NewsFragment extends Fragment {
 
 
     }
-
-
-
 
 
 }

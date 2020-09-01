@@ -3,18 +3,14 @@ package com.example.empower;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.core.app.ActivityCompat;
@@ -26,12 +22,17 @@ import androidx.navigation.ui.NavigationUI;
 //get current location
 
 import android.location.Location;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    //application first run
+    SharedPreferences settings;
+    private Boolean firstTime = false;
 
 
     //positioning are all related by the class LocationManager
@@ -55,6 +56,23 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+
+        // check if user first use app
+        final String PREFS_NAME = "MyPrefsFile";
+
+        settings = getSharedPreferences(PREFS_NAME, 0);
+
+        if (settings.getBoolean("my_first_time", true)) {
+            //the app is being launched for first time, do something
+            Log.d("Comments", "First time");
+
+            // first time task
+            firstTime = true;
+
+            // record the fact that the app has been started at least once
+            settings.edit().putBoolean("my_first_time", false).commit();
+        }
 
 
         //Get location services
@@ -148,6 +166,16 @@ public class MainActivity extends AppCompatActivity {
         }
         return currentLocation;
     }
+
+
+    public boolean checkFirstTime(){
+        return firstTime;
+    }
+
+
+
+
+
 }
 
 
