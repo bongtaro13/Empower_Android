@@ -34,7 +34,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 
-    //定位都要通过LocationManager这个类实现
+    //positioning are all related by the class LocationManager
     private LocationManager locationManager;
     private String provider;
     private Location currentLocation;
@@ -89,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
         }
         currentLocation = locationManager.getLastKnownLocation(provider);
         if (currentLocation != null) {
-            //获取当前位置，这里只用到了经纬度
-            String string = "纬度为：" + currentLocation.getLatitude() + ",经度为："
+            //To get the current location, I'm just using latitude and longitude
+            String string = "latitude：" + currentLocation.getLatitude() + ",longitude："
                     + currentLocation.getLongitude();
         }
 
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onLocationChanged(Location arg0) {
             // TODO Auto-generated method stub
-            // 更新当前经纬度
+            // update current latitude and longitude
         }
     };
 
