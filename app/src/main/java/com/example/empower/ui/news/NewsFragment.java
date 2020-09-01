@@ -240,7 +240,7 @@ public class NewsFragment extends Fragment {
                     Uri content_url = Uri.parse(newsList.get(position).getNewsUrl());
                     intent.setData(content_url);
                     startActivity(intent);
-                    Toast.makeText(getActivity(), "Clicked" + position, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Clicked news: " + position + 1, Toast.LENGTH_SHORT).show();
                 }
             });
 
