@@ -1,6 +1,8 @@
 package com.example.empower.ui.news;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,18 +10,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.empower.MainActivity;
 import com.example.empower.R;
+import com.example.empower.SplashActivity;
 import com.example.empower.api.NewsAPI;
 import com.example.empower.entity.News;
 import com.example.empower.ui.dialog.GuideDialogMapFragment;
@@ -209,18 +215,38 @@ public class NewsFragment extends Fragment {
 
             NewsAPI newsAPI = new NewsAPI(result);
 
-            List<News> newsList = newsAPI.getNewsFromJsonResult();
+            final List<News> newsList = newsAPI.getNewsFromJsonResult();
 
 
             //bind new list with view adapter
-            NewsAdapter newsAdapter = new NewsAdapter(getActivity().getApplicationContext(), newsList);
+            MyNewsAdapter myNewsAdapter = new MyNewsAdapter(getActivity().getApplicationContext(), newsList);
 
 
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             RecyclerView recyclerView = root.findViewById(R.id.news_recyclerView);
 
             //manage recycle view contents with new adapter
-            recyclerView.setAdapter(newsAdapter);
+            recyclerView.setAdapter(myNewsAdapter);
+
+
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+            myNewsAdapter.setOnItemClickListener(new MyNewsAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    Intent intent = new Intent();
+                    intent.setAction("android.intent.action.VIEW");
+                    Uri content_url = Uri.parse(newsList.get(position).getNewsUrl());
+                    intent.setData(content_url);
+                    startActivity(intent);
+                    Toast.makeText(getActivity(), "Clicked" + position, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+
+
             recyclerView.setLayoutManager(layoutManager);
 
             // add item decoration among different news item

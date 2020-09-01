@@ -1,12 +1,14 @@
 package com.example.empower;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,12 +21,16 @@ public class SplashActivity extends AppCompatActivity{
     private ImageView logoImage;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         //set current screen vertically
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+
+
         init();
     }
 
@@ -56,4 +62,7 @@ public class SplashActivity extends AppCompatActivity{
         //Schedule the execution of timerTask, the second parameter is passed in the delay time (ms)
         timer.schedule(timerTask,3000);
     }
+
+
+
 }

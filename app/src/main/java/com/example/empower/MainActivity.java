@@ -30,10 +30,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+
     //application first run
     SharedPreferences settings;
     private Boolean firstTime = false;
-
 
     //positioning are all related by the class LocationManager
     private LocationManager locationManager;
@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
             // record the fact that the app has been started at least once
             settings.edit().putBoolean("my_first_time", false).commit();
         }
-
 
         //Get location services
         locationManager = (LocationManager) getBaseContext().getSystemService(Context.LOCATION_SERVICE);

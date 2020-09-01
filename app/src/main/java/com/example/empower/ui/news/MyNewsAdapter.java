@@ -1,15 +1,13 @@
 package com.example.empower.ui.news;
 
+
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,33 +15,36 @@ import com.bumptech.glide.Glide;
 import com.example.empower.R;
 import com.example.empower.entity.News;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
+public class MyNewsAdapter extends RecyclerView.Adapter<MyNewsAdapter.MyViewHolder> {
+
+
+    private LayoutInflater mInflater;
 
     Context context;
     List<News> newsList;
 
-    public NewsAdapter(Context context, List<News> newsList) {
+    private OnItemClickListener onItemClickListener;
+
+
+    public MyNewsAdapter(Context context, List<News> newsList) {
         this.context = context;
         this.newsList = newsList;
+        mInflater = LayoutInflater.from(context);
     }
 
 
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View itemView = inflater.inflate(R.layout.news_item, parent, false);
 
-        return new ViewHolder(itemView);
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = mInflater.inflate(R.layout.news_item, parent, false);
+        MyViewHolder  viewHolder = new MyViewHolder(itemView);
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder( final MyViewHolder holder, final int position) {
         News news = newsList.get(position);
 
 
@@ -54,6 +55,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         holder.title.setText(news.getTitle());
 
+        //item click
+        if (onItemClickListener != null){
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClickListener.onItemClick(holder.itemView, position);
+                }
+            });
+        }
+
 
     }
 
@@ -62,13 +73,23 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         return newsList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.onItemClickListener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+
+
+    class MyViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout newsItem;      // get new recycle view item layout
         ImageView image;
         TextView title;
         String newsLink;
 
-        public ViewHolder(@NonNull View itemView) {
+        public MyViewHolder(View itemView) {
             super(itemView);
             newsItem = itemView.findViewById(R.id.news_recyclerView);
             image = itemView.findViewById(R.id.news_imageView);
