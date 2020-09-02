@@ -4,6 +4,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+
+
+/**
+ * Class name: NewsViewModel.java
+ * function: main aim of this function is to create a viewModel of the newsFragment
+ * not using in current iteration, will be extend in the final iteration
+ * */
+
 public class NewsViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;

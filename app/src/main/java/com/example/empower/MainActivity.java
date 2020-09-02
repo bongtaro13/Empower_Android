@@ -27,15 +27,21 @@ import android.widget.Toast;
 
 import java.util.List;
 
+/**
+ * Class name: MainActivity.java
+ * Function: This activity is aim to hold three main fragment display to the users
+ *              also there exits a SharedPreferences settings to check if user open the application in the first time
+ *              also with location manager to get user current location and used it in the map fragment
+ */
 
 public class MainActivity extends AppCompatActivity {
 
 
-    //application first run
+    // application first run fields
     SharedPreferences settings;
     private Boolean firstTime = false;
 
-    //positioning are all related by the class LocationManager
+    // positioning are all related by the class LocationManager
     private LocationManager locationManager;
     private String provider;
     private Location currentLocation;
@@ -64,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         settings = getSharedPreferences(PREFS_NAME, 0);
 
         if (settings.getBoolean("my_first_time", true)) {
-            //the app is being launched for first time, do something
+            // the app is being launched for first time, do something
             Log.d("Comments", "First time");
 
             // first time task
@@ -81,10 +87,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (list.contains(LocationManager.GPS_PROVIDER)) {
-            //是否为GPS位置控制器
+            // check if location from GPS location controller
             provider = LocationManager.GPS_PROVIDER;
         } else if (list.contains(LocationManager.NETWORK_PROVIDER)) {
-            //是否为网络位置控制器
+            // check if location from network location controller
             provider = LocationManager.NETWORK_PROVIDER;
 
         } else {
@@ -104,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+        // get current location from the location manager with provider chosen
         currentLocation = locationManager.getLastKnownLocation(provider);
         if (currentLocation != null) {
             //To get the current location, I'm just using latitude and longitude
@@ -111,14 +118,16 @@ public class MainActivity extends AppCompatActivity {
                     + currentLocation.getLongitude();
         }
 
-        //绑定定位事件，监听位置是否改变
-        //第一个参数为控制器类型第二个参数为监听位置变化的时间间隔（单位：毫秒）
-        //第三个参数为位置变化的间隔（单位：米）第四个参数为位置监听器
+
+        // Bind to locate an event and listen for changes in location
+        // The first parameter is the controller type and
+        // the second parameter is the interval (in milliseconds) to listen for changes in position.
+        // The third parameter is the interval of position change (unit: m) and the fourth parameter is the position listener
         locationManager.requestLocationUpdates(provider, 2000, 2, locationListener);
 
     }
 
-
+    // monitor the changed of the location
     LocationListener locationListener = new LocationListener() {
 
         @Override
@@ -146,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    //关闭时解除监听器
+    // Unplug the listener when it is closed
     @Override
     protected void onDestroy() {
         // TODO Auto-generated method stub
@@ -157,7 +166,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    // get current location field variable from the result of location manager
     public Location getCurrentLocation(){
+        // if there is no location info, make the Monash Clayton the default location
         if (currentLocation  == null){
             currentLocation = new Location("tempLocation");
             currentLocation.setLongitude(145.13170297689055);
@@ -167,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    // get current first use field variable from the result of SharedPreferences
     public boolean checkFirstTime(){
         return firstTime;
     }

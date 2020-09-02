@@ -47,6 +47,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+
+/**
+ * class name: MapFragment.java
+ * function: Main aim of this fragment is to displayed disability supported sports venues on the map
+ * */
+
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
@@ -58,15 +64,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
     private View root;
 
+    // arrayList for all all sports venus read from teh csv data file
     private ArrayList<SportsVenue> sportsVenueList = new ArrayList<>();
-
     private ArrayList<LatLng> latLngList = new ArrayList<>();
 
-
+    // visual component of the map fragment, include search input, search box, and a progressBar to display progress
     private EditText mapPostcodeEditText;
     private Button mapSearchButton;
     private ProgressBar mapProgressBar;
 
+    // spinner and related data array
     private Spinner sportSpinner;
     private List<String> sportDataList;
     private ArrayAdapter<String> sportSpinnerAdapter;
@@ -85,6 +92,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static final int REQUEST_CODE = 101;
 
 
+
+
+    // initialize the mapFragment
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -99,14 +109,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
 
         if (mainActivity.checkFirstTime()){
-            // pop up window for
+            // pop up window for map page help guide
             GuideDialogMapFragment dialogFragment = new GuideDialogMapFragment();
             dialogFragment.show(getFragmentManager(), "GuideDialogFragment");
             dialogFragment.setCancelable(true);
         }
 
 
-
+        // create sports venue list from csv file
         createSportsVenueList();
 
         mapPostcodeEditText = root.findViewById(R.id.map_postcode_editText);
@@ -114,7 +124,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapProgressBar = root.findViewById(R.id.map_search_progressBar);
 
 
-
+        // add listener for search button, if clicked, use input postcode to find the matched sports venus
         mapSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +133,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 Log.d(TAG, txt);
 
 
-                // remove spaces
+                // remove spaces in the postcode input
                 String searchPostcodeNoSpaces = searchPostcode.replace(" ", "");
                 ArrayList<SportsVenue> selectedSportsVenueList = new ArrayList<>();
                 selectedSportsVenueList = createSelectedSportsVenueListByPostcode(searchPostcodeNoSpaces);
@@ -139,7 +149,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-
+        // initialize the spinner of different sport
         sportSpinner = root.findViewById(R.id.map_sports_spinner);
         sportDataList = new ArrayList<>();
         sportDataList.add("Sport");
@@ -155,11 +165,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
 
-
+        // add listener to the spinner selected action
         sportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // create new sports venue with selected sport
+                // if spinner is selected with keyword "Sport", nothing happen in this condition.
                 if (!sportSpinnerAdapter.getItem(position).equals("Sport")){
                     Toast.makeText(getActivity(), "you selected sport is: " + sportSpinnerAdapter.getItem(position), Toast.LENGTH_SHORT).show();
                     ArrayList<SportsVenue> selectedSportsVenueList = createSelectedSportsVenueListBySport(Objects.requireNonNull(sportSpinnerAdapter.getItem(position)));
@@ -190,6 +201,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
+
+    // default method for map is created at the beginning
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -200,7 +213,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapAPI = googleMap;
 
 
-
+        // add user current location on map with location info from the MainActivity
         LatLng currentLocation = new LatLng(currentLocationFromActivity.getLatitude(), currentLocationFromActivity.getLongitude());
         mapAPI.addMarker(new MarkerOptions().position(currentLocation).title("You current location")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))).showInfoWindow();
@@ -246,6 +259,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         }
 
+        // after getting combineLocationMapping of matched sports venues and their latitude and longitude info,
+        // place markers with red color on the map, also the address info can be added with snippet of the marker
         @Override
         protected void onPostExecute(ArrayList<LocationAddressPair> combineLocationMapping) {
             super.onPostExecute(combineLocationMapping);

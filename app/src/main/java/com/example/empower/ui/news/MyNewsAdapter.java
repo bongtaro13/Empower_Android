@@ -17,6 +17,13 @@ import com.example.empower.entity.News;
 
 import java.util.List;
 
+
+
+/**
+ * class name: MyNewsAdapter
+ * function: manage the recycle with each item, integrated every single item to the news list
+ * */
+
 public class MyNewsAdapter extends RecyclerView.Adapter<MyNewsAdapter.MyViewHolder> {
 
 
@@ -27,7 +34,7 @@ public class MyNewsAdapter extends RecyclerView.Adapter<MyNewsAdapter.MyViewHold
 
     private OnItemClickListener onItemClickListener;
 
-
+    // constructor of the MyNewsAdapter
     public MyNewsAdapter(Context context, List<News> newsList) {
         this.context = context;
         this.newsList = newsList;
@@ -36,6 +43,7 @@ public class MyNewsAdapter extends RecyclerView.Adapter<MyNewsAdapter.MyViewHold
 
 
 
+    // setting view holder in the adapter
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.news_item, parent, false);
@@ -43,11 +51,12 @@ public class MyNewsAdapter extends RecyclerView.Adapter<MyNewsAdapter.MyViewHold
         return viewHolder;
     }
 
+    // bing view holder with elements in the MyViewHolder
     @Override
     public void onBindViewHolder( final MyViewHolder holder, final int position) {
         News news = newsList.get(position);
 
-
+        // transfer img URL to image display in the adapter
         Glide.with(context)
                 .load(news.getImageUrl())
                 .into(holder.image);
@@ -55,7 +64,7 @@ public class MyNewsAdapter extends RecyclerView.Adapter<MyNewsAdapter.MyViewHold
 
         holder.title.setText(news.getTitle());
 
-        //item click
+        //item click listener
         if (onItemClickListener != null){
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -68,21 +77,26 @@ public class MyNewsAdapter extends RecyclerView.Adapter<MyNewsAdapter.MyViewHold
 
     }
 
+
+    // count the size of item list
     @Override
     public int getItemCount() {
         return newsList.size();
     }
 
+    // setting a listen to get operator from user
     public void setOnItemClickListener(OnItemClickListener listener){
         this.onItemClickListener = listener;
     }
 
+    // setting item click listener with interface include
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
 
 
 
+    // constructor of every single item in the adapter with managed by viewHolder
     class MyViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout newsItem;      // get new recycle view item layout
         ImageView image;

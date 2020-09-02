@@ -39,43 +39,57 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+
+
+/**
+ * class name: NewsFragment.java
+ * function: main aim of this class is to build and list news with attaching with MainActivity class
+ *
+ * */
+
 public class NewsFragment extends Fragment {
 
     private NewsViewModel newsViewModel;
     private View root;
 
+    // visual component on the news page
     private EditText newsEditText;
     private Button newsSearchButton;
     private ProgressBar newsProgressBar;
 
     private static final String TAG = "searchApp";
+
+    // search field about news
     static String result = null;
     Integer responseCode = null;
     String responseMessage = "";
 
 
+    // initialize the news fragment with certain functions
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         newsViewModel =
                 ViewModelProviders.of(this).get(NewsViewModel.class);
         root = inflater.inflate(R.layout.fragment_news, container, false);
 
+        // initialize three visual components
         newsEditText = root.findViewById(R.id.news_keyword_editText);
         newsSearchButton = root.findViewById(R.id.news_searchButton);
         newsProgressBar = root.findViewById(R.id.news_search_progressbar);
 
-
+        // get SharedPreferences value from main activity, check if the guide picture is need or not
         MainActivity mainActivity = (MainActivity) getActivity();
         if (mainActivity.checkFirstTime()) {
-            // pop up window for
+            // pop up window for guidance in news
             GuideDialogNewsFragment dialogFragment = new GuideDialogNewsFragment();
             dialogFragment.show(getFragmentManager(), "GuideDialogFragment");
             dialogFragment.setCancelable(true);
         }
 
-
+        // search news with default keyword "disability sport"
         searchNewsWithKeyword("disability sport");
 
+        // listen the search button on the page, if button has been clicked, get info from the input and search the related news
         newsSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +113,7 @@ public class NewsFragment extends Fragment {
     }
 
 
+    // search news with input keyword, google custom engine key and google search API for Android included
     public void searchNewsWithKeyword(String searchStringNoSpaces) {
         // Your Google API key
         String key = "AIzaSyBenJ8IiMcO7vlKFYcZXb9WhKWuTQEJeo4";
@@ -121,7 +136,7 @@ public class NewsFragment extends Fragment {
         searchTask.execute(url);
     }
 
-
+    // use asynchronous to search teh result with keyword and display with recycle view
     private class GoogleSearchAsyncTask extends AsyncTask<URL, Integer, String> {
 
         protected void onPreExecute() {
@@ -132,7 +147,7 @@ public class NewsFragment extends Fragment {
 
         }
 
-
+        // do in background with get news result from RESTful API supported by google search
         @Override
         protected String doInBackground(URL... urls) {
 
@@ -204,6 +219,7 @@ public class NewsFragment extends Fragment {
 
         }
 
+        // after getting result from the RESTful API, format the result and displayed in recycle view list
         protected void onPostExecute(String result) {
 
             Log.d(TAG, "AsyncTask - onPostExecute, result=" + result);
@@ -232,6 +248,7 @@ public class NewsFragment extends Fragment {
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+            // listen the specific item of the new list, if it has been cliked, jump to the browser with mapping URL
             myNewsAdapter.setOnItemClickListener(new MyNewsAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {

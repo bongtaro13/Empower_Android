@@ -4,14 +4,23 @@ import android.os.Bundle;
 
 import com.example.empower.R;
 import com.stephentuso.welcome.BasicPage;
-import com.stephentuso.welcome.ParallaxPage;
 import com.stephentuso.welcome.TitlePage;
 import com.stephentuso.welcome.WelcomeActivity;
 import com.stephentuso.welcome.WelcomeConfiguration;
 import com.stephentuso.welcome.WelcomeHelper;
 
+
+
+/**
+ * Class name: MyWelcomeActivity.java
+ * function: Main aim of this function is to create the welcome page with slide function,
+ *              and let user slide with different guidance card,
+ *              also user can skip this page with skip button
+ *              not finished currently, will be done in the next iteration.
+ * */
 public class MyWelcomeActivity extends WelcomeActivity {
 
+    // design the welcome page by welcome configuration
     @Override
     protected WelcomeConfiguration configuration() {
         return new WelcomeConfiguration.Builder(this)
@@ -36,6 +45,7 @@ public class MyWelcomeActivity extends WelcomeActivity {
         return "WelcomeScreen";
     }
 
+    // initialized welcome helper from the Gradle API
     WelcomeHelper welcomeScreen;
 
     @Override
