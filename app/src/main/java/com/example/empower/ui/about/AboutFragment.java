@@ -18,6 +18,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.empower.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AboutFragment extends Fragment {
 
@@ -25,8 +29,13 @@ public class AboutFragment extends Fragment {
     private Button feedbackButton;
     private WebView webView;
     private TextView contactTextview;
+    private TextView firestoreTextview;
 
     private View root;
+
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private DocumentReference sportsVenuesDF = db.collection("sportsVenues").document("sportsVenues35");
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -37,6 +46,8 @@ public class AboutFragment extends Fragment {
 
         contactTextview = root.findViewById(R.id.about_contactdetail_textView);
         feedbackButton = root.findViewById(R.id.about_feedback_button);
+        firestoreTextview = root.findViewById(R.id.about_firestore_test);
+
 
         feedbackButton.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetJavaScriptEnabled")
@@ -68,7 +79,22 @@ public class AboutFragment extends Fragment {
         });
 
 
+        //fireStore text test
+        sportsVenuesDF.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()){
+                    String getString = documentSnapshot.getString("Address");
+                    firestoreTextview.setText(getString);
+
+                }
+            }
+        });
+
+
         return root;
     }
+
+
 
 }

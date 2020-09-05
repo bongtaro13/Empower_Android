@@ -41,5 +41,15 @@
         app:layout_constraintTop_toTopOf="@+id/about_web_view" />
 
 
+    <TextView
+        android:id="@+id/about_firestore_test"
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        app:layout_constraintTop_toBottomOf="@+id/about_feedback_button"
+        tools:ignore="MissingConstraints" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
