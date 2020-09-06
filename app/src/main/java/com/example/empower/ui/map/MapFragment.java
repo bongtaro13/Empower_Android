@@ -37,14 +37,16 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -75,7 +77,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     // spinner and related data array
     private Spinner sportSpinner;
-    private List<String> sportDataList;
+    private List<String> sportSpinnerDataList;
     private ArrayAdapter<String> sportSpinnerAdapter;
 
 
@@ -91,6 +93,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE = 101;
 
+    //FireStore database
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
 
@@ -117,7 +121,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
         // create sports venue list from csv file
-        createSportsVenueList();
+        //createSportsVenueList();
+        getSportsListFromFireStore();
+
 
         mapPostcodeEditText = root.findViewById(R.id.map_postcode_editText);
         mapSearchButton = root.findViewById(R.id.map_search_button);
@@ -151,14 +157,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         // initialize the spinner of different sport
         sportSpinner = root.findViewById(R.id.map_sports_spinner);
-        sportDataList = new ArrayList<>();
-        sportDataList.add("Sport");
-        sportDataList.add("Wheelchair");
-        sportDataList.add("Football");
-        sportDataList.add("Basketball");
-        sportDataList.add("Cricket");
+        sportSpinnerDataList = new ArrayList<>();
+        sportSpinnerDataList.add("Sport");
+        sportSpinnerDataList.add("Wheelchair");
+        sportSpinnerDataList.add("Football");
+        sportSpinnerDataList.add("Basketball");
+        sportSpinnerDataList.add("Cricket");
 
-        sportSpinnerAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item,sportDataList);
+        sportSpinnerAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, sportSpinnerDataList);
         sportSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         sportSpinner.setAdapter(sportSpinnerAdapter);
@@ -350,42 +356,34 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    public void createSportsVenueList() {
-        InputStream inputStream = getResources().openRawResource(R.raw.disability_wheelchair_sports_vic);
-        BufferedReader bufferedReader = new BufferedReader(
-                new InputStreamReader(inputStream, Charset.forName("UTF-8"))
-        );
+    private void getSportsListFromFireStore(){
+        db.collection("sportsVenues")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            for (QueryDocumentSnapshot document: Objects.requireNonNull(task.getResult())){
+                                Map<String, Object> tempSportsVenueMap = document.getData();
+                                String venueId = Objects.requireNonNull(tempSportsVenueMap.get("venueID")).toString();
+                                String name =  Objects.requireNonNull(tempSportsVenueMap.get("name")).toString();
+                                String address =  Objects.requireNonNull(tempSportsVenueMap.get("address")).toString();
+                                String suburb =  Objects.requireNonNull(tempSportsVenueMap.get("suburb")).toString();
+                                String postcode =  Objects.requireNonNull(tempSportsVenueMap.get("postcode")).toString();
+                                String state =  Objects.requireNonNull(tempSportsVenueMap.get("state")).toString();
+                                String businessCategory =  Objects.requireNonNull(tempSportsVenueMap.get("businessCategory")).toString();
+                                String lga = Objects.requireNonNull(tempSportsVenueMap.get("lga")).toString();
+                                String region =  Objects.requireNonNull(tempSportsVenueMap.get("region")).toString();
 
-        String line = "";
-        try {
-            while ((line = bufferedReader.readLine()) != null) {
+                                sportsVenueList.add(new SportsVenue(venueId, name, address, suburb, postcode, state, businessCategory,lga, region));
 
-                String[] sportsVenueRawData = line.split(",");
-                int length = sportsVenueRawData.length;
 
-                if (length != 9) {
-                    continue;
-                }
-
-                SportsVenue tempSportsVenue = new SportsVenue();
-                tempSportsVenue.setVenueID(sportsVenueRawData[0]);
-                tempSportsVenue.setName(sportsVenueRawData[1]);
-                tempSportsVenue.setAddress(sportsVenueRawData[2]);
-                tempSportsVenue.setSuburb(sportsVenueRawData[3]);
-                tempSportsVenue.setPostcode(sportsVenueRawData[4]);
-                tempSportsVenue.setState(sportsVenueRawData[5]);
-                tempSportsVenue.setBusinessCategory(sportsVenueRawData[6]);
-                tempSportsVenue.setLga(sportsVenueRawData[7]);
-                tempSportsVenue.setRegion(sportsVenueRawData[8]);
-                sportsVenueList.add(tempSportsVenue);
-
-                Log.d("MainActivity", "current sports venus object: " + tempSportsVenue.toString());
-            }
-        } catch (IOException e) {
-            Log.e("MainActivity", "Error reading data from the line " + line, e);
-            e.printStackTrace();
-        }
-
+                            }
+                        }else{
+                            Log.d(TAG, "Error getting sportsVenues documents: " + task.getException());
+                        }
+                    }
+                });
     }
 
 
