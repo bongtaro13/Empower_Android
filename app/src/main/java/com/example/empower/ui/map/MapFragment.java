@@ -1,6 +1,7 @@
 package com.example.empower.ui.map;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -112,11 +113,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
-        if (mainActivity.checkFirstTime()){
+
+        SharedPreferences sp = Objects.requireNonNull(getActivity()).getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
+        if (sp.getBoolean("maps_first_time_dialog", true)){
             // pop up window for map page help guide
             GuideDialogMapFragment dialogFragment = new GuideDialogMapFragment();
             dialogFragment.show(getFragmentManager(), "GuideDialogFragment");
             dialogFragment.setCancelable(true);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putBoolean("maps_first_time_dialog", false);
+            editor.apply();
         }
 
 

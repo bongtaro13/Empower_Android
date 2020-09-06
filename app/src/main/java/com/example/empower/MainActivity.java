@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
     // application first run fields
     SharedPreferences settings;
-    private Boolean firstTime = false;
 
     // positioning are all related by the class LocationManager
     private LocationManager locationManager;
@@ -54,6 +53,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        // check if user first use app
+        final String PREFS_NAME = "MyPrefsFile";
+
+        settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+
+
+
+//        if (settings.getBoolean("my_first_time", true)) {
+//            // the app is being launched for first time, do something
+//            Log.d("Comments", "First time");
+//
+//
+//
+//            // record the fact that the app has been started at least once
+//            settings.edit().putBoolean("my_first_time", false).apply();
+//        }
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -65,21 +81,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
 
-        // check if user first use app
-        final String PREFS_NAME = "MyPrefsFile";
 
-        settings = getSharedPreferences(PREFS_NAME, 0);
-
-        if (settings.getBoolean("my_first_time", true)) {
-            // the app is being launched for first time, do something
-            Log.d("Comments", "First time");
-
-            // first time task
-            firstTime = true;
-
-            // record the fact that the app has been started at least once
-            settings.edit().putBoolean("my_first_time", false).commit();
-        }
 
         //Get location services
         locationManager = (LocationManager) getBaseContext().getSystemService(Context.LOCATION_SERVICE);
@@ -178,11 +180,6 @@ public class MainActivity extends AppCompatActivity {
         return currentLocation;
     }
 
-
-    // get current first use field variable from the result of SharedPreferences
-    public boolean checkFirstTime(){
-        return firstTime;
-    }
 
 
     

@@ -2,6 +2,7 @@ package com.example.empower.ui.news;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -38,7 +39,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
-
+import java.util.Objects;
 
 
 /**
@@ -78,12 +79,17 @@ public class NewsFragment extends Fragment {
         newsProgressBar = root.findViewById(R.id.news_search_progressbar);
 
         // get SharedPreferences value from main activity, check if the guide picture is need or not
+        SharedPreferences sp = Objects.requireNonNull(getActivity()).getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
         MainActivity mainActivity = (MainActivity) getActivity();
-        if (mainActivity.checkFirstTime()) {
+        if (sp.getBoolean("news_first_time_dialog", true)) {
             // pop up window for guidance in news
             GuideDialogNewsFragment dialogFragment = new GuideDialogNewsFragment();
+            assert getFragmentManager() != null;
             dialogFragment.show(getFragmentManager(), "GuideDialogFragment");
             dialogFragment.setCancelable(true);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putBoolean("news_first_time_dialog", false);
+            editor.apply();
         }
 
         // search news with default keyword "disability sport"
