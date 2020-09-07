@@ -148,7 +148,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 // remove spaces in the postcode input
                 String searchPostcodeNoSpaces = searchPostcode.replace(" ", "");
                 ArrayList<SportsVenue> selectedSportsVenueList = new ArrayList<>();
-                selectedSportsVenueList = createSelectedSportsVenueListByPostcode(searchPostcodeNoSpaces);
+                SportsVenuesSelector sportsVenuesSelector = new SportsVenuesSelector(sportsVenueList);
+                selectedSportsVenueList = sportsVenuesSelector.createSelectedSportsVenueListByPostcode(searchPostcodeNoSpaces);
 
                 if (selectedSportsVenueList.size() > 0) {
                     new AsyncAddMarker().execute(selectedSportsVenueList);
@@ -165,7 +166,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         sportSpinner = root.findViewById(R.id.map_sports_spinner);
         sportSpinnerDataList = new ArrayList<>();
         sportSpinnerDataList.add("Sport");
-        sportSpinnerDataList.add("Wheelchair");
         sportSpinnerDataList.add("Football");
         sportSpinnerDataList.add("Basketball");
         sportSpinnerDataList.add("Cricket");
@@ -185,7 +185,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 // if spinner is selected with keyword "Sport", nothing happen in this condition.
                 if (!sportSpinnerAdapter.getItem(position).equals("Sport")){
                     Toast.makeText(getActivity(), "you selected sport is: " + sportSpinnerAdapter.getItem(position), Toast.LENGTH_SHORT).show();
-                    ArrayList<SportsVenue> selectedSportsVenueList = createSelectedSportsVenueListBySport(Objects.requireNonNull(sportSpinnerAdapter.getItem(position)));
+                    SportsVenuesSelector sportsVenuesSelector = new SportsVenuesSelector(sportsVenueList);
+                    ArrayList selectedSportsVenueList = sportsVenuesSelector.createSelectedSportsVenueListBySport(sportSpinnerAdapter.getItem(position));
                     if (selectedSportsVenueList.size() > 0) {
                         new AsyncAddMarker().execute(selectedSportsVenueList);
                         mapProgressBar.setVisibility(View.VISIBLE);
@@ -308,7 +309,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    // get location with latlng from the address
+    // get location with lat & lng from the address
     public LatLng getLocationFromAddress(Context context, String venueAddress) {
         Geocoder geocoder = new Geocoder(context);
         List<Address> addresses;
@@ -333,35 +334,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    public ArrayList<SportsVenue> createSelectedSportsVenueListByPostcode(String inputPostcode) {
-        ArrayList<SportsVenue> selectedSportsVenuList = new ArrayList<>();
-        if (inputPostcode.length() == 0) {
-            return selectedSportsVenuList;
-        }
-        for (SportsVenue tempSportsVenue : sportsVenueList) {
-            if (tempSportsVenue.getPostcode().equals(inputPostcode)) {
-                selectedSportsVenuList.add(tempSportsVenue);
-            }
-        }
 
-        return selectedSportsVenuList;
-    }
-
-    public ArrayList<SportsVenue> createSelectedSportsVenueListBySport(String inputSportName){
-        ArrayList<SportsVenue> selectedSportsVenuList = new ArrayList<>();
-        String sportName = inputSportName.toLowerCase();
-        if (! inputSportName.equals("sport")){
-            for (SportsVenue tempSportsVenue : sportsVenueList){
-                if (tempSportsVenue.getBusinessCategory().toLowerCase().contains(sportName)){
-                    selectedSportsVenuList.add(tempSportsVenue);
-                }
-            }
-        }
-
-        return selectedSportsVenuList;
-    }
-
-
+    // get the sports venues info from the Cloud FireStore NoSql database
     private void getSportsListFromFireStore(){
         db.collection("sportsVenues")
                 .get()
@@ -391,6 +365,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     }
                 });
     }
+
 
 
 
