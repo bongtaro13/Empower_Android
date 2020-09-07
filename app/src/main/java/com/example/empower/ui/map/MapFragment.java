@@ -113,7 +113,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
-
+        // get SharedPreferences value from main activity, check if the guide picture is need or not
         SharedPreferences sp = Objects.requireNonNull(getActivity()).getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
         if (sp.getBoolean("maps_first_time_dialog", true)){
             // pop up window for map page help guide
@@ -209,7 +209,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
 
-
         return root;
     }
 
@@ -234,9 +233,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         // set the camera position of application when oping the map on ready
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(currentLocation).zoom(10).build();
+                .target(currentLocation).zoom(12).build();
 
         mapAPI.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+
+    }
+
+
+    public void FindNearVenue(){
 
 
     }
@@ -296,10 +301,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
                 CameraPosition newCameraPosition = new CameraPosition.Builder()
-                        .target(currentLocation).zoom(11).build();
+                        .target(currentLocation).zoom(10).build();
 
 
-                mapAPI.moveCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition));
+
+                mapAPI.animateCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition));
                 mapProgressBar.setVisibility(View.GONE);
                 Toast toast_success = Toast.makeText(getContext(), "Result found", Toast.LENGTH_SHORT);
                 toast_success.show();
