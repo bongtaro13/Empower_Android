@@ -1,8 +1,10 @@
 package com.example.empower.ui.map;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -21,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.empower.MainActivity;
@@ -60,7 +63,6 @@ import java.util.Objects;
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
-
     private MapViewModel mapViewModel;
     private GoogleMap mapAPI;
     private SupportMapFragment mapFragment;
@@ -98,7 +100,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
-
     // initialize the mapFragment
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -116,7 +117,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         // get SharedPreferences value from main activity, check if the guide picture is need or not
         SharedPreferences sp = Objects.requireNonNull(getActivity()).getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
-        if (sp.getBoolean("maps_first_time_dialog", true)){
+        if (sp.getBoolean("maps_first_time_dialog", true)) {
             // pop up window for map page help guide
             GuideDialogMapFragment dialogFragment = new GuideDialogMapFragment();
             dialogFragment.show(getFragmentManager(), "GuideDialogFragment");
@@ -171,11 +172,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         sportSpinnerDataList.add("Basketball");
         sportSpinnerDataList.add("Cricket");
 
-        sportSpinnerAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, sportSpinnerDataList);
+        sportSpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, sportSpinnerDataList);
         sportSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         sportSpinner.setAdapter(sportSpinnerAdapter);
-
 
 
         // add listener to the spinner selected action
@@ -184,7 +184,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // create new sports venue with selected sport
                 // if spinner is selected with keyword "Sport", nothing happen in this condition.
-                if (!sportSpinnerAdapter.getItem(position).equals("Sport")){
+                if (!sportSpinnerAdapter.getItem(position).equals("Sport")) {
                     Toast.makeText(getActivity(), "you selected sport is: " + sportSpinnerAdapter.getItem(position), Toast.LENGTH_SHORT).show();
                     SportsVenuesSelector sportsVenuesSelector = new SportsVenuesSelector(sportsVenueList);
                     ArrayList selectedSportsVenueList = sportsVenuesSelector.createSelectedSportsVenueListBySport(sportSpinnerAdapter.getItem(position));
@@ -195,10 +195,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         Toast toast_error = Toast.makeText(getContext(), "No result find", Toast.LENGTH_SHORT);
                         toast_error.show();
                     }
-                }else {
+                } else {
 
                 }
-               }
+            }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -208,15 +208,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         });
 
 
-
-
         return root;
     }
 
 
-
     // default method for map is created at the beginning
-    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -225,9 +221,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
         mapAPI = googleMap;
-
-        mapAPI.setMyLocationEnabled(true);
-
 
 
 

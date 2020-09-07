@@ -58,7 +58,6 @@ public class SplashActivity extends AppCompatActivity {
                     public void onPermissionGranted(final PermissionGrantedResponse permissionGrantedResponse) {
 
 
-
                         //Use the timer to delay the interface for 3 seconds before jumping. The timer has a thread that continuously executes tasks
                         Timer timer = new Timer();
                         TimerTask timerTask = new TimerTask() {
