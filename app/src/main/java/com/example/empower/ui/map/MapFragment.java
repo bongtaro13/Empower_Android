@@ -226,8 +226,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         mapAPI = googleMap;
 
-//        mapAPI.setMyLocationEnabled(true);
-//        mapAPI.getUiSettings().setMyLocationButtonEnabled(true);
+        mapAPI.setMyLocationEnabled(true);
+
 
 
 
