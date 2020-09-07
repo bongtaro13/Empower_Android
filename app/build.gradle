@@ -57,6 +57,9 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-firestore:21.6.0'
 
+    //permission check
+    implementation 'com.karumi:dexter:6.2.1'
+
 
 
 }

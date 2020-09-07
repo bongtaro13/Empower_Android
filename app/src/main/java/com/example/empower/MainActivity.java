@@ -3,15 +3,25 @@ package com.example.empower;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.core.app.ActivityCompat;
@@ -23,7 +33,9 @@ import androidx.navigation.ui.NavigationUI;
 //get current location
 
 import android.location.Location;
+import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import java.util.List;
@@ -60,15 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-//        if (settings.getBoolean("my_first_time", true)) {
-//            // the app is being launched for first time, do something
-//            Log.d("Comments", "First time");
-//
-//
-//
-//            // record the fact that the app has been started at least once
-//            settings.edit().putBoolean("my_first_time", false).apply();
-//        }
+
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each

@@ -1,5 +1,6 @@
 package com.example.empower.ui.map;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Address;
@@ -64,7 +65,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mapAPI;
     private SupportMapFragment mapFragment;
 
-    private MapView mapView;
     private View root;
 
     // arrayList for all all sports venus read from teh csv data file
@@ -112,6 +112,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
+
 
         // get SharedPreferences value from main activity, check if the guide picture is need or not
         SharedPreferences sp = Objects.requireNonNull(getActivity()).getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
@@ -215,6 +216,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
     // default method for map is created at the beginning
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -223,6 +225,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
         mapAPI = googleMap;
+
+//        mapAPI.setMyLocationEnabled(true);
+//        mapAPI.getUiSettings().setMyLocationButtonEnabled(true);
+
 
 
         // add user current location on map with location info from the MainActivity

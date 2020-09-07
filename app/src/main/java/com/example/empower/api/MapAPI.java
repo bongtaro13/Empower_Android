@@ -19,7 +19,7 @@
 //
 //
 //    // get Location
-//    public ArrayList<LocationAddressPair> getLocationAddressPair (ArrayList<SportsVenue> sportsVenueArrayList){
+//    public ArrayList<LocationAddressPair> getNearbyLocationAddressPair (ArrayList<SportsVenue> sportsVenueArrayList){
 //
 //        ArrayList<LocationAddressPair> combineLocationMapping = new ArrayList<>();
 //
