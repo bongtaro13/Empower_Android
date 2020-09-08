@@ -3,6 +3,7 @@ package com.example.empower.ui.map;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -10,6 +11,8 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +34,16 @@ import com.example.empower.R;
 import com.example.empower.entity.LocationAddressPair;
 import com.example.empower.entity.SportsVenue;
 import com.example.empower.ui.dialog.GuideDialogMapFragment;
+import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -43,6 +55,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -58,7 +72,7 @@ import java.util.Objects;
 /**
  * class name: MapFragment.java
  * function: Main aim of this fragment is to displayed disability supported sports venues on the map
- * */
+ */
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
@@ -89,12 +103,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     Integer responseCode = null;
     String responseMessage = "";
 
-    private Location currentLocationFromActivity;
 
     //user current location
-    Location currentLocation;
+    private Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
-    private static final int REQUEST_CODE = 101;
+    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
 
     //FireStore database
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -104,12 +117,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        MainActivity mainActivity = (MainActivity) getActivity();
-        currentLocationFromActivity = mainActivity.getCurrentLocation();
+
+        currentLocation = new Location("default location");
+        currentLocation.setLongitude(147.13170297689055);
+        currentLocation.setLatitude(-35.91341883508321);
+
+
 
         root = inflater.inflate(R.layout.fragment_map, container, false);
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapAPI);
-
 
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
@@ -213,6 +229,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
     // default method for map is created at the beginning
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -221,26 +238,80 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
         mapAPI = googleMap;
+        mapAPI.setMyLocationEnabled(true);
+        mapAPI.getUiSettings().setMyLocationButtonEnabled(true);
+
+
+        // add user current location on map with location info from the MainActivity
+//        LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+//        mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap).title("You current location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))).showInfoWindow();
+
+
+        LatLng melbourneArea = new LatLng(-37.8409, 144.9464);
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(melbourneArea).zoom(10).build();
+
+        mapAPI.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+
+
+
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(5000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
+
+        SettingsClient settingsClient = LocationServices.getSettingsClient(getActivity());
+        Task<LocationSettingsResponse> task = settingsClient.checkLocationSettings(builder.build());
+
+        task.addOnSuccessListener(getActivity(), new OnSuccessListener<LocationSettingsResponse>() {
+            @Override
+            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+
+            }
+        });
+
+        task.addOnFailureListener(getActivity(), new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (e instanceof ResolvableApiException) {
+                    ResolvableApiException resolvableApiException = (ResolvableApiException) e;
+                    try {
+                        resolvableApiException.startResolutionForResult(getActivity(), 51);
+                    } catch (IntentSender.SendIntentException ex) {
+                        ex.printStackTrace();
+                    }
+
+                }
+            }
+        });
+
 
 
 
         // add user current location on map with location info from the MainActivity
-        LatLng currentLocation = new LatLng(currentLocationFromActivity.getLatitude(), currentLocationFromActivity.getLongitude());
-        mapAPI.addMarker(new MarkerOptions().position(currentLocation).title("You current location")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))).showInfoWindow();
+//        LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+//        mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap).title("You current location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))).showInfoWindow();
 
 
         // set the camera position of application when oping the map on ready
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(currentLocation).zoom(12).build();
 
-        mapAPI.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+//        CameraPosition cameraPosition = new CameraPosition.Builder()
+//                .target(mapAPI.location).zoom(12).build();
+////
+//        mapAPI.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
 
     }
 
 
-    public void FindNearVenue(){
+
+
+    public void FindNearVenue() {
 
 
     }
@@ -271,7 +342,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
 
 
-
             return combineLocationMapping;
 
         }
@@ -295,13 +365,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode()));
 
                 }
-                LatLng currentLocation = new LatLng(currentLocationFromActivity.getLatitude(), currentLocationFromActivity.getLongitude());
-                mapAPI.addMarker(new MarkerOptions().position(currentLocation).title("You current location")
+                getCurrentLocation();
+                LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap).title("You current location")
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
                 CameraPosition newCameraPosition = new CameraPosition.Builder()
-                        .target(currentLocation).zoom(10).build();
-
+                        .target(currentLocationMarkerOnMap).zoom(10).build();
 
 
                 mapAPI.animateCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition));
@@ -339,32 +409,31 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-
     // get the sports venues info from the Cloud FireStore NoSql database
-    private void getSportsListFromFireStore(){
+    private void getSportsListFromFireStore() {
         db.collection("sportsVenues")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            for (QueryDocumentSnapshot document: Objects.requireNonNull(task.getResult())){
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                                 Map<String, Object> tempSportsVenueMap = document.getData();
                                 String venueId = Objects.requireNonNull(tempSportsVenueMap.get("venueID")).toString();
-                                String name =  Objects.requireNonNull(tempSportsVenueMap.get("name")).toString();
-                                String address =  Objects.requireNonNull(tempSportsVenueMap.get("address")).toString();
-                                String suburb =  Objects.requireNonNull(tempSportsVenueMap.get("suburb")).toString();
-                                String postcode =  Objects.requireNonNull(tempSportsVenueMap.get("postcode")).toString();
-                                String state =  Objects.requireNonNull(tempSportsVenueMap.get("state")).toString();
-                                String businessCategory =  Objects.requireNonNull(tempSportsVenueMap.get("businessCategory")).toString();
+                                String name = Objects.requireNonNull(tempSportsVenueMap.get("name")).toString();
+                                String address = Objects.requireNonNull(tempSportsVenueMap.get("address")).toString();
+                                String suburb = Objects.requireNonNull(tempSportsVenueMap.get("suburb")).toString();
+                                String postcode = Objects.requireNonNull(tempSportsVenueMap.get("postcode")).toString();
+                                String state = Objects.requireNonNull(tempSportsVenueMap.get("state")).toString();
+                                String businessCategory = Objects.requireNonNull(tempSportsVenueMap.get("businessCategory")).toString();
                                 String lga = Objects.requireNonNull(tempSportsVenueMap.get("lga")).toString();
-                                String region =  Objects.requireNonNull(tempSportsVenueMap.get("region")).toString();
+                                String region = Objects.requireNonNull(tempSportsVenueMap.get("region")).toString();
 
-                                sportsVenueList.add(new SportsVenue(venueId, name, address, suburb, postcode, state, businessCategory,lga, region));
+                                sportsVenueList.add(new SportsVenue(venueId, name, address, suburb, postcode, state, businessCategory, lga, region));
 
 
                             }
-                        }else{
+                        } else {
                             Log.d(TAG, "Error getting sportsVenues documents: " + task.getException());
                         }
                     }
@@ -372,6 +441,35 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
+    @SuppressLint("MissingPermission")
+    public void getCurrentLocation() {
+        LocationRequest locationRequest = new LocationRequest();
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(3000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+
+        LocationServices.getFusedLocationProviderClient(getActivity())
+                .requestLocationUpdates(locationRequest, new LocationCallback() {
+
+                    @Override
+                    public void onLocationResult(LocationResult locationResult) {
+                        super.onLocationResult(locationResult);
+                        LocationServices.getFusedLocationProviderClient(getActivity())
+                                .removeLocationUpdates(this);
+                        if (locationResult != null && locationResult.getLocations().size() > 0) {
+                            int latestLocationIndex = locationResult.getLocations().size() - 1;
+                            double latitude = locationResult.getLocations().get(latestLocationIndex).getLatitude();
+                            double longitude = locationResult.getLocations().get(latestLocationIndex).getLongitude();
+                            currentLocation.setLatitude(latitude);
+                            currentLocation.setLongitude(longitude);
+
+                        }
+                    }
+                }, Looper.getMainLooper());
+
+
+    }
 
 
 }

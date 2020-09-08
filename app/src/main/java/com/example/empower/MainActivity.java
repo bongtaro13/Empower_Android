@@ -2,6 +2,7 @@ package com.example.empower;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -33,6 +38,7 @@ import androidx.navigation.ui.NavigationUI;
 //get current location
 
 import android.location.Location;
+import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -53,11 +59,6 @@ public class MainActivity extends AppCompatActivity {
     // application first run fields
     SharedPreferences settings;
 
-    // positioning are all related by the class LocationManager
-    private LocationManager locationManager;
-    private String provider;
-    private Location currentLocation;
-
     // main activity test added
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +72,6 @@ public class MainActivity extends AppCompatActivity {
         settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 
 
-
-
-
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -85,108 +83,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
 
-
-
-        //Get location services
-        locationManager = (LocationManager) getBaseContext().getSystemService(Context.LOCATION_SERVICE);
-        //Gets the currently available location controller
-        List<String> list = locationManager.getProviders(true);
-
-
-        if (list.contains(LocationManager.GPS_PROVIDER)) {
-            // check if location from GPS location controller
-            provider = LocationManager.GPS_PROVIDER;
-        } else if (list.contains(LocationManager.NETWORK_PROVIDER)) {
-            // check if location from network location controller
-            provider = LocationManager.NETWORK_PROVIDER;
-
-        } else {
-            Toast.makeText(this, "Please check if the GPS is open Or you are in good GPS signal",
-                    Toast.LENGTH_LONG).show();
-            return;
-        }
-
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        // get current location from the location manager with provider chosen
-        currentLocation = locationManager.getLastKnownLocation(provider);
-        if (currentLocation != null) {
-            //To get the current location, I'm just using latitude and longitude
-            String string = "latitude：" + currentLocation.getLatitude() + ",longitude："
-                    + currentLocation.getLongitude();
-        }
-
-
-        // Bind to locate an event and listen for changes in location
-        // The first parameter is the controller type and
-        // the second parameter is the interval (in milliseconds) to listen for changes in position.
-        // The third parameter is the interval of position change (unit: m) and the fourth parameter is the position listener
-        locationManager.requestLocationUpdates(provider, 2000, 2, locationListener);
-
     }
-
-    // monitor the changed of the location
-    LocationListener locationListener = new LocationListener() {
-
-        @Override
-        public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void onProviderEnabled(String arg0) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void onProviderDisabled(String arg0) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void onLocationChanged(Location arg0) {
-            // TODO Auto-generated method stub
-            // update current latitude and longitude
-        }
-    };
-
-    // Unplug the listener when it is closed
-    @Override
-    protected void onDestroy() {
-        // TODO Auto-generated method stub
-        super.onDestroy();
-        if (locationManager != null) {
-            locationManager.removeUpdates(locationListener);
-        }
-    }
-
-
-    // get current location field variable from the result of location manager
-    public Location getCurrentLocation(){
-        // if there is no location info, make the Monash Clayton the default location
-        if (currentLocation  == null){
-            currentLocation = new Location("tempLocation");
-            currentLocation.setLongitude(145.13170297689055);
-            currentLocation.setLatitude(-37.91341883508321);
-        }
-        return currentLocation;
-    }
-
-
-
-    
 
 
 
