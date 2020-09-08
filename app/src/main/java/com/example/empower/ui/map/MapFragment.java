@@ -118,12 +118,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                              ViewGroup container, Bundle savedInstanceState) {
 
 
-        currentLocation = new Location("default location");
-        currentLocation.setLongitude(147.13170297689055);
-        currentLocation.setLatitude(-35.91341883508321);
-
-
-
         root = inflater.inflate(R.layout.fragment_map, container, false);
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapAPI);
 
@@ -233,13 +227,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+        mapAPI = googleMap;
+
         MapsInitializer.initialize(getContext());
         googleMap.getUiSettings().setZoomControlsEnabled(true);
 
+        currentLocation = new Location("default location");
+//            currentLocation.setLongitude(145.13170297689055);
+//            currentLocation.setLatitude(-37.91341883508321);
 
-        mapAPI = googleMap;
-        mapAPI.setMyLocationEnabled(true);
-        mapAPI.getUiSettings().setMyLocationButtonEnabled(true);
+        currentLocation.setLongitude(147.13170297689055);
+        currentLocation.setLatitude(-35.91341883508321);
 
 
         // add user current location on map with location info from the MainActivity
@@ -247,14 +245,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 //        mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap).title("You current location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))).showInfoWindow();
 
 
-        LatLng melbourneArea = new LatLng(-37.8409, 144.9464);
-
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(melbourneArea).zoom(10).build();
-
-        mapAPI.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-
+//        LatLng melbourneArea = new LatLng(-37.8409, 144.9464);
+//
+//        CameraPosition cameraPosition = new CameraPosition.Builder()
+//                .target(melbourneArea).zoom(10).build();
+//
+//        mapAPI.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
 
         LocationRequest locationRequest = LocationRequest.create();
@@ -289,26 +285,27 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-
-
-
+        getCurrentLocation();
         // add user current location on map with location info from the MainActivity
-//        LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-//        mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap).title("You current location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))).showInfoWindow();
+        currentLocation.getLatitude();
+        currentLocation.getLongitude();
+        LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap)
+                .title("You current location")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)))
+                .showInfoWindow();
 
 
         // set the camera position of application when oping the map on ready
 
 
-//        CameraPosition cameraPosition = new CameraPosition.Builder()
-//                .target(mapAPI.location).zoom(12).build();
-////
-//        mapAPI.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(currentLocationMarkerOnMap).zoom(12).build();
+//
+        mapAPI.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
 
     }
-
-
 
 
     public void FindNearVenue() {
@@ -441,7 +438,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    @SuppressLint("MissingPermission")
     public void getCurrentLocation() {
         LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(10000);
@@ -449,6 +445,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
 
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         LocationServices.getFusedLocationProviderClient(getActivity())
                 .requestLocationUpdates(locationRequest, new LocationCallback() {
 
@@ -461,6 +467,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             int latestLocationIndex = locationResult.getLocations().size() - 1;
                             double latitude = locationResult.getLocations().get(latestLocationIndex).getLatitude();
                             double longitude = locationResult.getLocations().get(latestLocationIndex).getLongitude();
+                            currentLocation = new Location("real current location");
                             currentLocation.setLatitude(latitude);
                             currentLocation.setLongitude(longitude);
 

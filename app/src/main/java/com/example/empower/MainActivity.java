@@ -56,6 +56,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 
+
+
     // application first run fields
     SharedPreferences settings;
 
@@ -84,8 +86,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-
 
 
 }
