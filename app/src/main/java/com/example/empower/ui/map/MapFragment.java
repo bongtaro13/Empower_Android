@@ -151,6 +151,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         searchNearbyButton = root.findViewById(R.id.map_search_button);
         mapProgressBar = root.findViewById(R.id.map_search_progressBar);
 
+
+        searchNearbyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AsyncFindVenueNearby().execute(sportsVenueList);
+                mapProgressBar.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+
         mapPostcodeEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
                                                           @Override
                                                           public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -177,7 +188,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                                                           mapProgressBar.setVisibility(View.VISIBLE);
                                                                       } else {
                                                                           Toast toast_error = Toast.makeText(getContext(), "No result find", Toast.LENGTH_SHORT);
-                                                                          toast_error.setGravity(Gravity.TOP|Gravity.CENTER, 0, 400);
+                                                                          toast_error.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
                                                                           toast_error.show();
                                                                           mapPostcodeEditText.setText("");
                                                                       }
@@ -209,7 +220,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         sportSpinner.setAdapter(sportSpinnerAdapter);
 
 
-
         // add listener to the spinner selected action
         sportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -220,10 +230,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     if (mapPostcodeEditText.getText() != null) {
                         String selectedPostcode = mapPostcodeEditText.getText().toString();
                         Toast toast_sport = Toast.makeText(getActivity(), "you selected sport is: " + sportSpinnerAdapter.getItem(position), Toast.LENGTH_SHORT);
-                        toast_sport.setGravity(Gravity.TOP|Gravity.CENTER, 0, 400);
+                        toast_sport.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
                         toast_sport.show();
                         Toast toast_postcode = Toast.makeText(getActivity(), "you selected suburb is: " + selectedPostcode, Toast.LENGTH_SHORT);
-                        toast_postcode.setGravity(Gravity.TOP|Gravity.CENTER, 0, 400);
+                        toast_postcode.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
                         toast_postcode.show();
 
                         SportsVenuesSelector sportsVenuesSelector = new SportsVenuesSelector(sportsVenueList);
@@ -233,10 +243,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             new AsyncAddMarker().execute(selectedSportsVenueList);
                             mapProgressBar.setVisibility(View.VISIBLE);
 
-                        }else {
+                        } else {
 
                             Toast toast_error = Toast.makeText(getContext(), "No result find", Toast.LENGTH_SHORT);
-                            toast_error.setGravity(Gravity.TOP|Gravity.CENTER, 0, 400);
+                            toast_error.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
                             toast_error.show();
                             mapPostcodeEditText.setText("");
                         }
@@ -249,15 +259,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             mapProgressBar.setVisibility(View.VISIBLE);
                         } else {
                             Toast toast_error = Toast.makeText(getContext(), "No result find", Toast.LENGTH_SHORT);
-                            toast_error.setGravity(Gravity.TOP|Gravity.CENTER, 0, 400);
+                            toast_error.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
                             toast_error.show();
                         }
                     }
 
-                }else {
+                } else {
 
-                    Toast noSportSelectedToast = Toast.makeText(getContext(), "No sport selected",Toast.LENGTH_SHORT );
-                    noSportSelectedToast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 400);
+                    Toast noSportSelectedToast = Toast.makeText(getContext(), "No sport selected", Toast.LENGTH_SHORT);
+                    noSportSelectedToast.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
                     noSportSelectedToast.show();
                 }
             }
@@ -266,7 +276,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             public void onNothingSelected(AdapterView<?> parent) {
                 // ask user to select the sport
                 Toast nothingSelectedToast = new Toast(getActivity());
-                nothingSelectedToast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 400);
+                nothingSelectedToast.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
                 nothingSelectedToast.setText("please select a sport you want");
                 nothingSelectedToast.setDuration(Toast.LENGTH_SHORT);
                 nothingSelectedToast.setView(root);
@@ -346,6 +356,93 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
+    private class AsyncFindVenueNearby extends AsyncTask<ArrayList<SportsVenue>, Void, ArrayList<LocationAddressPair>> {
+
+        @Override
+        protected ArrayList<LocationAddressPair> doInBackground(ArrayList<SportsVenue>... arrayLists) {
+            // input parameter of the sports venues array list
+            ArrayList<SportsVenue> sportsVenueArrayList = arrayLists[0];
+
+            ArrayList<LocationAddressPair> combineLocationMapping = new ArrayList<>();
+
+            if (sportsVenueArrayList.size() > 0) {
+                // Use index number to mapping of real address and latitude-longitude address
+                for (SportsVenue tempSportsVenue : sportsVenueArrayList) {
+
+                    String tempSportsVenueAddress = tempSportsVenue.getAddress() + " "
+                            + tempSportsVenue.getPostcode() + " "
+                            + tempSportsVenue.getState();
+                    LatLng tempSportsVenueLatlng = getLocationFromAddress(getContext(), tempSportsVenueAddress);
+
+                    if (tempSportsVenueLatlng != null) {
+                        combineLocationMapping.add(new LocationAddressPair(tempSportsVenueLatlng, tempSportsVenue));
+                    }
+                }
+            }
+
+
+            return combineLocationMapping;
+        }
+
+        // after getting combineLocationMapping of matched sports venues and their latitude and longitude info,
+        // place markers with red color on the map, also the address info can be added with snippet of the marker
+        @Override
+        protected void onPostExecute(ArrayList<LocationAddressPair> combineLocationMapping) {
+            getCurrentLocation();
+
+            if (combineLocationMapping.size() != 0) {
+
+                LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                Location currentUserLocation = new Location("currentUserLocation");
+                currentUserLocation.setLatitude(currentLocation.getLatitude());
+                currentUserLocation.setLongitude(currentLocation.getLongitude());
+
+
+                LatLng closedVenueLatlng = combineLocationMapping.get(0).getLatLngInfo();
+                LocationAddressPair closedLocationAddressPair = combineLocationMapping.get(0);
+                Location tempLocation = new Location("tempLocation");
+                tempLocation.setLatitude(closedVenueLatlng.latitude);
+                tempLocation.setLongitude(closedVenueLatlng.longitude);
+
+                // set the first one as initial minimal distance
+                double minimalDistance = currentUserLocation.distanceTo(tempLocation);
+
+                for (LocationAddressPair tempLocationAddressPair : combineLocationMapping) {
+                    tempLocation = new Location("tempLocation");
+                    tempLocation.setLatitude(tempLocationAddressPair.getLatLngInfo().latitude);
+                    tempLocation.setLongitude(tempLocationAddressPair.getLatLngInfo().longitude);
+
+                    double tempDistance = currentUserLocation.distanceTo(tempLocation);
+
+                    if (tempDistance < minimalDistance){
+                        minimalDistance = tempDistance;
+                        closedVenueLatlng = tempLocationAddressPair.getLatLngInfo();
+                        closedLocationAddressPair = tempLocationAddressPair;
+                    }
+
+                }
+                mapAPI.addMarker(new MarkerOptions().position(closedVenueLatlng)
+                        .title(closedLocationAddressPair.getSportsVenueInfo().getName())
+                        .snippet(closedLocationAddressPair.getSportsVenueInfo().getAddress()
+                                + " " + closedLocationAddressPair.getSportsVenueInfo().getPostcode()));
+
+                mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap).title("You current location")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+                CameraPosition newCameraPosition = new CameraPosition.Builder()
+                        .target(currentLocationMarkerOnMap).zoom(10).build();
+
+
+                mapProgressBar.setVisibility(View.VISIBLE);
+
+                mapAPI.animateCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition));
+                mapProgressBar.setVisibility(View.GONE);
+                Toast toast_success = Toast.makeText(getContext(), "Result found", Toast.LENGTH_SHORT);
+                toast_success.show();
+            }
+
+        }
+    }
 
 
     // put markers of selected sports venues on the google map
