@@ -13,14 +13,13 @@ public class SportsVenuesSelector {
     }
 
 
-
     // create a selected sports venues list based on sport selected
-    public ArrayList<SportsVenue> createSelectedSportsVenueListBySport(String inputSportName){
+    public ArrayList<SportsVenue> createSelectedSportsVenueListBySport(String inputSportName) {
         ArrayList<SportsVenue> selectedSportsVenuList = new ArrayList<>();
         String sportName = inputSportName.toLowerCase();
-        if (! inputSportName.equals("sport")){
-            for (SportsVenue tempSportsVenue : sportsVenueList){
-                if (tempSportsVenue.getBusinessCategory().toLowerCase().contains(sportName)){
+        if (!inputSportName.equals("sport")) {
+            for (SportsVenue tempSportsVenue : sportsVenueList) {
+                if (tempSportsVenue.getBusinessCategory().toLowerCase().contains(sportName)) {
                     selectedSportsVenuList.add(tempSportsVenue);
                 }
             }
@@ -46,21 +45,29 @@ public class SportsVenuesSelector {
     }
 
     // create a selected sports venues list based on  the combination of sport  selected and postcode
-//    public ArrayList<SportsVenue> createSelectedSportsVenueListByCombination(String inputPostcode, String inputSportName){
-//        ArrayList<SportsVenue> selectedSportsVenuList = new ArrayList<>();
-//        String sportName = inputSportName.toLowerCase();
-//        // if spinner has been selected
-//        if (! inputSportName.equals("sport")){
-//            for (SportsVenue tempSportsVenue : sportsVenueList){
-//                if (tempSportsVenue.getBusinessCategory().toLowerCase().contains(sportName)){
-//                    selectedSportsVenuList.add(tempSportsVenue);
-//                }
-//            }
-//        }else if ()
-//
-//
-//
-//
-//    }
+    public ArrayList<SportsVenue> createSelectedSportsVenueListByCombination(String inputPostcode, String inputSportName) {
+        ArrayList<SportsVenue> selectedSportsVenuList = new ArrayList<>();
+        ArrayList<SportsVenue> resultVenueList = new ArrayList<>();
+        String sportName = inputSportName.toLowerCase();
+        // if spinner has been selected
+        if (!inputSportName.equals("sport")) {
+            for (SportsVenue tempSportsVenue : sportsVenueList) {
+                if (tempSportsVenue.getBusinessCategory().toLowerCase().contains(sportName)) {
+                    selectedSportsVenuList.add(tempSportsVenue);
+                }
+            }
+        } else if (selectedSportsVenuList.size() != 0) {
+
+            if (inputPostcode.length() != 0) {
+                for (SportsVenue tempSportsVenue : selectedSportsVenuList) {
+                    if (tempSportsVenue.getPostcode().equals(inputPostcode)) {
+                        resultVenueList.add(tempSportsVenue);
+                    }
+                }
+            }
+        }
+
+        return resultVenueList;
+    }
 
 }
