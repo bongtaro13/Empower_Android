@@ -1,26 +1,31 @@
 package com.example.empower;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.location.Location;
+
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 
 
+import android.os.Looper;
 import android.provider.Settings;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -41,6 +46,7 @@ public class SplashActivity extends AppCompatActivity {
     private TextView tv_version;        // text view for slogan display on the welcome page
     private ImageView logoImage;        // image view for the logo displayed on the welcome page
 
+    private LatLng  latLngResult;
 
 
 
@@ -66,6 +72,8 @@ public class SplashActivity extends AppCompatActivity {
                     @Override
                     public void onPermissionGranted(final PermissionGrantedResponse permissionGrantedResponse) {
 
+                        getCurrentLocation();
+
 
                         //Use the timer to delay the interface for 3 seconds before jumping. The timer has a thread that continuously executes tasks
                         Timer timer = new Timer();
@@ -74,7 +82,11 @@ public class SplashActivity extends AppCompatActivity {
                             public void run() {
                                 //Send intent to realize page jump, the first parameter is the context of the current page
                                 // and the second parameter is the homepage to jump to
-                                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+
+                                Intent intentMain = new Intent(getBaseContext(), MainActivity.class);
+                                String stringLatLngResult = latLngResult.latitude + "," + latLngResult.longitude;
+                                intentMain.putExtra("stringLatLngResult", stringLatLngResult);
+                                startActivity(intentMain);
                                 //Close the current welcome page after the jump
                                 SplashActivity.this.finish();
                             }
@@ -124,6 +136,37 @@ public class SplashActivity extends AppCompatActivity {
                     }
                 })
                 .check();
+
+    }
+
+
+
+    @SuppressLint("MissingPermission")
+    public void getCurrentLocation() {
+        LocationRequest locationRequest = new LocationRequest();
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(3000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+
+        LocationServices.getFusedLocationProviderClient(SplashActivity.this)
+                .requestLocationUpdates(locationRequest, new LocationCallback() {
+                    @Override
+                    public void onLocationResult(LocationResult locationResult) {
+                        super.onLocationResult(locationResult);
+                        LocationServices.getFusedLocationProviderClient(SplashActivity.this)
+                                .removeLocationUpdates(this);
+                        if (locationResult != null && locationResult.getLocations().size() > 0) {
+                            int latestLocationIndex = locationResult.getLocations().size() - 1;
+                            double latitude = locationResult.getLocations().get(latestLocationIndex).getLatitude();
+                            double longitude = locationResult.getLocations().get(latestLocationIndex).getLongitude();
+                            latLngResult = new LatLng(latitude, longitude);
+
+                        }
+                    }
+                }, Looper.getMainLooper());
+
+
 
     }
 

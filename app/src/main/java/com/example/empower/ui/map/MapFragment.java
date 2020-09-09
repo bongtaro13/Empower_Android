@@ -229,26 +229,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
 
 
-
         mapAPI = googleMap;
-
-
 
         MapsInitializer.initialize(getContext());
         googleMap.getUiSettings().setZoomControlsEnabled(true);
 
-
-        // add user current location on map with location info from the MainActivity
-//        LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-//        mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap).title("You current location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))).showInfoWindow();
-
-
-//        LatLng melbourneArea = new LatLng(-37.8409, 144.9464);
-//
-//        CameraPosition cameraPosition = new CameraPosition.Builder()
-//                .target(melbourneArea).zoom(10).build();
-//
-//        mapAPI.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
 
         LocationRequest locationRequest = LocationRequest.create();
