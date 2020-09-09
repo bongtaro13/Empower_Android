@@ -177,6 +177,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                                                       } else {
                                                                           Toast toast_error = Toast.makeText(getContext(), "No result find", Toast.LENGTH_SHORT);
                                                                           toast_error.show();
+                                                                          mapPostcodeEditText.setText("");
                                                                       }
 
                                                                       return true; // consume.
@@ -206,6 +207,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         sportSpinner.setAdapter(sportSpinnerAdapter);
 
 
+
         // add listener to the spinner selected action
         sportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -213,18 +215,35 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 // create new sports venue with selected sport
                 // if spinner is selected with keyword "Sport", nothing happen in this condition.
                 if (!sportSpinnerAdapter.getItem(position).equals("Sport")) {
-                    Toast.makeText(getActivity(), "you selected sport is: " + sportSpinnerAdapter.getItem(position), Toast.LENGTH_SHORT).show();
-                    SportsVenuesSelector sportsVenuesSelector = new SportsVenuesSelector(sportsVenueList);
-                    ArrayList selectedSportsVenueList = sportsVenuesSelector.createSelectedSportsVenueListBySport(sportSpinnerAdapter.getItem(position));
-                    if (selectedSportsVenueList.size() > 0) {
+                    if (mapPostcodeEditText.getText() != null) {
+                        String selectedPostcode = mapPostcodeEditText.getText().toString();
+                        Toast.makeText(getActivity(), "you selected sport is: " + sportSpinnerAdapter.getItem(position), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "you selected suburb is: " + selectedPostcode, Toast.LENGTH_SHORT).show();
+                        SportsVenuesSelector sportsVenuesSelector = new SportsVenuesSelector(sportsVenueList);
+                        ArrayList selectedSportsVenueList = sportsVenuesSelector.createSelectedSportsVenueListByCombination(selectedPostcode, sportSpinnerAdapter.getItem(position));
                         new AsyncAddMarker().execute(selectedSportsVenueList);
                         mapProgressBar.setVisibility(View.VISIBLE);
+                        if (selectedSportsVenueList.size() == 0) {
+                            mapPostcodeEditText.setText("");
+                            Toast toast_error = Toast.makeText(getContext(), "No result find", Toast.LENGTH_SHORT);
+                            toast_error.show();
+                        }
                     } else {
-                        Toast toast_error = Toast.makeText(getContext(), "No result find", Toast.LENGTH_SHORT);
-                        toast_error.show();
+                        Toast.makeText(getActivity(), "you selected sport is: " + sportSpinnerAdapter.getItem(position), Toast.LENGTH_SHORT).show();
+                        SportsVenuesSelector sportsVenuesSelector = new SportsVenuesSelector(sportsVenueList);
+                        ArrayList selectedSportsVenueList = sportsVenuesSelector.createSelectedSportsVenueListBySport(sportSpinnerAdapter.getItem(position));
+                        if (selectedSportsVenueList.size() > 0) {
+                            new AsyncAddMarker().execute(selectedSportsVenueList);
+                            mapProgressBar.setVisibility(View.VISIBLE);
+                        } else {
+                            Toast toast_error = Toast.makeText(getContext(), "No result find", Toast.LENGTH_SHORT);
+                            toast_error.show();
+                        }
                     }
-                } else {
 
+                }else {
+                    Toast toast_error = Toast.makeText(getContext(), "No sport selected", Toast.LENGTH_SHORT);
+                    toast_error.show();
                 }
             }
 
@@ -306,11 +325,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-
-
-
-
-    //put markers
 
 
 

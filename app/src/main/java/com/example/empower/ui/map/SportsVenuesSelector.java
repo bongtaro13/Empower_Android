@@ -56,7 +56,9 @@ public class SportsVenuesSelector {
                     selectedSportsVenuList.add(tempSportsVenue);
                 }
             }
-        } else if (selectedSportsVenuList.size() != 0) {
+        }
+
+        if (selectedSportsVenuList.size() != 0) {
 
             if (inputPostcode.length() != 0) {
                 for (SportsVenue tempSportsVenue : selectedSportsVenuList) {
@@ -64,10 +66,12 @@ public class SportsVenuesSelector {
                         resultVenueList.add(tempSportsVenue);
                     }
                 }
+                return resultVenueList;
             }
-        }
 
-        return resultVenueList;
+        }
+        return selectedSportsVenuList;
+
     }
 
 }
