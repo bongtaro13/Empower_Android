@@ -1,7 +1,6 @@
 package com.example.empower.ui.map;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
@@ -12,7 +11,6 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,10 +41,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -118,12 +114,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                              ViewGroup container, Bundle savedInstanceState) {
 
 
+        MainActivity mainActivity = (MainActivity) getActivity();
+        currentLocation = new Location("current location");
+        currentLocation.setLatitude(mainActivity.getCurrentLatLngFromMain().latitude);
+        currentLocation.setLongitude(mainActivity.getCurrentLatLngFromMain().longitude);
+
+
+
         root = inflater.inflate(R.layout.fragment_map, container, false);
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapAPI);
 
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-
 
         // get SharedPreferences value from main activity, check if the guide picture is need or not
         SharedPreferences sp = Objects.requireNonNull(getActivity()).getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
@@ -138,7 +140,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
 
 
-        // create sports venue list from csv file
+
         //createSportsVenueList();
         getSportsListFromFireStore();
 
@@ -223,21 +225,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
     // default method for map is created at the beginning
-    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+
+
         mapAPI = googleMap;
+
+
 
         MapsInitializer.initialize(getContext());
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-
-        currentLocation = new Location("default location");
-//            currentLocation.setLongitude(145.13170297689055);
-//            currentLocation.setLatitude(-37.91341883508321);
-
-        currentLocation.setLongitude(147.13170297689055);
-        currentLocation.setLatitude(-35.91341883508321);
 
 
         // add user current location on map with location info from the MainActivity
@@ -287,8 +285,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         getCurrentLocation();
         // add user current location on map with location info from the MainActivity
-        currentLocation.getLatitude();
-        currentLocation.getLongitude();
+
+
+
         LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap)
                 .title("You current location")

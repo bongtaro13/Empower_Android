@@ -4,17 +4,22 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 
 
 import android.provider.Settings;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -37,6 +42,8 @@ public class SplashActivity extends AppCompatActivity {
     private ImageView logoImage;        // image view for the logo displayed on the welcome page
 
 
+
+
     // initialize the welcome page when created
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +56,8 @@ public class SplashActivity extends AppCompatActivity {
         // add two visual components to this activity
         tv_version = findViewById(R.id.tv_version);
         logoImage = findViewById(R.id.splash_logo_image);
+
+
 
 
         Dexter.withContext(this)
@@ -117,6 +126,11 @@ public class SplashActivity extends AppCompatActivity {
                 .check();
 
     }
+
+
+
+
+
 
 
 
