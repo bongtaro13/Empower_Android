@@ -24,12 +24,15 @@
 //        ArrayList<LocationAddressPair> combineLocationMapping = new ArrayList<>();
 //
 //        for (SportsVenue tempSportsVenue: sportsVenueArrayList){
-//            String
+//
+//            String tempSportsVenueAddress = tempSportsVenue.getAddress() + " "
+//                    + tempSportsVenue.getPostcode() + " "
+//                    + tempSportsVenue.getState();
+//            LatLng tempSportsVenueLatlng = getLocationFromAddress(,tempSportsVenueAddress);
 //        }
 //
 //
 //    }
-//
 //
 //
 //

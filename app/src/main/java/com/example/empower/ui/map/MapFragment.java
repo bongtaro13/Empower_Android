@@ -12,15 +12,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -85,7 +88,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     // visual component of the map fragment, include search input, search box, and a progressBar to display progress
     private EditText mapPostcodeEditText;
-    private Button mapSearchButton;
+    private Button searchNearbyButton;
     private ProgressBar mapProgressBar;
 
     // spinner and related data array
@@ -120,7 +123,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         currentLocation.setLongitude(mainActivity.getCurrentLatLngFromMain().longitude);
 
 
-
         root = inflater.inflate(R.layout.fragment_map, container, false);
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapAPI);
 
@@ -140,41 +142,55 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
 
 
-
         //createSportsVenueList();
         getSportsListFromFireStore();
 
 
         mapPostcodeEditText = root.findViewById(R.id.map_postcode_editText);
-        mapSearchButton = root.findViewById(R.id.map_search_button);
+        searchNearbyButton = root.findViewById(R.id.map_search_button);
         mapProgressBar = root.findViewById(R.id.map_search_progressBar);
+
+        mapPostcodeEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+                                                          @Override
+                                                          public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                                                              if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                                                                      actionId == EditorInfo.IME_ACTION_DONE ||
+                                                                      event != null &&
+                                                                              event.getAction() == KeyEvent.ACTION_DOWN &&
+                                                                              event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                                                                  if (event == null || !event.isShiftPressed()) {
+                                                                      // the user is done typing.
+                                                                      final String searchPostcode = mapPostcodeEditText.getText().toString();
+                                                                      String txt = "Searching sports venues for: " + searchPostcode;
+                                                                      Log.d(TAG, txt);
+
+
+                                                                      // remove spaces in the postcode input
+                                                                      String searchPostcodeNoSpaces = searchPostcode.replace(" ", "");
+                                                                      ArrayList<SportsVenue> selectedSportsVenueList = new ArrayList<>();
+                                                                      SportsVenuesSelector sportsVenuesSelector = new SportsVenuesSelector(sportsVenueList);
+                                                                      selectedSportsVenueList = sportsVenuesSelector.createSelectedSportsVenueListByPostcode(searchPostcodeNoSpaces);
+
+                                                                      if (selectedSportsVenueList.size() > 0) {
+                                                                          new AsyncAddMarker().execute(selectedSportsVenueList);
+                                                                          mapProgressBar.setVisibility(View.VISIBLE);
+                                                                      } else {
+                                                                          Toast toast_error = Toast.makeText(getContext(), "No result find", Toast.LENGTH_SHORT);
+                                                                          toast_error.show();
+                                                                      }
+
+                                                                      return true; // consume.
+                                                                  }
+                                                              }
+                                                              return false; // pass on to other listeners.
+                                                          }
+                                                      }
+        );
 
 
         // add listener for search button, if clicked, use input postcode to find the matched sports venus
-        mapSearchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String searchPostcode = mapPostcodeEditText.getText().toString();
-                String txt = "Searching sports venues for: " + searchPostcode;
-                Log.d(TAG, txt);
+        //searchNearbyButton.setOnClickListener();
 
-
-                // remove spaces in the postcode input
-                String searchPostcodeNoSpaces = searchPostcode.replace(" ", "");
-                ArrayList<SportsVenue> selectedSportsVenueList = new ArrayList<>();
-                SportsVenuesSelector sportsVenuesSelector = new SportsVenuesSelector(sportsVenueList);
-                selectedSportsVenueList = sportsVenuesSelector.createSelectedSportsVenueListByPostcode(searchPostcodeNoSpaces);
-
-                if (selectedSportsVenueList.size() > 0) {
-                    new AsyncAddMarker().execute(selectedSportsVenueList);
-                    mapProgressBar.setVisibility(View.VISIBLE);
-                } else {
-                    Toast toast_error = Toast.makeText(getContext(), "No result find", Toast.LENGTH_SHORT);
-                    toast_error.show();
-                }
-
-            }
-        });
 
         // initialize the spinner of different sport
         sportSpinner = root.findViewById(R.id.map_sports_spinner);
@@ -233,7 +249,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         MapsInitializer.initialize(getContext());
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-
+        googleMap.getUiSettings().setCompassEnabled(true);
 
 
         LocationRequest locationRequest = LocationRequest.create();
@@ -272,7 +288,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         // add user current location on map with location info from the MainActivity
 
 
-
         LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap)
                 .title("You current location")
@@ -292,10 +307,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    public void FindNearVenue() {
 
 
-    }
+
+    //put markers
+
 
 
     // put markers of selected sports venues on the google map
