@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -176,6 +177,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                                                                           mapProgressBar.setVisibility(View.VISIBLE);
                                                                       } else {
                                                                           Toast toast_error = Toast.makeText(getContext(), "No result find", Toast.LENGTH_SHORT);
+                                                                          toast_error.setGravity(Gravity.TOP|Gravity.CENTER, 0, 400);
                                                                           toast_error.show();
                                                                           mapPostcodeEditText.setText("");
                                                                       }
@@ -217,16 +219,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 if (!sportSpinnerAdapter.getItem(position).equals("Sport")) {
                     if (mapPostcodeEditText.getText() != null) {
                         String selectedPostcode = mapPostcodeEditText.getText().toString();
-                        Toast.makeText(getActivity(), "you selected sport is: " + sportSpinnerAdapter.getItem(position), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getActivity(), "you selected suburb is: " + selectedPostcode, Toast.LENGTH_SHORT).show();
+                        Toast toast_sport = Toast.makeText(getActivity(), "you selected sport is: " + sportSpinnerAdapter.getItem(position), Toast.LENGTH_SHORT);
+                        toast_sport.setGravity(Gravity.TOP|Gravity.CENTER, 0, 400);
+                        toast_sport.show();
+                        Toast toast_postcode = Toast.makeText(getActivity(), "you selected suburb is: " + selectedPostcode, Toast.LENGTH_SHORT);
+                        toast_postcode.setGravity(Gravity.TOP|Gravity.CENTER, 0, 400);
+                        toast_postcode.show();
+
                         SportsVenuesSelector sportsVenuesSelector = new SportsVenuesSelector(sportsVenueList);
                         ArrayList selectedSportsVenueList = sportsVenuesSelector.createSelectedSportsVenueListByCombination(selectedPostcode, sportSpinnerAdapter.getItem(position));
-                        new AsyncAddMarker().execute(selectedSportsVenueList);
-                        mapProgressBar.setVisibility(View.VISIBLE);
-                        if (selectedSportsVenueList.size() == 0) {
-                            mapPostcodeEditText.setText("");
+
+                        if (selectedSportsVenueList.size() > 0) {
+                            new AsyncAddMarker().execute(selectedSportsVenueList);
+                            mapProgressBar.setVisibility(View.VISIBLE);
+
+                        }else {
+
                             Toast toast_error = Toast.makeText(getContext(), "No result find", Toast.LENGTH_SHORT);
+                            toast_error.setGravity(Gravity.TOP|Gravity.CENTER, 0, 400);
                             toast_error.show();
+                            mapPostcodeEditText.setText("");
                         }
                     } else {
                         Toast.makeText(getActivity(), "you selected sport is: " + sportSpinnerAdapter.getItem(position), Toast.LENGTH_SHORT).show();
@@ -237,20 +249,28 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             mapProgressBar.setVisibility(View.VISIBLE);
                         } else {
                             Toast toast_error = Toast.makeText(getContext(), "No result find", Toast.LENGTH_SHORT);
+                            toast_error.setGravity(Gravity.TOP|Gravity.CENTER, 0, 400);
                             toast_error.show();
                         }
                     }
 
                 }else {
-                    Toast toast_error = Toast.makeText(getContext(), "No sport selected", Toast.LENGTH_SHORT);
-                    toast_error.show();
+
+                    Toast noSportSelectedToast = Toast.makeText(getContext(), "No sport selected",Toast.LENGTH_SHORT );
+                    noSportSelectedToast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 400);
+                    noSportSelectedToast.show();
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // ask user to select the sport
-                Toast.makeText(getActivity(), "please select a sport you want", Toast.LENGTH_SHORT).show();
+                Toast nothingSelectedToast = new Toast(getActivity());
+                nothingSelectedToast.setGravity(Gravity.TOP|Gravity.CENTER, 0, 400);
+                nothingSelectedToast.setText("please select a sport you want");
+                nothingSelectedToast.setDuration(Toast.LENGTH_SHORT);
+                nothingSelectedToast.setView(root);
+                nothingSelectedToast.show();
             }
         });
 
@@ -339,16 +359,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             ArrayList<LocationAddressPair> combineLocationMapping = new ArrayList<>();
 
-            // Use index number to mapping of real address and latitude-longitude address
-            for (SportsVenue tempSportsVenue : sportsVenueArrayList) {
+            if (sportsVenueArrayList.size() > 0) {
+                // Use index number to mapping of real address and latitude-longitude address
+                for (SportsVenue tempSportsVenue : sportsVenueArrayList) {
 
-                String tempSportsVenueAddress = tempSportsVenue.getAddress() + " "
-                        + tempSportsVenue.getPostcode() + " "
-                        + tempSportsVenue.getState();
-                LatLng tempSportsVenueLatlng = getLocationFromAddress(getContext(), tempSportsVenueAddress);
+                    String tempSportsVenueAddress = tempSportsVenue.getAddress() + " "
+                            + tempSportsVenue.getPostcode() + " "
+                            + tempSportsVenue.getState();
+                    LatLng tempSportsVenueLatlng = getLocationFromAddress(getContext(), tempSportsVenueAddress);
 
-                if (tempSportsVenueLatlng != null) {
-                    combineLocationMapping.add(new LocationAddressPair(tempSportsVenueLatlng, tempSportsVenue));
+                    if (tempSportsVenueLatlng != null) {
+                        combineLocationMapping.add(new LocationAddressPair(tempSportsVenueLatlng, tempSportsVenue));
+                    }
                 }
             }
 
