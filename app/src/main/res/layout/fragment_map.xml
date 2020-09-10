@@ -21,7 +21,6 @@
         tools:ignore="MissingConstraints" />
 
 
-
     <fragment
         android:id="@+id/mapAPI"
         android:name="com.google.android.gms.maps.SupportMapFragment"

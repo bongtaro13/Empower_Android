@@ -380,7 +380,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 }
             }
 
-
             return combineLocationMapping;
         }
 
@@ -389,6 +388,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         @Override
         protected void onPostExecute(ArrayList<LocationAddressPair> combineLocationMapping) {
             getCurrentLocation();
+            mapAPI.clear();
 
             if (combineLocationMapping.size() != 0) {
 
