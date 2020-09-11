@@ -49,7 +49,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
+import com.google.android.gms.maps.StreetViewPanorama;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.SupportStreetViewPanoramaFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -74,14 +77,19 @@ import java.util.Objects;
  * function: Main aim of this fragment is to displayed disability supported sports venues on the map
  */
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback {
 
+    // root view of the map fragment
+    private View root;
 
     private MapViewModel mapViewModel;
     private GoogleMap mapAPI;
     private SupportMapFragment mapFragment;
 
-    private View root;
+    // street view in application
+    private SupportStreetViewPanoramaFragment streetViewPanoramaFragment;
+
+
 
     // arrayList for all all sports venus read from teh csv data file
     private ArrayList<SportsVenue> sportsVenueList = new ArrayList<>();
@@ -129,6 +137,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
+
+        //street view in map page
+//        streetViewPanoramaFragment = (SupportStreetViewPanoramaFragment) getChildFragmentManager().findFragmentById(R.id.streetviewpanorama);
+//        assert streetViewPanoramaFragment != null;
+//        streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
+
+
+
 
         // get SharedPreferences value from main activity, check if the guide picture is need or not
         SharedPreferences sp = Objects.requireNonNull(getActivity()).getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
@@ -349,9 +365,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(currentLocationMarkerOnMap).zoom(12).build();
-//
+
         mapAPI.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
+
+    }
+
+    @Override
+    public void onStreetViewPanoramaReady(StreetViewPanorama streetViewPanorama) {
+        streetViewPanorama.setPosition(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
 
     }
 
