@@ -4,12 +4,13 @@ public class News {
     private String imageUrl;
     private String title;
     private String newsUrl;
+    private String newsDate;
 
-
-    public News(String imageUrl, String title, String newsUrl) {
+    public News(String imageUrl, String title, String newsUrl, String newsDate) {
         this.imageUrl = imageUrl;
         this.title = title;
         this.newsUrl = newsUrl;
+        this.newsDate = newsDate;
     }
 
     public String getImageUrl() {
@@ -34,5 +35,13 @@ public class News {
 
     public void setNewsUrl(String newsUrl) {
         this.newsUrl = newsUrl;
+    }
+
+    public String getNewsDate() {
+        return newsDate;
+    }
+
+    public void setNewsDate(String newsDate) {
+        this.newsDate = newsDate;
     }
 }

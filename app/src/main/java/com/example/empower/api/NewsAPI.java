@@ -42,8 +42,9 @@ public class NewsAPI {
                             String newsTitle = jsonMetaTagObject.getString("title");
                             String newsImageUrl = jsonMetaTagObject.getString("og:image");
                             String newsUrl = jsonMetaTagObject.getString("og:url");
+                            String newsDate = jsonMetaTagObject.getString("article:published_time");
 
-                            News currentNews = new News(newsImageUrl,newsTitle,newsUrl);
+                            News currentNews = new News(newsImageUrl,newsTitle,newsUrl,newsDate);
                             newsResult.add(currentNews);
 
 

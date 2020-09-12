@@ -63,6 +63,7 @@ public class MyNewsAdapter extends RecyclerView.Adapter<MyNewsAdapter.MyViewHold
 
 
         holder.title.setText(news.getTitle());
+        holder.newsDate.setText("Release date: " + news.getNewsDate().substring(0,10));
 
         //item click listener
         if (onItemClickListener != null){
@@ -102,12 +103,14 @@ public class MyNewsAdapter extends RecyclerView.Adapter<MyNewsAdapter.MyViewHold
         ImageView image;
         TextView title;
         String newsLink;
+        TextView newsDate;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             newsItem = itemView.findViewById(R.id.news_recyclerView);
             image = itemView.findViewById(R.id.news_imageView);
             title = itemView.findViewById(R.id.news_item_title);
+            newsDate = itemView.findViewById(R.id.news_item_date);
         }
     }
 }

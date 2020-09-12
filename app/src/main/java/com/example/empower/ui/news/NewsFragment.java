@@ -96,7 +96,7 @@ public class NewsFragment extends Fragment {
         newsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String searchString = "disability sport";
+                String searchString = "Paralympic";
                 String txt = "Searching for : " + searchString;
                 Log.d(TAG, txt);
                 // remove spaces
@@ -236,7 +236,7 @@ public class NewsFragment extends Fragment {
 
 
             //bind new list with view adapter
-            MyNewsAdapter myNewsAdapter = new MyNewsAdapter(getActivity().getApplicationContext(), newsList);
+            MyNewsAdapter myNewsAdapter = new MyNewsAdapter(Objects.requireNonNull(getActivity()).getApplicationContext(), newsList);
 
 
             RecyclerView recyclerView = root.findViewById(R.id.news_recyclerView);
