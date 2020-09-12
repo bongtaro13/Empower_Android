@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -26,10 +25,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.empower.MainActivity;
 import com.example.empower.R;
-import com.example.empower.SplashActivity;
 import com.example.empower.api.NewsAPI;
 import com.example.empower.entity.News;
-import com.example.empower.ui.dialog.GuideDialogMapFragment;
 import com.example.empower.ui.dialog.GuideDialogNewsFragment;
 
 import java.io.BufferedReader;
@@ -54,8 +51,8 @@ public class NewsFragment extends Fragment {
     private View root;
 
     // visual component on the news page
-    private EditText newsEditText;
-    private Button newsSearchButton;
+    private Button newsButton;
+    private Button podcastButton;
     private ProgressBar newsProgressBar;
 
     private static final String TAG = "searchApp";
@@ -74,8 +71,8 @@ public class NewsFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_news, container, false);
 
         // initialize three visual components
-        newsEditText = root.findViewById(R.id.news_keyword_editText);
-        newsSearchButton = root.findViewById(R.id.news_searchButton);
+        newsButton = root.findViewById(R.id.news_Button);
+        podcastButton = root.findViewById(R.id.podcast_Button);
         newsProgressBar = root.findViewById(R.id.news_search_progressbar);
 
         // get SharedPreferences value from main activity, check if the guide picture is need or not
@@ -96,23 +93,21 @@ public class NewsFragment extends Fragment {
         searchNewsWithKeyword("disability sport");
 
         // listen the search button on the page, if button has been clicked, get info from the input and search the related news
-        newsSearchButton.setOnClickListener(new View.OnClickListener() {
+        newsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String searchString = newsEditText.getText().toString();
+                String searchString = "disability sport";
                 String txt = "Searching for : " + searchString;
                 Log.d(TAG, txt);
-
-                // hide keyboard
-                InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
                 // remove spaces
                 String searchStringNoSpaces = searchString.replace(" ", "+");
 
                 searchNewsWithKeyword(searchStringNoSpaces);
             }
         });
+
+
+
 
 
         return root;
