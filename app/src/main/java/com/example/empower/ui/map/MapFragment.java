@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -33,8 +34,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.empower.MainActivity;
 import com.example.empower.R;
-import com.example.empower.api.FetchURL;
-import com.example.empower.api.TaskLoadedCallback;
+import com.example.empower.api.DataParser;
 import com.example.empower.entity.LocationAddressPair;
 import com.example.empower.entity.SportsVenue;
 import com.example.empower.ui.dialog.GuideDialogMapFragment;
@@ -69,8 +69,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -81,7 +89,7 @@ import java.util.Objects;
  * function: Main aim of this fragment is to displayed disability supported sports venues on the map
  */
 
-public class MapFragment extends Fragment implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback, TaskLoadedCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback{
 
     // root view of the map fragment
     private View root;
@@ -94,6 +102,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     // router between two locations
     MarkerOptions currentLocationMarker, destinationMarker;
     private Polyline currentPolyLine;
+    private String url;
+    private String directionMode;
 
     // street view in application
     private SupportStreetViewPanoramaFragment streetViewPanoramaFragment;
@@ -151,14 +161,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 //        streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
 
 
+
         // router between two locations display
         currentLocationMarker = new MarkerOptions().position(
                 new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude()));
 
-        destinationMarker = new MarkerOptions().position(new LatLng(-35.876859, 147.044946)).title("destinationLocation");
+        destinationMarker = new MarkerOptions().position(new LatLng(-37.799446, 144.919102)).title("Destination Location");
 
-        String url = getUrl(currentLocationMarker.getPosition(), destinationMarker.getPosition(), "driving");
-        new FetchURL(getContext()).execute(url, "driving");
+        url = getUrl(currentLocationMarker.getPosition(), destinationMarker.getPosition(), "driving");
 
 
 
@@ -332,7 +342,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.getUiSettings().setCompassEnabled(true);
 
+        // add router
+        new FetchURL().execute(url, "walking");
         mapAPI.addMarker(destinationMarker);
+
 
 
         LocationRequest locationRequest = LocationRequest.create();
@@ -653,6 +666,103 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
     }
 
+
+
+    public class FetchURL extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... strings) {
+            // For storing data from web service
+            String data = "";
+            directionMode = strings[1];
+            try {
+                // Fetching the data from web service
+                data = downloadUrl(strings[0]);
+                Log.d("mylog", "Background task data " + data.toString());
+            } catch (Exception e) {
+                Log.d("Background Task", e.toString());
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            // Invokes the thread for parsing the JSON data
+            new PointsParser().execute(s);
+        }
+    }
+
+
+    public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
+
+        // Parsing the data in non-ui thread
+        @Override
+        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
+
+            JSONObject jObject;
+            List<List<HashMap<String, String>>> routes = null;
+
+            try {
+                jObject = new JSONObject(jsonData[0]);
+                Log.d("mylog", jsonData[0].toString());
+                DataParser parser = new DataParser();
+                Log.d("mylog", parser.toString());
+
+                // Starts parsing data
+                routes = parser.parse(jObject);
+                Log.d("mylog", "Executing routes");
+                Log.d("mylog", routes.toString());
+
+            } catch (Exception e) {
+                Log.d("mylog", e.toString());
+                e.printStackTrace();
+            }
+            return routes;
+        }
+
+        // Executes in UI thread, after the parsing process
+        @Override
+        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+            ArrayList<LatLng> points;
+            PolylineOptions lineOptions = null;
+            // Traversing through all the routes
+            for (int i = 0; i < result.size(); i++) {
+                points = new ArrayList<>();
+                lineOptions = new PolylineOptions();
+                // Fetching i-th route
+                List<HashMap<String, String>> path = result.get(i);
+                // Fetching all the points in i-th route
+                for (int j = 0; j < path.size(); j++) {
+                    HashMap<String, String> point = path.get(j);
+                    double lat = Double.parseDouble(point.get("lat"));
+                    double lng = Double.parseDouble(point.get("lng"));
+                    LatLng position = new LatLng(lat, lng);
+                    points.add(position);
+                }
+                // Adding all the points in the route to LineOptions
+                lineOptions.addAll(points);
+                if (directionMode.equalsIgnoreCase("walking")) {
+                    lineOptions.width(10);
+                    lineOptions.color(Color.MAGENTA);
+                } else {
+                    lineOptions.width(20);
+                    lineOptions.color(Color.BLUE);
+                }
+                Log.d("mylog", "onPostExecute lineoptions decoded");
+            }
+
+            // Drawing polyline in the Google Map for the i-th route
+            if (lineOptions != null) {
+                mapAPI.addPolyline(lineOptions);
+
+
+            } else {
+                Log.d("mylog", "without Polylines drawn");
+            }
+        }
+    }
+
+
     private String getUrl(LatLng origin, LatLng dest, String directionMode) {
         // Origin of route
         String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
@@ -669,13 +779,33 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         return url;
     }
 
-    @Override
-    public void onTaskDone(Object... values) {
-        if (currentPolyLine != null){
-            currentPolyLine.remove();
+    private String downloadUrl(String strUrl) throws IOException {
+        String data = "";
+        InputStream iStream = null;
+        HttpURLConnection urlConnection = null;
+        try {
+            URL url = new URL(strUrl);
+            // Creating an http connection to communicate with url
+            urlConnection = (HttpURLConnection) url.openConnection();
+            // Connecting to url
+            urlConnection.connect();
+            // Reading data from url
+            iStream = urlConnection.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
+            StringBuffer sb = new StringBuffer();
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+            data = sb.toString();
+            Log.d("mylog", "Downloaded URL: " + data.toString());
+            br.close();
+        } catch (Exception e) {
+            Log.d("mylog", "Exception downloading URL: " + e.toString());
+        } finally {
+            iStream.close();
+            urlConnection.disconnect();
         }
-        currentPolyLine = mapAPI.addPolyline((PolylineOptions) values[0]);
+        return data;
     }
-
-
 }
