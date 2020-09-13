@@ -33,6 +33,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.empower.MainActivity;
 import com.example.empower.R;
+import com.example.empower.api.FetchURL;
+import com.example.empower.api.TaskLoadedCallback;
 import com.example.empower.entity.LocationAddressPair;
 import com.example.empower.entity.SportsVenue;
 import com.example.empower.ui.dialog.GuideDialogMapFragment;
@@ -57,6 +59,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -77,7 +81,7 @@ import java.util.Objects;
  * function: Main aim of this fragment is to displayed disability supported sports venues on the map
  */
 
-public class MapFragment extends Fragment implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback, TaskLoadedCallback {
 
     // root view of the map fragment
     private View root;
@@ -86,10 +90,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     private GoogleMap mapAPI;
     private SupportMapFragment mapFragment;
 
+
+    // router between two locations
+    MarkerOptions currentLocationMarker, destinationMarker;
+    private Polyline currentPolyLine;
+
     // street view in application
     private SupportStreetViewPanoramaFragment streetViewPanoramaFragment;
-
-
 
     // arrayList for all all sports venus read from teh csv data file
     private ArrayList<SportsVenue> sportsVenueList = new ArrayList<>();
@@ -138,11 +145,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
-        //street view in map page
+        // street view in map page
 //        streetViewPanoramaFragment = (SupportStreetViewPanoramaFragment) getChildFragmentManager().findFragmentById(R.id.streetviewpanorama);
 //        assert streetViewPanoramaFragment != null;
 //        streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
 
+
+        // router between two locations display
+        currentLocationMarker = new MarkerOptions().position(
+                new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude()));
+
+        destinationMarker = new MarkerOptions().position(new LatLng(-35.876859, 147.044946)).title("destinationLocation");
+
+        String url = getUrl(currentLocationMarker.getPosition(), destinationMarker.getPosition(), "driving");
+        new FetchURL(getContext()).execute(url, "driving");
 
 
 
@@ -316,6 +332,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.getUiSettings().setCompassEnabled(true);
 
+        mapAPI.addMarker(destinationMarker);
+
 
         LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setInterval(10000);
@@ -376,6 +394,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         streetViewPanorama.setPosition(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
 
     }
+
+
 
 
     private class AsyncFindVenueNearby extends AsyncTask<ArrayList<SportsVenue>, Void, ArrayList<LocationAddressPair>> {
@@ -592,7 +612,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                 });
     }
 
-
+    // get current location from locationRequest, if permission is right, update user current location
     public void getCurrentLocation() {
         LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(10000);
@@ -631,6 +651,30 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                 }, Looper.getMainLooper());
 
 
+    }
+
+    private String getUrl(LatLng origin, LatLng dest, String directionMode) {
+        // Origin of route
+        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
+        // Destination of route
+        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
+        // Mode
+        String mode = "mode=" + directionMode;
+        // Building the parameters to the web service
+        String parameters = str_origin + "&" + str_dest + "&" + mode;
+        // Output format
+        String output = "json";
+        // Building the url to the web service
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + getString(R.string.map_key);
+        return url;
+    }
+
+    @Override
+    public void onTaskDone(Object... values) {
+        if (currentPolyLine != null){
+            currentPolyLine.remove();
+        }
+        currentPolyLine = mapAPI.addPolyline((PolylineOptions) values[0]);
     }
 
 

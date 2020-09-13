@@ -13,6 +13,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.empower.api.TaskLoadedCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -25,7 +26,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
  * also with location manager to get user current location and used it in the map fragment
  */
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TaskLoadedCallback {
 
 
     private LatLng currentLatLng;
@@ -38,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
     // main activity test added
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
 
 
 
@@ -86,6 +85,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onTaskDone(Object... values) {
+
+    }
 }
 
 
