@@ -100,6 +100,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
 
     // router between two locations
+    // https://maps.googleapis.com/maps/api/directions/json?origin=-37.9134167,145.1316983&destination=-35.876859,147.044946&mode=driving&key=AIzaSyBenJ8IiMcO7vlKFYcZXb9WhKWuTQEJeo4
     MarkerOptions currentLocationMarker, destinationMarker;
     private Polyline currentPolyLine;
     private String url;
@@ -168,7 +169,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
         destinationMarker = new MarkerOptions().position(new LatLng(-37.799446, 144.919102)).title("Destination Location");
 
-        url = getUrl(currentLocationMarker.getPosition(), destinationMarker.getPosition(), "driving");
+        url = getUrl(currentLocationMarker.getPosition(), destinationMarker.getPosition(), "transit");
 
 
 
@@ -343,7 +344,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         googleMap.getUiSettings().setCompassEnabled(true);
 
         // add router
-        new FetchURL().execute(url, "walking");
+        new FetchURL().execute(url, "transit");
         mapAPI.addMarker(destinationMarker);
 
 
