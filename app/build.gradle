@@ -57,8 +57,12 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-firestore:21.6.0'
 
-    //permission check
+    //permission check package
     implementation 'com.karumi:dexter:6.2.1'
+
+    // interactive info window
+    implementation 'com.appolica:interactive-info-window:v1.0.6'
+
 
 
 

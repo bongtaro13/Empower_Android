@@ -34,6 +34,7 @@
     </fragment>
 
 
+
     <ProgressBar
         android:id="@+id/map_search_progressBar"
         style="?android:attr/progressBarStyle"

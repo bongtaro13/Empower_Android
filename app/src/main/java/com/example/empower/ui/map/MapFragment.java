@@ -59,6 +59,7 @@ import com.google.android.gms.maps.SupportStreetViewPanoramaFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -340,13 +341,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
         mapAPI = googleMap;
 
+
         MapsInitializer.initialize(getContext());
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.getUiSettings().setCompassEnabled(true);
-
-        // add router
-        new FetchURL().execute(url, "transit");
-        mapAPI.addMarker(destinationMarker);
 
 
 
@@ -387,10 +385,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
 
         LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap)
+        MarkerOptions currentLocationMarker = new MarkerOptions().position(currentLocationMarkerOnMap)
                 .title("You current location")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)))
-                .showInfoWindow();
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+
+        mapAPI.addMarker(currentLocationMarker).showInfoWindow();
 
 
         // set the camera position of application when oping the map on ready
@@ -542,6 +541,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
             if (combineLocationMapping.size() != 0) {
                 mapAPI.clear();
+
+                mapAPI.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+                        url = getUrl(currentLocationMarker.getPosition(), marker.getPosition(), "transit");
+                        // add router
+                        new FetchURL().execute(url, "transit");
+                        Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
                 for (LocationAddressPair tempLocationAddressPair : combineLocationMapping) {
 
                     LatLng tempSportsVenueLocation = tempLocationAddressPair.getLatLngInfo();
@@ -811,4 +822,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         }
         return data;
     }
+
 }
