@@ -7,13 +7,17 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,6 +39,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,8 +47,7 @@ import java.util.Objects;
 /**
  * class name: NewsFragment.java
  * function: main aim of this class is to build and list news with attaching with MainActivity class
- *
- * */
+ */
 
 public class NewsFragment extends Fragment {
 
@@ -51,7 +55,11 @@ public class NewsFragment extends Fragment {
     private View root;
 
     // visual component on the news page
-    private Button newsButton;
+    private Spinner newsSpinner;
+    private List<String> newsSpinnerDataList;
+    private ArrayAdapter<String> newsSpinnerAdapter;
+
+
     private Button podcastButton;
     private ProgressBar newsProgressBar;
 
@@ -71,7 +79,7 @@ public class NewsFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_news, container, false);
 
         // initialize three visual components
-        newsButton = root.findViewById(R.id.news_Button);
+        newsSpinner = root.findViewById(R.id.news_Spinner);
         podcastButton = root.findViewById(R.id.podcast_Button);
         newsProgressBar = root.findViewById(R.id.news_search_progressbar);
 
@@ -89,25 +97,36 @@ public class NewsFragment extends Fragment {
             editor.apply();
         }
 
-        // search news with default keyword "disability sport"
-        searchNewsWithKeyword("disability sport");
 
-        // listen the search button on the page, if button has been clicked, get info from the input and search the related news
-        newsButton.setOnClickListener(new View.OnClickListener() {
+        // listen the news spinner on the page, if button has been clicked, get info from the input and search the related news
+        newsSpinnerDataList = new ArrayList<>();
+        newsSpinnerDataList.add("Paralympic");
+        newsSpinnerDataList.add("Football");
+        newsSpinnerDataList.add("Basketball");
+        newsSpinnerDataList.add("Cricket");
+
+        newsSpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, newsSpinnerDataList);
+        newsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        newsSpinner.setAdapter(newsSpinnerAdapter);
+
+        // add listener to the spinner selected action
+        newsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                String searchString = "Paralympic";
-                String txt = "Searching for : " + searchString;
-                Log.d(TAG, txt);
-                // remove spaces
-                String searchStringNoSpaces = searchString.replace(" ", "+");
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                searchNewsWithKeyword(searchStringNoSpaces);
+                Toast toast_news_sport = Toast.makeText(getActivity(), "you selected sport is: " + newsSpinnerAdapter.getItem(position), Toast.LENGTH_SHORT);
+                toast_news_sport.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
+                toast_news_sport.show();
+                String searchString = "disability+" + newsSpinnerAdapter.getItem(position);
+                searchNewsWithKeyword(searchString);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
-
-
-
 
 
         return root;
@@ -261,8 +280,6 @@ public class NewsFragment extends Fragment {
                     Toast.makeText(getActivity(), "Clicked news: " + position + 1, Toast.LENGTH_SHORT).show();
                 }
             });
-
-
 
 
             recyclerView.setLayoutManager(layoutManager);

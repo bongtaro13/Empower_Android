@@ -1,6 +1,7 @@
 package com.example.empower.ui.map;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
@@ -100,7 +101,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
 
     // router between two locations
-    // https://maps.googleapis.com/maps/api/directions/json?origin=-37.9134167,145.1316983&destination=-35.876859,147.044946&mode=driving&key=AIzaSyBenJ8IiMcO7vlKFYcZXb9WhKWuTQEJeo4
+    // https://maps.googleapis.com/maps/api/directions/json?origin=-37.9134167,145.1316983&destination=-35.876859,147.044946&mode=transit&key=AIzaSyBenJ8IiMcO7vlKFYcZXb9WhKWuTQEJeo4
     MarkerOptions currentLocationMarker, destinationMarker;
     private Polyline currentPolyLine;
     private String url;
@@ -412,6 +413,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
 
 
+    @SuppressLint("StaticFieldLeak")
     private class AsyncFindVenueNearby extends AsyncTask<ArrayList<SportsVenue>, Void, ArrayList<LocationAddressPair>> {
 
         @Override

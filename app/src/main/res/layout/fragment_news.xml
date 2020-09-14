@@ -7,12 +7,11 @@
     tools:context=".ui.news.NewsFragment">
 
 
-    <Button
-        android:id="@+id/news_Button"
+    <Spinner
+        android:id="@+id/news_Spinner"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="52dp"
-        android:text="sports news"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteY="0dp" />
@@ -24,7 +23,7 @@
         android:text="sports podcast"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.558"
-        app:layout_constraintStart_toEndOf="@+id/news_Button"
+        app:layout_constraintStart_toEndOf="@+id/news_Spinner"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteY="0dp" />
 
@@ -46,7 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/news_Button"
+        app:layout_constraintTop_toBottomOf="@+id/news_Spinner"
         app:layout_constraintVertical_bias="0.0" />
 
 
