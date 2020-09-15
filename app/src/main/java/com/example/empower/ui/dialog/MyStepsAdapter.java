@@ -40,6 +40,7 @@ public class MyStepsAdapter  extends RecyclerView.Adapter<MyStepsAdapter.MyViewH
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Step step = stepList.get(position);
 
+        holder.stepCount.setText("Step: " + position);
         holder.distance.setText(step.getDistance());
         holder.travelMode.setText(step.getTravelMode());
         holder.shortName.setText(step.getShortName());
@@ -58,6 +59,7 @@ public class MyStepsAdapter  extends RecyclerView.Adapter<MyStepsAdapter.MyViewH
     class MyViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout stepItem;      // get new recycle view item layout
 
+        TextView stepCount;
         TextView distance;
         TextView travelMode;
         TextView shortName;
@@ -66,7 +68,7 @@ public class MyStepsAdapter  extends RecyclerView.Adapter<MyStepsAdapter.MyViewH
 
         public MyViewHolder(View itemView) {
             super(itemView);
-
+            stepCount = itemView.findViewById(R.id.step_item_count);
             distance = itemView.findViewById(R.id.step_item_distance);
             travelMode = itemView.findViewById(R.id.step_item_travel_mode);
             shortName = itemView.findViewById(R.id.step_item_short_name);

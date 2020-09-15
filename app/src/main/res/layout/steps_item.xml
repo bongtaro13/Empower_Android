@@ -8,41 +8,54 @@
 
 
     <TextView
-        android:id="@+id/step_item_distance"
+        android:id="@+id/step_item_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="distance"
+        android:text="count"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="16dp" />
 
     <TextView
+        android:id="@+id/step_item_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="51dp"
+        android:text="distance"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/step_item_count"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
         android:id="@+id/step_item_travel_mode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="51dp"
+        android:layout_marginTop="4dp"
         android:text="travel mode"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/step_item_distance"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="16dp" />
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/step_item_short_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="51dp"
+        android:layout_marginTop="12dp"
         android:text="short name"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/step_item_travel_mode"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="16dp" />
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/step_item_vehicle_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="51dp"
+        android:layout_marginTop="4dp"
         android:text="vechicle name"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/step_item_short_name"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="16dp" />
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

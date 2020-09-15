@@ -67,7 +67,7 @@ public class StepsDialogMapFragment extends DialogFragment {
         List<Step> stepList = getArguments().getParcelableArrayList("stepList");
 
 
-        MyStepsAdapter myStepsAdapter = new MyStepsAdapter(Objects.requireNonNull(getActivity()).getApplicationContext(), stepList);
+        MyStepsAdapter myStepsAdapter = new MyStepsAdapter(getContext(), stepList);
 
         RecyclerView recyclerView = root.findViewById(R.id.step_recyclerView);
 
@@ -75,7 +75,8 @@ public class StepsDialogMapFragment extends DialogFragment {
         recyclerView.setAdapter(myStepsAdapter);
 
         RecyclerView.LayoutManager layoutManager =
-                new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                new LinearLayoutManager(getContext());
+
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
