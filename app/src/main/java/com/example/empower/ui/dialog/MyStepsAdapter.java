@@ -23,11 +23,12 @@ public class MyStepsAdapter  extends RecyclerView.Adapter<MyStepsAdapter.MyViewH
     List<Step> stepList;
 
     public MyStepsAdapter (Context context, List<Step> stepList){
-        context = this.context;
+        this.context = context;
         this.stepList = stepList;
+        mInflater = LayoutInflater.from(context);
     }
 
-    @NonNull
+
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.steps_item, parent, false);
