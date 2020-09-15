@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/step_item_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="distance"
+        tools:layout_editor_absoluteX="155dp"
+        tools:layout_editor_absoluteY="19dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/step_item_travel_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="travel mode"
+        app:layout_constraintTop_toBottomOf="@+id/step_item_distance"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="153dp" />
+
+    <TextView
+        android:id="@+id/step_item_short_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="short name"
+        app:layout_constraintTop_toBottomOf="@+id/step_item_travel_mode"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="156dp" />
+
+    <TextView
+        android:id="@+id/step_item_vehicle_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="vechicle name"
+        app:layout_constraintTop_toBottomOf="@+id/step_item_short_name"
+        tools:layout_editor_absoluteX="155dp"
+        tools:ignore="MissingConstraints" />
+</androidx.constraintlayout.widget.ConstraintLayout>

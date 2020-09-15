@@ -42,7 +42,6 @@ public class MyNewsAdapter extends RecyclerView.Adapter<MyNewsAdapter.MyViewHold
     }
 
 
-
     // setting view holder in the adapter
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

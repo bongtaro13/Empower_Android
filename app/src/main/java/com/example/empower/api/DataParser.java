@@ -1,6 +1,7 @@
 package com.example.empower.api;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,7 +14,7 @@ import java.util.List;
 
 /**
  * create visual routes on map with result from API
- * */
+ */
 
 public class DataParser {
 
@@ -53,9 +54,9 @@ public class DataParser {
                     routes.add(path);
                 }
             }
-        }catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
-        }catch (Exception e){
+        } catch (Exception e) {
         }
 
         return routes;
@@ -100,4 +101,59 @@ public class DataParser {
 
         return poly;
     }
+
+    public List<HashMap<String, String>> stepParse(JSONObject jsonObject) {
+        List<HashMap<String, String>> result = new ArrayList<>();
+        try {
+            JSONArray routes = jsonObject.getJSONArray("routes");
+            JSONObject routeObject = routes.getJSONObject(0);
+            JSONArray legs = routeObject.getJSONArray("legs");
+            JSONObject legObject = legs.getJSONObject(0);
+
+            String startAddress = legObject.getString("start_address");
+            String endAddress = legObject.getString("end_address");
+            String totalDistance = legObject.getJSONObject("distance").getString("text");
+            String duration = legObject.getJSONObject("duration").getString("text");
+
+            HashMap<String, String> resultSummary = new HashMap<>();
+            resultSummary.put("start_address", startAddress);
+            resultSummary.put("end_address", endAddress);
+            resultSummary.put("total_distance", totalDistance);
+            resultSummary.put("duration", duration);
+            result.add(resultSummary);
+
+
+            JSONArray steps = legObject.getJSONArray("steps");
+            for (int i = 0; i < steps.length(); i++) {
+                JSONObject step = steps.getJSONObject(i);
+                String distance = step.getJSONObject("distance").getString("text");
+                String travel_mode = step.getString("travel_mode");
+
+                HashMap<String, String> stepsInfo = new HashMap<>();
+                stepsInfo.put("distance", distance);
+                stepsInfo.put("travel_mode", travel_mode);
+
+
+                if (travel_mode.equals("TRANSIT")) {
+                    JSONObject transit_details = step.getJSONObject("transit_details");
+                    JSONObject line = transit_details.getJSONObject("line");
+                    String transitShortName = line.getString("short_name");
+                    String vehicleName = line.getJSONObject("vehicle").getString("name");
+                    stepsInfo.put("short_name", transitShortName);
+                    stepsInfo.put("vehicleName", vehicleName);
+
+                }
+                result.add(stepsInfo);
+
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+
 }

@@ -13,6 +13,7 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -38,7 +39,9 @@ import com.example.empower.R;
 import com.example.empower.api.DataParser;
 import com.example.empower.entity.LocationAddressPair;
 import com.example.empower.entity.SportsVenue;
+import com.example.empower.entity.Step;
 import com.example.empower.ui.dialog.GuideDialogMapFragment;
+import com.example.empower.ui.dialog.StepsDialogMapFragment;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -80,7 +83,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -91,7 +96,7 @@ import java.util.Objects;
  * function: Main aim of this fragment is to displayed disability supported sports venues on the map
  */
 
-public class MapFragment extends Fragment implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback{
+public class MapFragment extends Fragment implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback {
 
     // root view of the map fragment
     private View root;
@@ -107,6 +112,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     private Polyline currentPolyLine;
     private String url;
     private String directionMode;
+    private List<HashMap<String, String>> routeSteps;
 
     // street view in application
     private SupportStreetViewPanoramaFragment streetViewPanoramaFragment;
@@ -164,15 +170,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 //        streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
 
 
-
         // router between two locations display
         currentLocationMarker = new MarkerOptions().position(
-                new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude()));
+                new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
 
         destinationMarker = new MarkerOptions().position(new LatLng(-37.799446, 144.919102)).title("Destination Location");
 
         url = getUrl(currentLocationMarker.getPosition(), destinationMarker.getPosition(), "transit");
-
 
 
         // get SharedPreferences value from main activity, check if the guide picture is need or not
@@ -347,7 +351,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         googleMap.getUiSettings().setCompassEnabled(true);
 
 
-
         LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setInterval(10000);
         locationRequest.setFastestInterval(5000);
@@ -410,8 +413,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     }
 
 
-
-
     @SuppressLint("StaticFieldLeak")
     private class AsyncFindVenueNearby extends AsyncTask<ArrayList<SportsVenue>, Void, ArrayList<LocationAddressPair>> {
 
@@ -471,7 +472,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
                     double tempDistance = currentUserLocation.distanceTo(tempLocation);
 
-                    if (tempDistance < minimalDistance){
+                    if (tempDistance < minimalDistance) {
                         minimalDistance = tempDistance;
                         closedVenueLatlng = tempLocationAddressPair.getLatLngInfo();
                         closedLocationAddressPair = tempLocationAddressPair;
@@ -681,7 +682,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     }
 
 
-
     public class FetchURL extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... strings) {
@@ -724,6 +724,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
                 // Starts parsing data
                 routes = parser.parse(jObject);
+                routeSteps = parser.stepParse(jObject);
+
                 Log.d("mylog", "Executing routes");
                 Log.d("mylog", routes.toString());
 
@@ -768,6 +770,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
             // Drawing polyline in the Google Map for the i-th route
             if (lineOptions != null) {
                 mapAPI.addPolyline(lineOptions);
+                DisplaySteps(routeSteps);
 
 
             } else {
@@ -775,6 +778,57 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
             }
         }
     }
+
+    public void DisplaySteps(List<HashMap<String, String>> stepInfoList) {
+
+
+        HashMap<String, String> resultSummary = stepInfoList.get(0);
+        String startAddress = resultSummary.get("start_address");
+        String endAddress = resultSummary.get("end_address");
+        String totalDistance = resultSummary.get("total_distance");
+        String duration = resultSummary.get("duration");
+
+
+        ArrayList<Step> stepArrayList = new ArrayList<>();
+
+        for (int i = 1; i < stepInfoList.size(); i++) {
+            HashMap<String, String> stepsInfo = stepInfoList.get(i);
+            Step tempStep = new Step();
+            String distance = stepsInfo.get("distance");
+            String travel_mode = stepsInfo.get("travel_mode");
+            tempStep.setDistance(distance);
+            tempStep.setTravelMode(travel_mode);
+            if (travel_mode.equals("TRANSIT")) {
+                String transitShortName = stepsInfo.get("short_name");
+                String vehicleName = stepsInfo.get("vehicleName");
+                tempStep.setShortName(transitShortName);
+                tempStep.setVehicleName(vehicleName);
+            }
+
+            stepArrayList.add(tempStep);
+
+        }
+
+
+        Bundle bundle = new Bundle();
+        bundle.putString("start_address", startAddress);
+        bundle.putString("end_address", endAddress);
+        bundle.putString("total_distance", totalDistance);
+        bundle.putString("duration", duration);
+        bundle.putParcelableArrayList("stepList", stepArrayList);
+
+
+        // display step info in step dialog
+        StepsDialogMapFragment stepsDialogMapFragment = new StepsDialogMapFragment();
+        stepsDialogMapFragment.setArguments(bundle);
+        stepsDialogMapFragment.show(getFragmentManager(), "StepsDialogMapFragment");
+        stepsDialogMapFragment.setCancelable(true);
+
+
+    }
+
+
+    // create dialog of the route step info
 
 
     private String getUrl(LatLng origin, LatLng dest, String directionMode) {
