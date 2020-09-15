@@ -14,8 +14,8 @@ public class Step implements Parcelable {
     public Step(){
         distance = "0 Km";
         travelMode = "travel mode";
-        shortName = " vehicle shot name";
-        vehicleName = "vehicle name";
+        shortName = "No Vehicle";
+        vehicleName = "No Vehicle";
 
 
     }

@@ -264,7 +264,8 @@ public class NewsFragment extends Fragment {
             recyclerView.setAdapter(myNewsAdapter);
 
 
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+            RecyclerView.LayoutManager layoutManager =
+                    new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
 

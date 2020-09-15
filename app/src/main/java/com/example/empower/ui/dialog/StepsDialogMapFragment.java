@@ -11,16 +11,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.empower.R;
 import com.example.empower.entity.Step;
-import com.example.empower.ui.news.NewsItemDecoration;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -78,15 +74,10 @@ public class StepsDialogMapFragment extends DialogFragment {
         // manage recycle view contents with map adapter
         recyclerView.setAdapter(myStepsAdapter);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        RecyclerView.LayoutManager layoutManager =
+                new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-
-
-
-
-
 
 
         return root;
