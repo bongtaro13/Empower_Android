@@ -553,6 +553,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     }
                 });
 
+                mapAPI.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
+                    @Override
+                    public void onInfoWindowLongClick(Marker marker) {
+
+                        Toast.makeText(getActivity(), "Info window long clicked", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
 
                 for (LocationAddressPair tempLocationAddressPair : combineLocationMapping) {
 

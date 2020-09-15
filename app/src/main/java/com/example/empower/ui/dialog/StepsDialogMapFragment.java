@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.empower.R;
 import com.example.empower.entity.Step;
 import java.util.List;
-import java.util.Objects;
 
 public class StepsDialogMapFragment extends DialogFragment {
     private static final String TAG = "StepsDialogMapFragment";
@@ -65,7 +64,6 @@ public class StepsDialogMapFragment extends DialogFragment {
 
 
         List<Step> stepList = getArguments().getParcelableArrayList("stepList");
-
 
         MyStepsAdapter myStepsAdapter = new MyStepsAdapter(getContext(), stepList);
 
