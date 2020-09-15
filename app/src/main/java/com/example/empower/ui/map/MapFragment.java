@@ -13,7 +13,6 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -33,6 +32,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.empower.MainActivity;
 import com.example.empower.R;
@@ -83,9 +84,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -547,17 +546,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     @Override
                     public void onInfoWindowClick(Marker marker) {
                         url = getUrl(currentLocationMarker.getPosition(), marker.getPosition(), "transit");
-                        // add router
+                        // add router on the map with selected
                         new FetchURL().execute(url, "transit");
                         Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
                     }
                 });
 
+                // long click jump to street view fragment
                 mapAPI.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
                     @Override
                     public void onInfoWindowLongClick(Marker marker) {
-
                         Toast.makeText(getActivity(), "Info window long clicked", Toast.LENGTH_SHORT).show();
+//                        StreetViewFragment fragment2=new StreetViewFragment();
+//                        FragmentManager fragmentManager= getFragmentManager();
+//                        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+//                        fragmentTransaction.replace(R.id.container,fragment2,"tag");
+//                        fragmentTransaction.addToBackStack(null);
+//                        fragmentTransaction.commit();
                     }
                 });
 

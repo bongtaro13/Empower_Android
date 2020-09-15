@@ -17,7 +17,6 @@ public class Step implements Parcelable {
         shortName = "No Vehicle";
         vehicleName = "No Vehicle";
 
-
     }
 
     public Step(String distacen, String travelMode, String shortName, String vehicleName) {
