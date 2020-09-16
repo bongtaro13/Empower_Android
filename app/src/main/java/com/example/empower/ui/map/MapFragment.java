@@ -33,6 +33,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.empower.MainActivity;
 import com.example.empower.R;
@@ -60,6 +62,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
 import com.google.android.gms.maps.StreetViewPanorama;
+import com.google.android.gms.maps.StreetViewPanoramaFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.SupportStreetViewPanoramaFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -126,7 +129,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     private List<HashMap<String, String>> routeSteps;
 
     // street view in application
-    private SupportStreetViewPanoramaFragment streetViewPanoramaFragment;
+    private StreetViewFragment streetViewFragment;
 
     // arrayList for all all sports venus read from teh csv data file
     private ArrayList<Venue> sportsVenueList = new ArrayList<>();
@@ -153,6 +156,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     private Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
+
+    private static final int STREE_VIEW_FRAGMENT = 1;
 
     private ActiveHour active_hours = new ActiveHour();
 
@@ -226,6 +231,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
             }
         });
+
+        streetViewFragment = new StreetViewFragment();
+        streetViewFragment.setTargetFragment(this, STREE_VIEW_FRAGMENT);
 
         return root;
     }
@@ -902,17 +910,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     }
                 });
 
+
+
                 // long click jump to street view fragment
                 mapAPI.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
                     @Override
                     public void onInfoWindowLongClick(Marker marker) {
                         Toast.makeText(getActivity(), "Info window long clicked", Toast.LENGTH_SHORT).show();
-//                        StreetViewFragment fragment2=new StreetViewFragment();
-//                        FragmentManager fragmentManager= getFragmentManager();
-//                        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-//                        fragmentTransaction.replace(R.id.container,fragment2,"tag");
-//                        fragmentTransaction.addToBackStack(null);
-//                        fragmentTransaction.commit();
+//                        streetViewFragment.show(getFragmentManager().beginTransaction(), "StreetViewFragment");
+
                     }
                 });
 
