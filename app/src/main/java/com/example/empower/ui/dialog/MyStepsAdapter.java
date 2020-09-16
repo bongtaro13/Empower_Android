@@ -39,8 +39,8 @@ public class MyStepsAdapter  extends RecyclerView.Adapter<MyStepsAdapter.MyViewH
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Step step = stepList.get(position);
-
-        holder.stepCount.setText("Step: " + position);
+        int count = position + 1;
+        holder.stepCount.setText("Step: " + count);
         holder.distance.setText(step.getDistance());
         holder.travelMode.setText(step.getTravelMode());
         if (!step.getTravelMode().equals("WALKING")) {

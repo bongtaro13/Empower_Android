@@ -32,8 +32,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.empower.MainActivity;
 import com.example.empower.R;
@@ -41,6 +39,7 @@ import com.example.empower.api.DataParser;
 import com.example.empower.entity.LocationAddressPair;
 import com.example.empower.entity.SportsVenue;
 import com.example.empower.entity.Step;
+import com.example.empower.entity.Venue;
 import com.example.empower.ui.dialog.GuideDialogMapFragment;
 import com.example.empower.ui.dialog.StepsDialogMapFragment;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -74,10 +73,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -193,6 +196,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
         //createSportsVenueList();
         getSportsListFromFireStore();
+
 
 
         mapPostcodeEditText = root.findViewById(R.id.map_postcode_editText);
@@ -412,7 +416,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     }
 
 
-    @SuppressLint("StaticFieldLeak")
+
     private class AsyncFindVenueNearby extends AsyncTask<ArrayList<SportsVenue>, Void, ArrayList<LocationAddressPair>> {
 
         @Override
@@ -527,6 +531,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     }
                 }
             }
+
+
+
+
 
 
             return combineLocationMapping;
@@ -888,6 +896,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
             urlConnection.disconnect();
         }
         return data;
+    }
+
+    public void save(Context context, ArrayList<Venue> jsonStrings) throws IOException {
+        File rootFolder = context.getExternalFilesDir(null);
+        File jsonFile = new File(rootFolder, "venueWithLocation.json");
+        FileWriter writer = new FileWriter(jsonFile);
+        for (int i = 0; i < jsonStrings.size(); i++){
+            Gson gson = new Gson();
+            String jsonString = gson.toJson(jsonStrings.get(i));
+            writer.write(jsonString);
+        }
+        writer.close();
+        //or IOUtils.closeQuietly(writer);
     }
 
 }
