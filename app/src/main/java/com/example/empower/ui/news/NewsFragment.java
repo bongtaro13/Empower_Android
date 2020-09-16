@@ -80,7 +80,7 @@ public class NewsFragment extends Fragment {
 
         // initialize three visual components
         newsSpinner = root.findViewById(R.id.news_Spinner);
-        podcastButton = root.findViewById(R.id.podcast_Button);
+        //podcastButton = root.findViewById(R.id.podcast_Button);
         newsProgressBar = root.findViewById(R.id.news_search_progressbar);
 
         // get SharedPreferences value from main activity, check if the guide picture is need or not

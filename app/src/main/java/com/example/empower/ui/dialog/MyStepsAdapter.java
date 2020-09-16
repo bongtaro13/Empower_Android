@@ -41,11 +41,11 @@ public class MyStepsAdapter  extends RecyclerView.Adapter<MyStepsAdapter.MyViewH
         Step step = stepList.get(position);
         int count = position + 1;
         holder.stepCount.setText("Step: " + count);
-        holder.distance.setText("Distance" +step.getDistance());
-        holder.travelMode.setText("Travel mode" + step.getTravelMode());
+        holder.distance.setText("Distance: " +step.getDistance());
+        holder.travelMode.setText("Travel mode: " + step.getTravelMode());
         if (!step.getTravelMode().equals("WALKING")) {
-            holder.vehicleName.setText("Vehilce type" +step.getVehicleName());
-            holder.shortName.setText("Vehilce number" + step.getShortName());
+            holder.vehicleName.setText("Vehilce type: " +step.getVehicleName());
+            holder.shortName.setText("Vehilce number: " + step.getShortName());
         }
 
     }

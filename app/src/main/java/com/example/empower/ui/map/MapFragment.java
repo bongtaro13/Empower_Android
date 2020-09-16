@@ -7,7 +7,10 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -28,6 +31,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.empower.MainActivity;
@@ -39,6 +43,7 @@ import com.example.empower.entity.Venue;
 import com.example.empower.ui.dialog.GuideDialogMapFragment;
 import com.example.empower.ui.dialog.SearchDialogMapFragment;
 import com.example.empower.ui.dialog.StepsDialogMapFragment;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -56,6 +61,7 @@ import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
 import com.google.android.gms.maps.StreetViewPanorama;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.SupportStreetViewPanoramaFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -80,10 +86,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 
 /**
@@ -94,6 +103,7 @@ import java.util.Objects;
 public class MapFragment extends Fragment implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback {
 
     public static final int SEARCH_MAP_FRAGMENT = 1;
+
 
 
     private SearchDialogMapFragment dialogMapFragment;
@@ -540,7 +550,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
 
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -668,7 +678,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
             } else {
                 Log.d("mylog", "without Polylines drawn");
                 Toast toast_error = Toast.makeText(getContext(), "No result find", Toast.LENGTH_SHORT);
-                toast_error.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
                 toast_error.show();
 
             }
@@ -905,6 +914,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                 });
 
 
+
+
+
+
                 for (Venue tempLocationAddressPair : sportsVenueArrayList) {
 
                     if (tempLocationAddressPair.getLatitude().equals("") || tempLocationAddressPair.getLongitude().equals("")){
@@ -918,10 +931,39 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     Venue tempSportsVenue = tempLocationAddressPair;
 
 
-                    mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
-                            .title(tempSportsVenue.getName())
-                            .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode()));
+                    int height = 100;
+                    int width = 100;
+                    Bitmap bf = BitmapFactory.decodeResource(getResources(), R.drawable.football);
+                    Bitmap smallFootable = Bitmap.createScaledBitmap(bf, width, height, false);
 
+
+                    Bitmap bb = BitmapFactory.decodeResource(getResources(), R.drawable.basketball);
+                    Bitmap smallBasketball = Bitmap.createScaledBitmap(bb, width, height, false);
+
+
+                    Bitmap bc = BitmapFactory.decodeResource(getResources(), R.drawable.cricket);
+                    Bitmap smallCricket = Bitmap.createScaledBitmap(bc, width, height, false);
+
+                    if (tempSportsVenue.getBusinessCategory().toLowerCase().contains("football")){
+                        mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
+                                .title(tempSportsVenue.getName())
+                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode())
+                        .icon(BitmapDescriptorFactory.fromBitmap(smallFootable)));
+                    }else if (tempSportsVenue.getBusinessCategory().toLowerCase().contains("basketball")){
+                        mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
+                                .title(tempSportsVenue.getName())
+                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode())
+                                .icon(BitmapDescriptorFactory.fromBitmap(smallBasketball)));
+                    }else if (tempSportsVenue.getBusinessCategory().toLowerCase().contains("cricket")){
+                        mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
+                                .title(tempSportsVenue.getName())
+                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode())
+                                .icon(BitmapDescriptorFactory.fromBitmap(smallCricket)));
+                    }else {
+                        mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
+                                .title(tempSportsVenue.getName())
+                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode()));
+                    }
                 }
                 getCurrentLocation();
                 LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
