@@ -40,7 +40,7 @@ public class SearchDialogMapFragment extends DialogFragment {
     private CheckBox checkBox_openSpace;
     private ArrayList<String> venueArrayList;
 
-
+    private CheckBox checkBox_allSport;
     private CheckBox checkBox_football;
     private CheckBox checkBox_basketball;
     private CheckBox checkBox_cricket;
@@ -89,6 +89,7 @@ public class SearchDialogMapFragment extends DialogFragment {
         checkBox_sportVenue = root.findViewById(R.id.dialog_search_map_sport_venue);
         checkBox_openSpace = root.findViewById(R.id.dialog_search_map_open_space);
 
+        checkBox_allSport = root.findViewById(R.id.dialog_search_map_allSport);
         checkBox_football = root.findViewById(R.id.dialog_search_map_football);
         checkBox_basketball = root.findViewById(R.id.dialog_search_map_basketball);
         checkBox_cricket = root.findViewById(R.id.dialog_search_map_cricket);
@@ -123,6 +124,23 @@ public class SearchDialogMapFragment extends DialogFragment {
 //
 //        // sport array list management
         sportArrayList = new ArrayList<>();
+
+        checkBox_allSport.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    checkBox_football.setChecked(true);
+                    checkBox_basketball.setChecked(true);
+                    checkBox_cricket.setChecked(true);
+                }else {
+                    checkBox_football.setChecked(false);
+                    checkBox_basketball.setChecked(false);
+                    checkBox_cricket.setChecked(false);
+                }
+            }
+        });
+
+
 //        checkBox_football.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 //            @Override
 //            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

@@ -55,8 +55,8 @@ public class VenueFilter {
 
     public ArrayList<Venue> getVenueWithSports(ArrayList<String> venueSportList, ArrayList<Venue> inputVeneus) {
         ArrayList<Venue> outputVenue = new ArrayList<>();
-        if (venueSportList.size() == 0) {
-            return inputVeneus;
+        if (venueSportList.size()== 0) {
+            return outputVenue;
         }
 
         for (int i = 0; i < venueSportList.size(); i++) {
