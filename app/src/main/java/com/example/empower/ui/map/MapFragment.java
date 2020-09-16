@@ -931,39 +931,39 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     Venue tempSportsVenue = tempLocationAddressPair;
 
 
-                    int height = 100;
-                    int width = 100;
-                    Bitmap bf = BitmapFactory.decodeResource(getResources(), R.drawable.football);
-                    Bitmap smallFootable = Bitmap.createScaledBitmap(bf, width, height, false);
+//                    int height = 100;
+//                    int width = 100;
+//                    Bitmap bf = BitmapFactory.decodeResource(getResources(), R.drawable.football);
+//                    Bitmap smallFootable = Bitmap.createScaledBitmap(bf, width, height, false);
+//
+//
+//                    Bitmap bb = BitmapFactory.decodeResource(getResources(), R.drawable.basketball);
+//                    Bitmap smallBasketball = Bitmap.createScaledBitmap(bb, width, height, false);
+//
+//
+//                    Bitmap bc = BitmapFactory.decodeResource(getResources(), R.drawable.cricket);
+//                    Bitmap smallCricket = Bitmap.createScaledBitmap(bc, width, height, false);
 
-
-                    Bitmap bb = BitmapFactory.decodeResource(getResources(), R.drawable.basketball);
-                    Bitmap smallBasketball = Bitmap.createScaledBitmap(bb, width, height, false);
-
-
-                    Bitmap bc = BitmapFactory.decodeResource(getResources(), R.drawable.cricket);
-                    Bitmap smallCricket = Bitmap.createScaledBitmap(bc, width, height, false);
-
-                    if (tempSportsVenue.getBusinessCategory().toLowerCase().contains("football")){
+//                    if (tempSportsVenue.getBusinessCategory().toLowerCase().contains("football")){
+//                        mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
+//                                .title(tempSportsVenue.getName())
+//                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode())
+//                        .icon(BitmapDescriptorFactory.fromBitmap(smallFootable)));
+//                    }else if (tempSportsVenue.getBusinessCategory().toLowerCase().contains("basketball")){
+//                        mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
+//                                .title(tempSportsVenue.getName())
+//                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode())
+//                                .icon(BitmapDescriptorFactory.fromBitmap(smallBasketball)));
+//                    }else if (tempSportsVenue.getBusinessCategory().toLowerCase().contains("cricket")){
+//                        mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
+//                                .title(tempSportsVenue.getName())
+//                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode())
+//                                .icon(BitmapDescriptorFactory.fromBitmap(smallCricket)));
+//                    }else {
                         mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
                                 .title(tempSportsVenue.getName())
-                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode())
-                        .icon(BitmapDescriptorFactory.fromBitmap(smallFootable)));
-                    }else if (tempSportsVenue.getBusinessCategory().toLowerCase().contains("basketball")){
-                        mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
-                                .title(tempSportsVenue.getName())
-                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode())
-                                .icon(BitmapDescriptorFactory.fromBitmap(smallBasketball)));
-                    }else if (tempSportsVenue.getBusinessCategory().toLowerCase().contains("cricket")){
-                        mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
-                                .title(tempSportsVenue.getName())
-                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode())
-                                .icon(BitmapDescriptorFactory.fromBitmap(smallCricket)));
-                    }else {
-                        mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
-                                .title(tempSportsVenue.getName())
-                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode()));
-                    }
+                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode() + " Active: 9:30am–4:30pm"));
+                    //}
                 }
                 getCurrentLocation();
                 LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
