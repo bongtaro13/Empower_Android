@@ -37,6 +37,7 @@ import androidx.fragment.app.Fragment;
 import com.example.empower.MainActivity;
 import com.example.empower.R;
 import com.example.empower.api.DataParser;
+import com.example.empower.entity.ActiveHour;
 import com.example.empower.entity.LocationAddressPair;
 import com.example.empower.entity.Step;
 import com.example.empower.entity.Venue;
@@ -152,6 +153,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     private Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
+
+    private ActiveHour active_hours = new ActiveHour();
 
     //FireStore database
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -960,9 +963,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 //                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode())
 //                                .icon(BitmapDescriptorFactory.fromBitmap(smallCricket)));
 //                    }else {
+
+
+                    if (tempSportsVenue.getType().equals("sport venue")){
                         mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
                                 .title(tempSportsVenue.getName())
-                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode() + " Active: 9:30am–4:30pm"));
+                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode() + " " + active_hours.getAciveHours()));
+                    }else {
+                        mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
+                                .title(tempSportsVenue.getName())
+                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode()));
+                    }
+
                     //}
                 }
                 getCurrentLocation();

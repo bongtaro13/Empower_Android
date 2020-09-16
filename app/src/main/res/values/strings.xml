@@ -5,4 +5,7 @@
     <string name="title_about">Contact us</string>
     <string name="search">Search Nearby</string>
     <string name="postcode">postcode</string>
+
+
+    <string name="active_hours">Active: 9:30am–4:30pm</string>
 </resources>
