@@ -1,12 +1,12 @@
 package com.example.empower.ui.map;
 
-import com.example.empower.entity.SportsVenue;
+import com.example.empower.entity.Venue;
 
 import java.util.ArrayList;
 
 public class SportsVenuesSelector {
 
-    private ArrayList<SportsVenue> sportsVenueList;
+    private ArrayList<Venue> sportsVenueList;
 
     public SportsVenuesSelector(ArrayList sportsVenueList) {
         this.sportsVenueList = sportsVenueList;
@@ -14,11 +14,11 @@ public class SportsVenuesSelector {
 
 
     // create a selected sports venues list based on sport selected
-    public ArrayList<SportsVenue> createSelectedSportsVenueListBySport(String inputSportName) {
-        ArrayList<SportsVenue> selectedSportsVenuList = new ArrayList<>();
+    public ArrayList<Venue> createSelectedSportsVenueListBySport(String inputSportName) {
+        ArrayList<Venue> selectedSportsVenuList = new ArrayList<>();
         String sportName = inputSportName.toLowerCase();
         if (!inputSportName.equals("sport")) {
-            for (SportsVenue tempSportsVenue : sportsVenueList) {
+            for (Venue tempSportsVenue : sportsVenueList) {
                 if (tempSportsVenue.getBusinessCategory().toLowerCase().contains(sportName)) {
                     selectedSportsVenuList.add(tempSportsVenue);
                 }
@@ -30,12 +30,12 @@ public class SportsVenuesSelector {
 
 
     // create a selected sports venues list based on based on postcode input
-    public ArrayList<SportsVenue> createSelectedSportsVenueListByPostcode(String inputPostcode) {
-        ArrayList<SportsVenue> selectedSportsVenuList = new ArrayList<>();
+    public ArrayList<Venue> createSelectedSportsVenueListByPostcode(String inputPostcode) {
+        ArrayList<Venue> selectedSportsVenuList = new ArrayList<>();
         if (inputPostcode.length() == 0) {
             return selectedSportsVenuList;
         }
-        for (SportsVenue tempSportsVenue : sportsVenueList) {
+        for (Venue tempSportsVenue : sportsVenueList) {
             if (tempSportsVenue.getPostcode().equals(inputPostcode)) {
                 selectedSportsVenuList.add(tempSportsVenue);
             }
@@ -45,13 +45,13 @@ public class SportsVenuesSelector {
     }
 
     // create a selected sports venues list based on  the combination of sport  selected and postcode
-    public ArrayList<SportsVenue> createSelectedSportsVenueListByCombination(String inputPostcode, String inputSportName) {
-        ArrayList<SportsVenue> selectedSportsVenuList = new ArrayList<>();
-        ArrayList<SportsVenue> resultVenueList = new ArrayList<>();
+    public ArrayList<Venue> createSelectedSportsVenueListByCombination(String inputPostcode, String inputSportName) {
+        ArrayList<Venue> selectedSportsVenuList = new ArrayList<>();
+        ArrayList<Venue> resultVenueList = new ArrayList<>();
         String sportName = inputSportName.toLowerCase();
         // if spinner has been selected
         if (!inputSportName.equals("sport")) {
-            for (SportsVenue tempSportsVenue : sportsVenueList) {
+            for (Venue tempSportsVenue : sportsVenueList) {
                 if (tempSportsVenue.getBusinessCategory().toLowerCase().contains(sportName)) {
                     selectedSportsVenuList.add(tempSportsVenue);
                 }
@@ -61,7 +61,7 @@ public class SportsVenuesSelector {
         if (selectedSportsVenuList.size() != 0) {
 
             if (inputPostcode.length() != 0) {
-                for (SportsVenue tempSportsVenue : selectedSportsVenuList) {
+                for (Venue tempSportsVenue : selectedSportsVenuList) {
                     if (tempSportsVenue.getPostcode().equals(inputPostcode)) {
                         resultVenueList.add(tempSportsVenue);
                     }

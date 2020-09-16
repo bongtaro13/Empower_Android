@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+
+    <EditText
+        android:id="@+id/dialog_inputPostcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="postcode"
+        android:gravity="center"
+        android:ems="10"
+        android:inputType="number" />
+
+    <CheckBox
+        android:id="@+id/dialog_search_map_sport_venue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Sport Venue"
+        android:checked="true"/>
+    <CheckBox
+        android:id="@+id/dialog_search_map_open_space"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Open Space"
+        android:checked="false"/>
+
+    <com.ramotion.foldingcell.FoldingCell
+
+        android:id="@+id/folding_cell"
+        android:background="@android:color/holo_green_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        ​
+        <LinearLayout
+            android:id="@+id/cell_content_view"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_green_light"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:text="Sport selected"
+                android:textSize="24sp"/>
+
+            <CheckBox
+                android:id="@+id/dialog_search_map_football"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Football"
+                android:checked="false"/>
+            <CheckBox
+                android:id="@+id/dialog_search_map_basketball"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Basketball"
+                android:checked="false"/>
+            <CheckBox
+                android:id="@+id/dialog_search_map_cricket"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Cricket"
+                android:checked="false"/>
+
+        </LinearLayout>
+        ​
+        <LinearLayout
+            android:id="@+id/cell_title_view"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:text="Search supported sport with sport venue"
+                android:textSize="20sp"/>
+
+
+        </LinearLayout>
+
+
+        ​
+    </com.ramotion.foldingcell.FoldingCell>
+
+
+
+    <com.ramotion.foldingcell.FoldingCell
+
+        android:id="@+id/folding_cell_2"
+        android:background="@android:color/holo_blue_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        ​
+        <LinearLayout
+            android:id="@+id/cell_content_view_2"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_light"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:text="Nearby selected"
+                android:textSize="24sp"/>
+
+            <RadioGroup
+                android:id="@+id/dialog_search_map_radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/btn5km"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="5km"
+                    android:checked="false"/>
+
+                <RadioButton
+                    android:id="@+id/btn10km"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="10km"
+                    android:checked="false"/>
+
+                <RadioButton
+                    android:id="@+id/btnOthers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Others"
+                    android:checked="true"/>
+
+            </RadioGroup>
+
+        </LinearLayout>
+        ​
+        <LinearLayout
+            android:id="@+id/cell_title_view_2"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:text="Search nearby"
+                android:textSize="20sp"/>
+
+        </LinearLayout>
+
+
+        ​
+    </com.ramotion.foldingcell.FoldingCell>
+
+    <Button
+        android:id="@+id/dialog_search_map_confirm_button"
+        android:layout_width="match_parent"
+        android:text="Search Result"
+        android:layout_height="wrap_content"/>
+
+
+
+
+</LinearLayout>

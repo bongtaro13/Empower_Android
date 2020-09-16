@@ -1,8 +1,9 @@
 package com.example.empower.ui.map;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -37,10 +38,10 @@ import com.example.empower.MainActivity;
 import com.example.empower.R;
 import com.example.empower.api.DataParser;
 import com.example.empower.entity.LocationAddressPair;
-import com.example.empower.entity.SportsVenue;
 import com.example.empower.entity.Step;
 import com.example.empower.entity.Venue;
 import com.example.empower.ui.dialog.GuideDialogMapFragment;
+import com.example.empower.ui.dialog.SearchDialogMapFragment;
 import com.example.empower.ui.dialog.StepsDialogMapFragment;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -73,14 +74,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -99,6 +96,11 @@ import java.util.Objects;
  */
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback {
+
+    public static final int SEARCH_MAP_FRAGMENT = 1;
+
+
+    private SearchDialogMapFragment dialogMapFragment;
 
     // root view of the map fragment
     private View root;
@@ -120,7 +122,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     private SupportStreetViewPanoramaFragment streetViewPanoramaFragment;
 
     // arrayList for all all sports venus read from teh csv data file
-    private ArrayList<SportsVenue> sportsVenueList = new ArrayList<>();
+    private ArrayList<Venue> sportsVenueList = new ArrayList<>();
     private ArrayList<LatLng> latLngList = new ArrayList<>();
 
     // visual component of the map fragment, include search input, search box, and a progressBar to display progress
@@ -198,144 +200,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         getSportsListFromFireStore();
 
 
-
-        mapPostcodeEditText = root.findViewById(R.id.map_postcode_editText);
         searchNearbyButton = root.findViewById(R.id.map_search_button);
         mapProgressBar = root.findViewById(R.id.map_search_progressBar);
 
 
+
+
+        dialogMapFragment = new SearchDialogMapFragment();
+        dialogMapFragment.setTargetFragment(this,SEARCH_MAP_FRAGMENT);
+
         searchNearbyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AsyncFindVenueNearby().execute(sportsVenueList);
+
+                dialogMapFragment.show(getFragmentManager().beginTransaction(), "SearchDialogMapFragment");
+                //dialogMapFragment.setCancelable(true);
                 mapProgressBar.setVisibility(View.VISIBLE);
 
             }
         });
-
-
-        mapPostcodeEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-                                                          @Override
-                                                          public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                                                              if (actionId == EditorInfo.IME_ACTION_SEARCH ||
-                                                                      actionId == EditorInfo.IME_ACTION_DONE ||
-                                                                      event != null &&
-                                                                              event.getAction() == KeyEvent.ACTION_DOWN &&
-                                                                              event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                                                                  if (event == null || !event.isShiftPressed()) {
-                                                                      // the user is done typing.
-                                                                      final String searchPostcode = mapPostcodeEditText.getText().toString();
-                                                                      String txt = "Searching sports venues for: " + searchPostcode;
-                                                                      Log.d(TAG, txt);
-
-
-                                                                      // remove spaces in the postcode input
-                                                                      String searchPostcodeNoSpaces = searchPostcode.replace(" ", "");
-                                                                      ArrayList<SportsVenue> selectedSportsVenueList = new ArrayList<>();
-                                                                      SportsVenuesSelector sportsVenuesSelector = new SportsVenuesSelector(sportsVenueList);
-                                                                      selectedSportsVenueList = sportsVenuesSelector.createSelectedSportsVenueListByPostcode(searchPostcodeNoSpaces);
-
-                                                                      if (selectedSportsVenueList.size() > 0) {
-                                                                          new AsyncAddMarker().execute(selectedSportsVenueList);
-                                                                          mapProgressBar.setVisibility(View.VISIBLE);
-                                                                      } else {
-                                                                          Toast toast_error = Toast.makeText(getContext(), "No result find", Toast.LENGTH_SHORT);
-                                                                          toast_error.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
-                                                                          toast_error.show();
-                                                                          mapPostcodeEditText.setText("");
-                                                                      }
-
-                                                                      return true; // consume.
-                                                                  }
-                                                              }
-                                                              return false; // pass on to other listeners.
-                                                          }
-                                                      }
-        );
-
-
-        // add listener for search button, if clicked, use input postcode to find the matched sports venus
-        //searchNearbyButton.setOnClickListener();
-
-
-        // initialize the spinner of different sport
-        sportSpinner = root.findViewById(R.id.map_sports_spinner);
-        sportSpinnerDataList = new ArrayList<>();
-        sportSpinnerDataList.add("Sport");
-        sportSpinnerDataList.add("Football");
-        sportSpinnerDataList.add("Basketball");
-        sportSpinnerDataList.add("Cricket");
-
-        sportSpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, sportSpinnerDataList);
-        sportSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        sportSpinner.setAdapter(sportSpinnerAdapter);
-
-
-        // add listener to the spinner selected action
-        sportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // create new sports venue with selected sport
-                // if spinner is selected with keyword "Sport", nothing happen in this condition.
-                if (!sportSpinnerAdapter.getItem(position).equals("Sport")) {
-                    if (mapPostcodeEditText.getText() != null) {
-                        String selectedPostcode = mapPostcodeEditText.getText().toString();
-                        Toast toast_sport = Toast.makeText(getActivity(), "you selected sport is: " + sportSpinnerAdapter.getItem(position), Toast.LENGTH_SHORT);
-                        toast_sport.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
-                        toast_sport.show();
-                        Toast toast_postcode = Toast.makeText(getActivity(), "you selected suburb is: " + selectedPostcode, Toast.LENGTH_SHORT);
-                        toast_postcode.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
-                        toast_postcode.show();
-
-                        SportsVenuesSelector sportsVenuesSelector = new SportsVenuesSelector(sportsVenueList);
-                        ArrayList selectedSportsVenueList = sportsVenuesSelector.createSelectedSportsVenueListByCombination(selectedPostcode, sportSpinnerAdapter.getItem(position));
-
-                        if (selectedSportsVenueList.size() > 0) {
-                            new AsyncAddMarker().execute(selectedSportsVenueList);
-                            mapProgressBar.setVisibility(View.VISIBLE);
-
-                        } else {
-
-                            Toast toast_error = Toast.makeText(getContext(), "No result find", Toast.LENGTH_SHORT);
-                            toast_error.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
-                            toast_error.show();
-                            mapPostcodeEditText.setText("");
-                        }
-                    } else {
-                        Toast.makeText(getActivity(), "you selected sport is: " + sportSpinnerAdapter.getItem(position), Toast.LENGTH_SHORT).show();
-                        SportsVenuesSelector sportsVenuesSelector = new SportsVenuesSelector(sportsVenueList);
-                        ArrayList selectedSportsVenueList = sportsVenuesSelector.createSelectedSportsVenueListBySport(sportSpinnerAdapter.getItem(position));
-                        if (selectedSportsVenueList.size() > 0) {
-                            new AsyncAddMarker().execute(selectedSportsVenueList);
-                            mapProgressBar.setVisibility(View.VISIBLE);
-                        } else {
-                            Toast toast_error = Toast.makeText(getContext(), "No result find", Toast.LENGTH_SHORT);
-                            toast_error.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
-                            toast_error.show();
-                        }
-                    }
-
-                } else {
-
-                    Toast noSportSelectedToast = Toast.makeText(getContext(), "No sport selected", Toast.LENGTH_SHORT);
-                    noSportSelectedToast.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
-                    noSportSelectedToast.show();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // ask user to select the sport
-                Toast nothingSelectedToast = new Toast(getActivity());
-                nothingSelectedToast.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
-                nothingSelectedToast.setText("please select a sport you want");
-                nothingSelectedToast.setDuration(Toast.LENGTH_SHORT);
-                nothingSelectedToast.setView(root);
-                nothingSelectedToast.show();
-            }
-        });
-
 
         return root;
     }
@@ -416,24 +299,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     }
 
 
-
-    private class AsyncFindVenueNearby extends AsyncTask<ArrayList<SportsVenue>, Void, ArrayList<LocationAddressPair>> {
+    private class AsyncFindVenueNearby extends AsyncTask<ArrayList<Venue>, Void, ArrayList<LocationAddressPair>> {
 
         @Override
-        protected ArrayList<LocationAddressPair> doInBackground(ArrayList<SportsVenue>... arrayLists) {
+        protected ArrayList<LocationAddressPair> doInBackground(ArrayList<Venue>... arrayLists) {
             // input parameter of the sports venues array list
-            ArrayList<SportsVenue> sportsVenueArrayList = arrayLists[0];
+            ArrayList<Venue> sportsVenueArrayList = arrayLists[0];
 
             ArrayList<LocationAddressPair> combineLocationMapping = new ArrayList<>();
 
             if (sportsVenueArrayList.size() > 0) {
                 // Use index number to mapping of real address and latitude-longitude address
-                for (SportsVenue tempSportsVenue : sportsVenueArrayList) {
+                for (Venue tempSportsVenue : sportsVenueArrayList) {
 
-                    String tempSportsVenueAddress = tempSportsVenue.getAddress() + " "
-                            + tempSportsVenue.getPostcode() + " "
-                            + tempSportsVenue.getState();
-                    LatLng tempSportsVenueLatlng = getLocationFromAddress(getContext(), tempSportsVenueAddress);
+                    LatLng tempSportsVenueLatlng = new LatLng(Double.parseDouble(tempSportsVenue.getLatitude()), Double.parseDouble(tempSportsVenue.getLongitude()));
 
                     if (tempSportsVenueLatlng != null) {
                         combineLocationMapping.add(new LocationAddressPair(tempSportsVenueLatlng, tempSportsVenue));
@@ -507,34 +386,31 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
 
     // put markers of selected sports venues on the google map
-    private class AsyncAddMarker extends AsyncTask<ArrayList<SportsVenue>, Void, ArrayList<LocationAddressPair>> {
+    private class AsyncAddMarker extends AsyncTask<ArrayList<Venue>, Void, ArrayList<LocationAddressPair>> {
 
         @Override
-        protected ArrayList<LocationAddressPair> doInBackground(ArrayList<SportsVenue>... arrayLists) {
+        protected ArrayList<LocationAddressPair> doInBackground(ArrayList<Venue>... arrayLists) {
 
             // input parameter of the sports venues array list
-            ArrayList<SportsVenue> sportsVenueArrayList = arrayLists[0];
+            ArrayList<Venue> sportsVenueArrayList = arrayLists[0];
 
             ArrayList<LocationAddressPair> combineLocationMapping = new ArrayList<>();
 
             if (sportsVenueArrayList.size() > 0) {
                 // Use index number to mapping of real address and latitude-longitude address
-                for (SportsVenue tempSportsVenue : sportsVenueArrayList) {
+                for (Venue tempSportsVenue : sportsVenueArrayList) {
+                    if (tempSportsVenue.getLongitude() == null || tempSportsVenue.getLatitude() == null){
 
-                    String tempSportsVenueAddress = tempSportsVenue.getAddress() + " "
-                            + tempSportsVenue.getPostcode() + " "
-                            + tempSportsVenue.getState();
-                    LatLng tempSportsVenueLatlng = getLocationFromAddress(getContext(), tempSportsVenueAddress);
+                        continue;
+                    }
 
-                    if (tempSportsVenueLatlng != null) {
+                    LatLng tempSportsVenueLatlng = new LatLng(Double.parseDouble(tempSportsVenue.getLatitude()), Double.parseDouble(tempSportsVenue.getLongitude()));
+
+                    if (tempSportsVenue.getLatitude() != null && tempSportsVenue.getLongitude() != null) {
                         combineLocationMapping.add(new LocationAddressPair(tempSportsVenueLatlng, tempSportsVenue));
                     }
                 }
             }
-
-
-
-
 
 
             return combineLocationMapping;
@@ -578,7 +454,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                 for (LocationAddressPair tempLocationAddressPair : combineLocationMapping) {
 
                     LatLng tempSportsVenueLocation = tempLocationAddressPair.getLatLngInfo();
-                    SportsVenue tempSportsVenue = tempLocationAddressPair.getSportsVenueInfo();
+                    Venue tempSportsVenue = tempLocationAddressPair.getSportsVenueInfo();
 
 
                     mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
@@ -640,17 +516,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                                 Map<String, Object> tempSportsVenueMap = document.getData();
-                                String venueId = Objects.requireNonNull(tempSportsVenueMap.get("venueID")).toString();
+                                String venueID = Objects.requireNonNull(tempSportsVenueMap.get("venueID")).toString();
+                                String type = Objects.requireNonNull(tempSportsVenueMap.get("type")).toString();
                                 String name = Objects.requireNonNull(tempSportsVenueMap.get("name")).toString();
                                 String address = Objects.requireNonNull(tempSportsVenueMap.get("address")).toString();
                                 String suburb = Objects.requireNonNull(tempSportsVenueMap.get("suburb")).toString();
                                 String postcode = Objects.requireNonNull(tempSportsVenueMap.get("postcode")).toString();
-                                String state = Objects.requireNonNull(tempSportsVenueMap.get("state")).toString();
                                 String businessCategory = Objects.requireNonNull(tempSportsVenueMap.get("businessCategory")).toString();
                                 String lga = Objects.requireNonNull(tempSportsVenueMap.get("lga")).toString();
-                                String region = Objects.requireNonNull(tempSportsVenueMap.get("region")).toString();
+                                String latitude = Objects.requireNonNull(tempSportsVenueMap.get("latitude")).toString();
+                                String longitude = Objects.requireNonNull(tempSportsVenueMap.get("longitude")).toString();
 
-                                sportsVenueList.add(new SportsVenue(venueId, name, address, suburb, postcode, state, businessCategory, lga, region));
+                                sportsVenueList.add(new Venue(venueID, type, name, address, suburb, postcode, businessCategory, lga, latitude, longitude));
 
 
                             }
@@ -898,17 +775,96 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         return data;
     }
 
-    public void save(Context context, ArrayList<Venue> jsonStrings) throws IOException {
-        File rootFolder = context.getExternalFilesDir(null);
-        File jsonFile = new File(rootFolder, "venueWithLocation.json");
-        FileWriter writer = new FileWriter(jsonFile);
-        for (int i = 0; i < jsonStrings.size(); i++){
-            Gson gson = new Gson();
-            String jsonString = gson.toJson(jsonStrings.get(i));
-            writer.write(jsonString);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent searchParameter) {
+        switch (requestCode) {
+            case SEARCH_MAP_FRAGMENT:
+                if (resultCode == Activity.RESULT_OK) {
+                    Bundle bundle = searchParameter.getExtras();
+
+                    String inputPostcode = bundle.getString("inputPostcode");
+                    ArrayList<String> venueArrayList = bundle.getStringArrayList("venueArrayList");
+                    ArrayList<String> sportArrayList = bundle.getStringArrayList("sportArrayList");
+                    String nearbyResult = bundle.getString("nearbyResult");
+
+
+                    ArrayList<Venue> combineLocationMapping1 = new ArrayList<>();
+                    VenueFilter venueFilter = new VenueFilter();
+                    combineLocationMapping1 = venueFilter.getVenueWithPostCode(inputPostcode, sportsVenueList);
+                    combineLocationMapping1 = venueFilter.getVenueWithType(venueArrayList, combineLocationMapping1);
+                    combineLocationMapping1 = venueFilter.getVenueWithSports(sportArrayList, combineLocationMapping1);
+                    combineLocationMapping1 = venueFilter.getVenueNearby(nearbyResult, combineLocationMapping1, currentLocation);
+
+                    //new AsyncAddMarker().execute(combineLocationMapping1);
+
+                    if (combineLocationMapping1.size() != 0) {
+                        mapAPI.clear();
+
+                        mapAPI.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                            @Override
+                            public void onInfoWindowClick(Marker marker) {
+                                url = getUrl(currentLocationMarker.getPosition(), marker.getPosition(), "transit");
+                                // add router on the map with selected
+                                new FetchURL().execute(url, "transit");
+                                Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        // long click jump to street view fragment
+                        mapAPI.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
+                            @Override
+                            public void onInfoWindowLongClick(Marker marker) {
+                                Toast.makeText(getActivity(), "Info window long clicked", Toast.LENGTH_SHORT).show();
+//                        StreetViewFragment fragment2=new StreetViewFragment();
+//                        FragmentManager fragmentManager= getFragmentManager();
+//                        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+//                        fragmentTransaction.replace(R.id.container,fragment2,"tag");
+//                        fragmentTransaction.addToBackStack(null);
+//                        fragmentTransaction.commit();
+                            }
+                        });
+
+
+                        for (Venue tempLocationAddressPair : combineLocationMapping1) {
+                            if (tempLocationAddressPair.getLatitude() == null || tempLocationAddressPair.getLongitude() == null){
+                                continue;
+                            }
+
+                            LatLng tempSportsVenueLocation = new LatLng(Double.parseDouble(tempLocationAddressPair.getLatitude()),
+                                    Double.parseDouble(tempLocationAddressPair.getLongitude()));
+                            Venue tempSportsVenue = tempLocationAddressPair;
+
+
+                            mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
+                                    .title(tempSportsVenue.getName())
+                                    .snippet(tempSportsVenue.getType() + " " + tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode()));
+
+                        }
+                        getCurrentLocation();
+                        LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                        mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap).title("You current location")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+                        CameraPosition newCameraPosition = new CameraPosition.Builder()
+                                .target(currentLocationMarkerOnMap).zoom(10).build();
+
+
+                        mapAPI.animateCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition));
+                        mapProgressBar.setVisibility(View.GONE);
+                        Toast toast_success = Toast.makeText(getContext(), "Result found", Toast.LENGTH_SHORT);
+                        toast_success.show();
+                    }
+
+
+                } else if (resultCode == Activity.RESULT_CANCELED) {
+
+                }
+                break;
         }
-        writer.close();
-        //or IOUtils.closeQuietly(writer);
     }
+
+
+
+
 
 }

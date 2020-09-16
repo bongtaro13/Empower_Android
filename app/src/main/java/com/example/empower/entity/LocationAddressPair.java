@@ -4,9 +4,9 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class LocationAddressPair {
     private LatLng latLngInfo;
-    private SportsVenue sportsVenueInfo;
+    private Venue sportsVenueInfo;
 
-    public LocationAddressPair(LatLng latLngInfo, SportsVenue sportsVenueInfo) {
+    public LocationAddressPair(LatLng latLngInfo, Venue sportsVenueInfo) {
         this.latLngInfo = latLngInfo;
         this.sportsVenueInfo = sportsVenueInfo;
     }
@@ -19,11 +19,11 @@ public class LocationAddressPair {
         this.latLngInfo = latLngInfo;
     }
 
-    public SportsVenue getSportsVenueInfo() {
+    public Venue getSportsVenueInfo() {
         return sportsVenueInfo;
     }
 
-    public void setSportsVenueInfo(SportsVenue sportsVenueInfo) {
+    public void setSportsVenueInfo(Venue sportsVenueInfo) {
         this.sportsVenueInfo = sportsVenueInfo;
     }
 }

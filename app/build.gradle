@@ -64,6 +64,10 @@ dependencies {
     implementation 'com.appolica:interactive-info-window:v1.0.6'
 
 
+    // folding cell
+    implementation 'com.ramotion.foldingcell:folding-cell:1.2.3'
+
+
 
 
 }

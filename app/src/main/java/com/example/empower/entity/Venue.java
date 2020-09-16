@@ -2,31 +2,29 @@ package com.example.empower.entity;
 
 public class Venue {
     private String venueID;
+    private String type;
     private String name;
     private String address;
     private String suburb;
     private String postcode;
-    private String state;
     private String businessCategory;
     private String lga;
-    private String region;
     private String latitude;
     private String longitude;
 
-    public Venue(String venueID, String name, String address, String suburb, String postcode, String state, String businessCategory, String lga, String region, String latitude, String longitude) {
+
+    public Venue(String venueID, String type, String name, String address, String suburb, String postcode, String businessCategory, String lga, String latitude, String longitude) {
         this.venueID = venueID;
+        this.type = type;
         this.name = name;
         this.address = address;
         this.suburb = suburb;
         this.postcode = postcode;
-        this.state = state;
         this.businessCategory = businessCategory;
         this.lga = lga;
-        this.region = region;
         this.latitude = latitude;
         this.longitude = longitude;
     }
-
 
     public String getVenueID() {
         return venueID;
@@ -34,6 +32,14 @@ public class Venue {
 
     public void setVenueID(String venueID) {
         this.venueID = venueID;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getName() {
@@ -68,14 +74,6 @@ public class Venue {
         this.postcode = postcode;
     }
 
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
     public String getBusinessCategory() {
         return businessCategory;
     }
@@ -90,14 +88,6 @@ public class Venue {
 
     public void setLga(String lga) {
         this.lga = lga;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
     }
 
     public String getLatitude() {
