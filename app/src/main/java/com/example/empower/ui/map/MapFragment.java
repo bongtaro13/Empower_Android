@@ -15,19 +15,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -204,10 +199,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         mapProgressBar = root.findViewById(R.id.map_search_progressBar);
 
 
-
-
         dialogMapFragment = new SearchDialogMapFragment();
-        dialogMapFragment.setTargetFragment(this,SEARCH_MAP_FRAGMENT);
+        dialogMapFragment.setTargetFragment(this, SEARCH_MAP_FRAGMENT);
 
         searchNearbyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -399,7 +392,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
             if (sportsVenueArrayList.size() > 0) {
                 // Use index number to mapping of real address and latitude-longitude address
                 for (Venue tempSportsVenue : sportsVenueArrayList) {
-                    if (tempSportsVenue.getLongitude() == null || tempSportsVenue.getLatitude() == null){
+                    if (tempSportsVenue.getLongitude() == null || tempSportsVenue.getLatitude() == null) {
 
                         continue;
                     }
@@ -795,66 +788,65 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     combineLocationMapping1 = venueFilter.getVenueWithSports(sportArrayList, combineLocationMapping1);
                     combineLocationMapping1 = venueFilter.getVenueNearby(nearbyResult, combineLocationMapping1, currentLocation);
 
-                    //new AsyncAddMarker().execute(combineLocationMapping1);
+                    new AsyncAddMarkerOnMap().execute(combineLocationMapping1);
 
-                    if (combineLocationMapping1.size() != 0) {
-                        mapAPI.clear();
-
-                        mapAPI.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                            @Override
-                            public void onInfoWindowClick(Marker marker) {
-                                url = getUrl(currentLocationMarker.getPosition(), marker.getPosition(), "transit");
-                                // add router on the map with selected
-                                new FetchURL().execute(url, "transit");
-                                Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                        // long click jump to street view fragment
-                        mapAPI.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
-                            @Override
-                            public void onInfoWindowLongClick(Marker marker) {
-                                Toast.makeText(getActivity(), "Info window long clicked", Toast.LENGTH_SHORT).show();
-//                        StreetViewFragment fragment2=new StreetViewFragment();
-//                        FragmentManager fragmentManager= getFragmentManager();
-//                        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-//                        fragmentTransaction.replace(R.id.container,fragment2,"tag");
-//                        fragmentTransaction.addToBackStack(null);
-//                        fragmentTransaction.commit();
-                            }
-                        });
-
-
-                        for (Venue tempLocationAddressPair : combineLocationMapping1) {
-                            if (tempLocationAddressPair.getLatitude() == null || tempLocationAddressPair.getLongitude() == null){
-                                continue;
-                            }
-
-                            LatLng tempSportsVenueLocation = new LatLng(Double.parseDouble(tempLocationAddressPair.getLatitude()),
-                                    Double.parseDouble(tempLocationAddressPair.getLongitude()));
-                            Venue tempSportsVenue = tempLocationAddressPair;
-
-
-                            mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
-                                    .title(tempSportsVenue.getName())
-                                    .snippet(tempSportsVenue.getType() + " " + tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode()));
-
-                        }
-                        getCurrentLocation();
-                        LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                        mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap).title("You current location")
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-
-                        CameraPosition newCameraPosition = new CameraPosition.Builder()
-                                .target(currentLocationMarkerOnMap).zoom(10).build();
-
-
-                        mapAPI.animateCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition));
-                        mapProgressBar.setVisibility(View.GONE);
-                        Toast toast_success = Toast.makeText(getContext(), "Result found", Toast.LENGTH_SHORT);
-                        toast_success.show();
-                    }
-
+//                    if (combineLocationMapping1.size() != 0) {
+//                        mapAPI.clear();
+//
+//                        mapAPI.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+//                            @Override
+//                            public void onInfoWindowClick(Marker marker) {
+//                                url = getUrl(currentLocationMarker.getPosition(), marker.getPosition(), "transit");
+//                                // add router on the map with selected
+//                                new FetchURL().execute(url, "transit");
+//                                Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//
+//                        // long click jump to street view fragment
+//                        mapAPI.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
+//                            @Override
+//                            public void onInfoWindowLongClick(Marker marker) {
+//                                Toast.makeText(getActivity(), "Info window long clicked", Toast.LENGTH_SHORT).show();
+////                        StreetViewFragment fragment2=new StreetViewFragment();
+////                        FragmentManager fragmentManager= getFragmentManager();
+////                        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+////                        fragmentTransaction.replace(R.id.container,fragment2,"tag");
+////                        fragmentTransaction.addToBackStack(null);
+////                        fragmentTransaction.commit();
+//                            }
+//                        });
+//
+//
+//                        for (Venue tempLocationAddressPair : combineLocationMapping1) {
+//                            if (tempLocationAddressPair.getLatitude() == null || tempLocationAddressPair.getLongitude() == null){
+//                                continue;
+//                            }
+//
+//                            LatLng tempSportsVenueLocation = new LatLng(Double.parseDouble(tempLocationAddressPair.getLatitude()),
+//                                    Double.parseDouble(tempLocationAddressPair.getLongitude()));
+//                            Venue tempSportsVenue = tempLocationAddressPair;
+//
+//
+//                            mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
+//                                    .title(tempSportsVenue.getName())
+//                                    .snippet(tempSportsVenue.getType() + " " + tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode()));
+//
+//                        }
+//                        getCurrentLocation();
+//                        LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+//                        mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap).title("You current location")
+//                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+//
+//                        CameraPosition newCameraPosition = new CameraPosition.Builder()
+//                                .target(currentLocationMarkerOnMap).zoom(10).build();
+//
+//
+//                        mapAPI.animateCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition));
+//                        mapProgressBar.setVisibility(View.GONE);
+//                        Toast toast_success = Toast.makeText(getContext(), "Result found", Toast.LENGTH_SHORT);
+//                        toast_success.show();
+//                    }
 
                 } else if (resultCode == Activity.RESULT_CANCELED) {
 
@@ -864,7 +856,85 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     }
 
 
+    // put markers of selected sports venues on the google map
+    private class AsyncAddMarkerOnMap extends AsyncTask<ArrayList<Venue>, Void, ArrayList<Venue>> {
 
+
+        @Override
+        protected ArrayList<Venue> doInBackground(ArrayList<Venue>... arrayLists) {
+
+            ArrayList<Venue> venueArrayList = arrayLists[0];
+            return venueArrayList;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Venue> arrayLists) {
+            super.onPostExecute(arrayLists);
+            // input parameter of the sports venues array list
+            ArrayList<Venue> sportsVenueArrayList = arrayLists;
+
+            mapAPI.clear();
+            if (sportsVenueArrayList.size() != 0) {
+                mapAPI.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+                        url = getUrl(currentLocationMarker.getPosition(), marker.getPosition(), "transit");
+                        // add router on the map with selected
+                        new FetchURL().execute(url, "transit");
+                        Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                // long click jump to street view fragment
+                mapAPI.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
+                    @Override
+                    public void onInfoWindowLongClick(Marker marker) {
+                        Toast.makeText(getActivity(), "Info window long clicked", Toast.LENGTH_SHORT).show();
+//                        StreetViewFragment fragment2=new StreetViewFragment();
+//                        FragmentManager fragmentManager= getFragmentManager();
+//                        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+//                        fragmentTransaction.replace(R.id.container,fragment2,"tag");
+//                        fragmentTransaction.addToBackStack(null);
+//                        fragmentTransaction.commit();
+                    }
+                });
+
+
+                for (Venue tempLocationAddressPair : sportsVenueArrayList) {
+
+                    if (tempLocationAddressPair.getLatitude().equals("") || tempLocationAddressPair.getLongitude().equals("")){
+                        continue;
+                    }
+
+
+                    LatLng tempSportsVenueLocation = new LatLng(
+                            Double.parseDouble(tempLocationAddressPair.getLatitude()),
+                            Double.parseDouble(tempLocationAddressPair.getLongitude()));
+                    Venue tempSportsVenue = tempLocationAddressPair;
+
+
+                    mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
+                            .title(tempSportsVenue.getName())
+                            .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode()));
+
+                }
+                getCurrentLocation();
+                LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap).title("You current location")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+                CameraPosition newCameraPosition = new CameraPosition.Builder()
+                        .target(currentLocationMarkerOnMap).zoom(10).build();
+
+
+                mapAPI.animateCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition));
+                mapProgressBar.setVisibility(View.GONE);
+                Toast toast_success = Toast.makeText(getContext(), "Result found", Toast.LENGTH_SHORT);
+                toast_success.show();
+            }
+            mapProgressBar.setVisibility(View.GONE);
+        }
+    }
 
 
 }

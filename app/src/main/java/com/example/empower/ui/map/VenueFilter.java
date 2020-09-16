@@ -9,7 +9,8 @@ import java.util.ArrayList;
 public class VenueFilter {
     public ArrayList<Venue> getVenueWithPostCode(String inputPostCode, ArrayList<Venue> inputVeneus) {
         ArrayList<Venue> outputVenue = new ArrayList<>();
-        if (inputPostCode == null){
+
+        if (inputPostCode.equals("")){
             return inputVeneus;
         }
         for (Venue tempVenue : inputVeneus) {
@@ -31,8 +32,9 @@ public class VenueFilter {
     public ArrayList<Venue> getVenueWithType(ArrayList<String> venueTypeList, ArrayList<Venue> inputVeneus) {
         ArrayList<Venue> outputVenue = new ArrayList<>();
         if (venueTypeList.size() == 0) {
-            return inputVeneus;
+            return outputVenue;
         }
+        ArrayList test = venueTypeList;
 
         for (int i = 0; i < venueTypeList.size(); i++) {
             for (Venue tempVenue : inputVeneus) {
@@ -80,9 +82,10 @@ public class VenueFilter {
 
         if (inputNearby.equals("5km")) {
             for (Venue temp : inputVeneus) {
-                if (temp.getLatitude() == null || temp.getLongitude() == null){
+                if (temp.getLatitude().equals("") || temp.getLongitude().equals("")){
                     continue;
                 }
+
                 double tempLat = Double.parseDouble(temp.getLatitude());
                 double tempLng = Double.parseDouble(temp.getLongitude());
                 double theta = currentLng - tempLng;
@@ -95,6 +98,7 @@ public class VenueFilter {
                 dist = Math.acos(dist);
                 dist = rad2deg(dist);
                 dist = dist * 60 * 1.1515;
+                dist = dist * 1.609344;
 
                 if (dist <= 5) {
                     outputVenue.add(temp);
@@ -123,6 +127,7 @@ public class VenueFilter {
                 dist = Math.acos(dist);
                 dist = rad2deg(dist);
                 dist = dist * 60 * 1.1515;
+                dist = dist * 1.609344;
 
                 if (dist <= 10) {
                     outputVenue.add(temp);
