@@ -19,10 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.empower.R;
-import com.example.empower.ui.map.CheckboxList;
 import com.ramotion.foldingcell.FoldingCell;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
 

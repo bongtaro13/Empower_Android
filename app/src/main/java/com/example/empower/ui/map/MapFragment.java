@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -666,6 +667,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
             } else {
                 Log.d("mylog", "without Polylines drawn");
+                Toast toast_error = Toast.makeText(getContext(), "No result find", Toast.LENGTH_SHORT);
+                toast_error.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
+                toast_error.show();
+
             }
         }
     }

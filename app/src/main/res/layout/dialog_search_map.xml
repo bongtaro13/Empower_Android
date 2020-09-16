@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Select all sport"
-                android:checked="false"/>
+                android:checked="true"/>
 
             <CheckBox
                 android:id="@+id/dialog_search_map_football"
@@ -71,21 +71,21 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Football"
-                android:checked="false"/>
+                android:checked="true"/>
             <CheckBox
                 android:id="@+id/dialog_search_map_basketball"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Basketball"
-                android:checked="false"/>
+                android:checked="true"/>
             <CheckBox
                 android:id="@+id/dialog_search_map_cricket"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Cricket"
-                android:checked="false"/>
+                android:checked="true"/>
 
         </LinearLayout>
         ​
