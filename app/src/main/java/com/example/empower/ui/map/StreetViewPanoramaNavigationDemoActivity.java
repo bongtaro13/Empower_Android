@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.StreetViewPanoramaLocation;
 public class StreetViewPanoramaNavigationDemoActivity extends AppCompatActivity {
 
     // George St, Sydney
-    private static final LatLng SYDNEY = new LatLng(-33.87365, 151.20689);
+    private static final LatLng MELBOURNE = new LatLng(-37.819760, 144.968029);
 
     // Cole St, San Fran
     private static final LatLng SAN_FRAN = new LatLng(37.769263, -122.450727);
@@ -57,7 +57,7 @@ public class StreetViewPanoramaNavigationDemoActivity extends AppCompatActivity 
                         // Only set the panorama to SYDNEY on startup (when no panoramas have been
                         // loaded which is when the savedInstanceState is null).
                         if (savedInstanceState == null) {
-                            mStreetViewPanorama.setPosition(SYDNEY);
+                            mStreetViewPanorama.setPosition(MELBOURNE);
                         }
                     }
                 });
@@ -93,7 +93,7 @@ public class StreetViewPanoramaNavigationDemoActivity extends AppCompatActivity 
         if (!checkReady()) {
             return;
         }
-        mStreetViewPanorama.setPosition(SYDNEY);
+        mStreetViewPanorama.setPosition(MELBOURNE);
     }
 
     /**
