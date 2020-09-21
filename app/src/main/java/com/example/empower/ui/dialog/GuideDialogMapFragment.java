@@ -42,8 +42,6 @@ public class GuideDialogMapFragment extends DialogFragment {
         });
 
 
-
-
         return view;
     }
 

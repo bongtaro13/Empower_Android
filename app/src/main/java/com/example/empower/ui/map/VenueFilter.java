@@ -10,7 +10,7 @@ public class VenueFilter {
     public ArrayList<Venue> getVenueWithPostCode(String inputPostCode, ArrayList<Venue> inputVeneus) {
         ArrayList<Venue> outputVenue = new ArrayList<>();
 
-        if (inputPostCode.equals("")){
+        if (inputPostCode.equals("")) {
             return inputVeneus;
         }
         for (Venue tempVenue : inputVeneus) {
@@ -18,13 +18,8 @@ public class VenueFilter {
                 outputVenue.add(tempVenue);
             }
         }
-        if (outputVenue.size() > 0){
-            return outputVenue;
-        }else {
-            return inputVeneus;
-        }
 
-
+        return outputVenue;
 
     }
 
@@ -44,9 +39,9 @@ public class VenueFilter {
             }
         }
 
-        if (outputVenue.size() > 0){
+        if (outputVenue.size() > 0) {
             return outputVenue;
-        }else {
+        } else {
             return inputVeneus;
         }
 
@@ -55,7 +50,7 @@ public class VenueFilter {
 
     public ArrayList<Venue> getVenueWithSports(ArrayList<String> venueSportList, ArrayList<Venue> inputVeneus) {
         ArrayList<Venue> outputVenue = new ArrayList<>();
-        if (venueSportList.size()== 0) {
+        if (venueSportList.size() == 0) {
             return outputVenue;
         }
 
@@ -67,9 +62,9 @@ public class VenueFilter {
             }
         }
 
-        if (outputVenue.size() > 0){
+        if (outputVenue.size() > 0) {
             return outputVenue;
-        }else {
+        } else {
             return inputVeneus;
         }
     }
@@ -82,7 +77,7 @@ public class VenueFilter {
 
         if (inputNearby.equals("5km")) {
             for (Venue temp : inputVeneus) {
-                if (temp.getLatitude().equals("") || temp.getLongitude().equals("")){
+                if (temp.getLatitude().equals("") || temp.getLongitude().equals("")) {
                     continue;
                 }
 
@@ -112,7 +107,7 @@ public class VenueFilter {
 
         if (inputNearby.equals("10km")) {
             for (Venue temp : inputVeneus) {
-                if (temp.getLatitude() == null || temp.getLongitude() == null){
+                if (temp.getLatitude() == null || temp.getLongitude() == null) {
                     continue;
                 }
                 double tempLat = Double.parseDouble(temp.getLatitude());

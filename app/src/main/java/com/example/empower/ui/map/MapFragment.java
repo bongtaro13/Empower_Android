@@ -813,6 +813,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     combineLocationMapping1 = venueFilter.getVenueWithSports(sportArrayList, combineLocationMapping1);
                     combineLocationMapping1 = venueFilter.getVenueNearby(nearbyResult, combineLocationMapping1, currentLocation);
 
+                    if (combineLocationMapping1.size()==0){
+                        Toast.makeText(getActivity(), "No Result Found", Toast.LENGTH_SHORT).show();
+                    }
+
                     new AsyncAddMarkerOnMap().execute(combineLocationMapping1);
 
 //                    if (combineLocationMapping1.size() != 0) {
