@@ -98,7 +98,6 @@ public class SearchDialogMapFragment extends DialogFragment {
 
 
 
-
 //        // venue array list management
         venueArrayList = new ArrayList<>();
 //        checkBox_sportVenue.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -232,6 +231,9 @@ public class SearchDialogMapFragment extends DialogFragment {
                 bundle.putString("nearbyResult", nearbyResult);
                 intent.putExtras(bundle);
                 Objects.requireNonNull(getTargetFragment()).onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+
+                // reset postcode input to empty when closing this search dialog
+                editText_postcode.setText("");
                 dismiss();
             }
         });
