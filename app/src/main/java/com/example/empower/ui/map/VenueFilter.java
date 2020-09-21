@@ -7,6 +7,8 @@ import com.example.empower.entity.Venue;
 import java.util.ArrayList;
 
 public class VenueFilter {
+
+    // filter venue with postcode input
     public ArrayList<Venue> getVenueWithPostCode(String inputPostCode, ArrayList<Venue> inputVeneus) {
         ArrayList<Venue> outputVenue = new ArrayList<>();
 
@@ -24,6 +26,7 @@ public class VenueFilter {
     }
 
 
+    // filter venue with venue type
     public ArrayList<Venue> getVenueWithType(ArrayList<String> venueTypeList, ArrayList<Venue> inputVeneus) {
         ArrayList<Venue> outputVenue = new ArrayList<>();
         if (venueTypeList.size() == 0) {
@@ -48,6 +51,7 @@ public class VenueFilter {
 
     }
 
+    // filter venue with supported sports
     public ArrayList<Venue> getVenueWithSports(ArrayList<String> venueSportList, ArrayList<Venue> inputVeneus) {
         ArrayList<Venue> outputVenue = new ArrayList<>();
         if (venueSportList.size() == 0) {
@@ -69,6 +73,7 @@ public class VenueFilter {
         }
     }
 
+    // filter venue with distance
     public ArrayList<Venue> getVenueNearby(String inputNearby, ArrayList<Venue> inputVeneus, Location inputCurrentLocaiton) {
         ArrayList<Venue> outputVenue = new ArrayList<>();
 

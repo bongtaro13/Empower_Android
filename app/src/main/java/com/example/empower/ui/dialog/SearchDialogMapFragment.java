@@ -24,6 +24,11 @@ import com.ramotion.foldingcell.FoldingCell;
 import java.util.ArrayList;
 import java.util.Objects;
 
+
+/**
+ * class name: SearchDialogMapFragment.java
+ * function: Main aim of this dialog fragment is to display and let user choose filter in the venue search function
+ */
 public class SearchDialogMapFragment extends DialogFragment {
     private static final String TAG = "SearchDialogMapFragment";
 

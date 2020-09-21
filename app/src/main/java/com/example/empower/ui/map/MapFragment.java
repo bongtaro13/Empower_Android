@@ -594,7 +594,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
     }
 
-
+    // get result from input URL with google direction API
     public class FetchURL extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... strings) {
@@ -620,6 +620,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     }
 
 
+    // parser points information to polyline on map
     public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
 
         // Parsing the data in non-ui thread
@@ -695,6 +696,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         }
     }
 
+
+    // display step information in every route planner dialogue
     public void DisplaySteps(List<HashMap<String, String>> stepInfoList) {
 
 
@@ -793,6 +796,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         return data;
     }
 
+    // get result from search filter dialogue
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent searchParameter) {
         switch (requestCode) {

@@ -19,6 +19,11 @@ import com.example.empower.R;
 import com.example.empower.entity.Step;
 import java.util.List;
 
+
+/**
+ * class name: StepsDialogMapFragment.java
+ * function: Main aim of this dialog fragment is to display step information of a real-time router planner
+ */
 public class StepsDialogMapFragment extends DialogFragment {
     private static final String TAG = "StepsDialogMapFragment";
 

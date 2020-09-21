@@ -15,6 +15,14 @@ import com.example.empower.entity.Step;
 
 import java.util.List;
 
+
+
+/**
+ * class name: MyStepsAdapter
+ * function: manage the recycle with each item, integrated every single item to the step list
+ * */
+
+
 public class MyStepsAdapter  extends RecyclerView.Adapter<MyStepsAdapter.MyViewHolder> {
 
 
