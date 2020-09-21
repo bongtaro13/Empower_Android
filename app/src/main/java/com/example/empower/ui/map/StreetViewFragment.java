@@ -30,7 +30,7 @@ public class StreetViewFragment extends DialogFragment implements OnStreetViewPa
 
         root = inflater.inflate(R.layout.fragment_streetview, container, false);
 
-        streetViewPanoramaFragment = (SupportStreetViewPanoramaFragment) getChildFragmentManager().findFragmentById(R.id.streetviewpanorama);
+        SupportStreetViewPanoramaFragment supportStreetViewPanoramaFragment= (SupportStreetViewPanoramaFragment) getFragmentManager().findFragmentById(R.id.streetviewpanorama);
         streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
 
         return root;

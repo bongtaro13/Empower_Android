@@ -1,6 +1,7 @@
 package com.example.empower.ui.map;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -130,6 +131,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
     // street view in application
     private StreetViewFragment streetViewFragment;
+    private Button streetViewButton;
 
     // arrayList for all all sports venus read from teh csv data file
     private ArrayList<Venue> sportsVenueList = new ArrayList<>();
@@ -166,7 +168,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
 
     // initialize the mapFragment
-    public View onCreateView(@NonNull LayoutInflater inflater,
+    public View onCreateView(@NonNull final LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
 
@@ -234,6 +236,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
         streetViewFragment = new StreetViewFragment();
         streetViewFragment.setTargetFragment(this, STREE_VIEW_FRAGMENT);
+
+        streetViewButton = root.findViewById(R.id.map_search_streetView_button);
+
+        streetViewButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceType")
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), StreetViewPanoramaNavigationDemoActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
 
         return root;
     }
