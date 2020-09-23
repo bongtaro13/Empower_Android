@@ -682,11 +682,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     double lng = Double.parseDouble(point.get("lng"));
                     LatLng position = new LatLng(lat, lng);
                     points.add(position);
+
                 }
                 // Adding all the points in the route to LineOptions
                 lineOptions.addAll(points);
                 if (directionMode.equalsIgnoreCase("walking")) {
                     lineOptions.width(10);
+
                     lineOptions.color(Color.MAGENTA);
                 } else {
                     lineOptions.width(20);

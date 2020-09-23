@@ -68,6 +68,10 @@ dependencies {
     implementation 'com.ramotion.foldingcell:folding-cell:1.2.3'
 
 
+    // welcome page
+    compile 'com.stephentuso:welcome:1.4.1'
+
+
 
 
 }

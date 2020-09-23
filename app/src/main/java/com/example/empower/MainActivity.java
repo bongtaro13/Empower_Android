@@ -15,6 +15,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.stephentuso.welcome.WelcomeHelper;
 
 //get current location
 
@@ -28,6 +29,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
 
 
+
+    WelcomeHelper welcomeScreen;
     private LatLng currentLatLng;
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
 
@@ -38,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
     // main activity test added
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        welcomeScreen = new WelcomeHelper(this, MyWelcomeActivity.class);
+        welcomeScreen.show(savedInstanceState);
 
 
 
@@ -84,6 +90,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        welcomeScreen.onSaveInstanceState(outState);
+    }
 }
 
 

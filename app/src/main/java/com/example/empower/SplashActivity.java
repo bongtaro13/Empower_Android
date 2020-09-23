@@ -127,6 +127,7 @@ public class SplashActivity extends AppCompatActivity {
                             };
                             //Schedule the execution of timerTask, the second parameter is passed in the delay time (ms)
                             timer.schedule(timerTask, 3000);
+
                         }
                     }
 
