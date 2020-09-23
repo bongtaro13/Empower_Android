@@ -13,12 +13,12 @@ public class MyWelcomeActivity extends WelcomeActivity {
                 .page(new TitlePage(R.drawable.logo,
                         "Title")
                 )
-                .page(new BasicPage(R.drawable.football,
+                .page(new BasicPage(R.drawable.map_guide,
                         "Header",
                         "More text.")
                         .background(R.color.red_background)
                 )
-                .page(new BasicPage(R.drawable.basketball,
+                .page(new BasicPage(R.drawable.news_guide,
                         "Lorem ipsum",
                         "dolor sit amet.")
                 )
