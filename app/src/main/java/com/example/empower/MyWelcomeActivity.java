@@ -11,16 +11,16 @@ public class MyWelcomeActivity extends WelcomeActivity {
         return new WelcomeConfiguration.Builder(this)
                 .defaultBackgroundColor(R.color.blue_background)
                 .page(new TitlePage(R.drawable.logo,
-                        "Title")
+                        "Logo")
                 )
                 .page(new BasicPage(R.drawable.map_guide,
-                        "Header",
-                        "More text.")
+                        "Map guide",
+                        "This is text in map guide")
                         .background(R.color.red_background)
                 )
                 .page(new BasicPage(R.drawable.news_guide,
-                        "Lorem ipsum",
-                        "dolor sit amet.")
+                        "News guide",
+                        "This is text in news guide")
                 )
                 .swipeToDismiss(true)
                 .build();

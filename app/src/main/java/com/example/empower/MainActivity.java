@@ -67,10 +67,6 @@ public class MainActivity extends AppCompatActivity {
 
         settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 
-
-
-
-
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -83,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
 
     public LatLng getCurrentLatLngFromMain() {
         return currentLatLng;
