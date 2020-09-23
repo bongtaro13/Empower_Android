@@ -13,20 +13,17 @@ import com.example.empower.MainActivity;
 import com.example.empower.R;
 import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
 import com.google.android.gms.maps.StreetViewPanorama;
-import com.google.android.gms.maps.StreetViewPanoramaFragment;
 import com.google.android.gms.maps.SupportStreetViewPanoramaFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
 import com.google.android.gms.maps.model.StreetViewPanoramaLink;
 import com.google.android.gms.maps.model.StreetViewPanoramaLocation;
 
-public class StreetViewPanoramaNavigationDemoActivity extends AppCompatActivity {
+public class StreetViewPanoramaActivity extends AppCompatActivity {
 
-    // George St, Sydney
+    // George St, Melbourne
     private static final LatLng MELBOURNE = new LatLng(-37.819760, 144.968029);
 
-    // Cole St, San Fran
-    private static final LatLng SAN_FRAN = new LatLng(37.769263, -122.450727);
 
     // Santorini, Greece
     private static final String SANTORINI = "WddsUw1geEoAAAQIt9RnsQ";
@@ -82,7 +79,7 @@ public class StreetViewPanoramaNavigationDemoActivity extends AppCompatActivity 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(StreetViewPanoramaNavigationDemoActivity.this, MainActivity.class);
+                intent.setClass(StreetViewPanoramaActivity.this, MainActivity.class);
                 String stringLatLngResult = currentLatLng.latitude + "," + currentLatLng.longitude;
                 intent.putExtra("stringLatLngResult", stringLatLngResult);
                 startActivity(intent);
