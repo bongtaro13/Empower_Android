@@ -37,6 +37,12 @@
                 android:layout_height="wrap_content"
                 android:onClick="onMovePosition"
                 android:text="walk_panorama" />
+
+            <Button
+                android:id="@+id/streetView_backToMap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Back to map"/>
         </LinearLayout>
 
         <RelativeLayout
@@ -138,27 +144,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:onClick="onGoToSydney"
+            android:onClick="onGoToMelbourne"
             android:layout_weight="1"
-            android:text="go_to_sydney" />
+            android:text="Go to Melbourne" />
 
-        <Button
-            android:id="@+id/sanfran"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:onClick="onGoToSanFran"
-            android:layout_weight="1"
-            android:text="go_to_san_fran" />
-
-        <Button
-            android:id="@+id/santorini"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:onClick="onGoToSantorini"
-            android:layout_weight="1"
-            android:text="go_to_santorini" />
 
         <Button
             android:id="@+id/invalid"

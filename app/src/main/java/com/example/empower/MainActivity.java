@@ -29,7 +29,6 @@ import com.stephentuso.welcome.WelcomeHelper;
 public class MainActivity extends AppCompatActivity {
 
 
-
     WelcomeHelper welcomeScreen;
     private LatLng currentLatLng;
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
@@ -46,13 +45,12 @@ public class MainActivity extends AppCompatActivity {
         welcomeScreen.show(savedInstanceState);
 
 
-
+        String stringCurrentLatLng = getIntent().getStringExtra("stringLatLngResult");
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             currentLatLng = new LatLng(-37.876859, 145.044946);
         } else {
-            String stringCurrentLatLng = getIntent().getStringExtra("stringLatLngResult");
             assert stringCurrentLatLng != null;
-            String [] arrayLatLng = stringCurrentLatLng.split(",");
+            String[] arrayLatLng = stringCurrentLatLng.split(",");
             double latitude = Double.parseDouble(arrayLatLng[0]);
             double longitude = Double.parseDouble(arrayLatLng[1]);
             currentLatLng = new LatLng(latitude, longitude);

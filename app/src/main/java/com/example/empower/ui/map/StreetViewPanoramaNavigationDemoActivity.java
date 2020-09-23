@@ -1,15 +1,19 @@
 package com.example.empower.ui.map;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.empower.MainActivity;
 import com.example.empower.R;
 import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
 import com.google.android.gms.maps.StreetViewPanorama;
+import com.google.android.gms.maps.StreetViewPanoramaFragment;
 import com.google.android.gms.maps.SupportStreetViewPanoramaFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
@@ -41,6 +45,10 @@ public class StreetViewPanoramaNavigationDemoActivity extends AppCompatActivity 
 
     private SeekBar mCustomDurationBar;
 
+
+    private Button backToMapButton;
+    private LatLng currentLatLng;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +70,25 @@ public class StreetViewPanoramaNavigationDemoActivity extends AppCompatActivity 
                     }
                 });
         mCustomDurationBar = (SeekBar) findViewById(R.id.duration_bar);
+
+        String stringCurrentLatLng = getIntent().getStringExtra("stringLatLngResult");
+        String[] arrayLatLng = stringCurrentLatLng.split(",");
+        double latitude = Double.parseDouble(arrayLatLng[0]);
+        double longitude = Double.parseDouble(arrayLatLng[1]);
+        currentLatLng = new LatLng(latitude, longitude);
+
+        backToMapButton = findViewById(R.id.streetView_backToMap);
+        backToMapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(StreetViewPanoramaNavigationDemoActivity.this, MainActivity.class);
+                String stringLatLngResult = currentLatLng.latitude + "," + currentLatLng.longitude;
+                intent.putExtra("stringLatLngResult", stringLatLngResult);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     /**
@@ -76,22 +103,15 @@ public class StreetViewPanoramaNavigationDemoActivity extends AppCompatActivity 
         return true;
     }
 
-    /**
-     * Called when the Go To San Fran button is clicked.
-     */
-    public void onGoToSanFran(View view) {
-        if (!checkReady()) {
-            return;
-        }
-        mStreetViewPanorama.setPosition(SAN_FRAN, 30);
-    }
+
 
     /**
      * Called when the Animate To Sydney button is clicked.
      */
-    public void onGoToSydney(View view) {
+    public void onGoToMelbourne(View view) {
         if (!checkReady()) {
             return;
+
         }
         mStreetViewPanorama.setPosition(MELBOURNE);
     }

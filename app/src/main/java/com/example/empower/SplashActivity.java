@@ -64,8 +64,6 @@ public class SplashActivity extends AppCompatActivity {
         logoImage = findViewById(R.id.splash_logo_image);
 
 
-
-
         Dexter.withContext(this)
                 .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 .withListener(new PermissionListener() {

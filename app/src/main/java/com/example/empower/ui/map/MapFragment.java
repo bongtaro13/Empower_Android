@@ -244,7 +244,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(getActivity(), StreetViewPanoramaNavigationDemoActivity.class);
+                intent.setClass(Objects.requireNonNull(getActivity()), StreetViewPanoramaNavigationDemoActivity.class);
+                String stringLatLngResult = currentLocation.getLatitude() + "," + currentLocation.getLongitude();
+                intent.putExtra("stringLatLngResult", stringLatLngResult);
                 getActivity().startActivity(intent);
             }
         });
@@ -945,10 +947,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
                     }
                 });
-
-
-
-
 
 
                 for (Venue tempLocationAddressPair : sportsVenueArrayList) {
