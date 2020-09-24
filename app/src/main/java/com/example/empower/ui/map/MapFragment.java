@@ -696,7 +696,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
                 currentPolyLine = mapAPI.addPolyline(lineOptions);
                 currentPolyLine.setClickable(true);
-                
+
                 mapAPI.setOnPolylineClickListener(new GoogleMap.OnPolylineClickListener() {
                     @Override
                     public void onPolylineClick(Polyline polyline) {
