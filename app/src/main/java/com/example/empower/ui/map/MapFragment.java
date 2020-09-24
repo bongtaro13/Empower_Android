@@ -656,7 +656,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         // Executes in UI thread, after the parsing process
         @Override
         protected void onPostExecute(List<List<HashMap<String, String>>> result) {
-            ArrayList<LatLng> points;
+            ArrayList<LatLng> points = null;
             PolylineOptions lineOptions = null;
             // Traversing through all the routes
             for (int i = 0; i < result.size(); i++) {
@@ -691,7 +691,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                 if (currentPolyLine != null){
                     currentPolyLine.remove();
                 }
+                
+                final ArrayList<LatLng> lastPoints = points;
+
                 currentPolyLine = mapAPI.addPolyline(lineOptions);
+                currentPolyLine.setClickable(true);
+                
+                mapAPI.setOnPolylineClickListener(new GoogleMap.OnPolylineClickListener() {
+                    @Override
+                    public void onPolylineClick(Polyline polyline) {
+                        url = getUrl(currentLocationMarker.getPosition(), lastPoints.get(lastPoints.size()-1), "transit");
+                        // add router on the map with selected
+                        new FetchURL().execute(url, "transit");
+                        Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                
                 DisplaySteps(routeSteps);
 
 
@@ -1012,6 +1027,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
             mapProgressBar.setVisibility(View.GONE);
         }
     }
+
 
 
 }
