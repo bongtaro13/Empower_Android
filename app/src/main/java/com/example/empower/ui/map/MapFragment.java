@@ -688,7 +688,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
             // Drawing polyline in the Google Map for the i-th route
             if (lineOptions != null) {
-                mapAPI.addPolyline(lineOptions);
+                if (currentPolyLine != null){
+                    currentPolyLine.remove();
+                }
+                currentPolyLine = mapAPI.addPolyline(lineOptions);
                 DisplaySteps(routeSteps);
 
 
