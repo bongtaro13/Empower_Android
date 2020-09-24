@@ -79,7 +79,7 @@ public class StreetViewPanoramaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(StreetViewPanoramaActivity.this, MainActivity.class);
+                intent.setClass(StreetViewPanoramaActivity.this, MapFragment.class);
                 String stringLatLngResult = currentLatLng.latitude + "," + currentLatLng.longitude;
                 intent.putExtra("stringLatLngResult", stringLatLngResult);
                 startActivity(intent);

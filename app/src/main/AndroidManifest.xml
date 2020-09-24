@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.empower">
 
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <permission android:name="com.androidlearningtutorials.googlemap.permission.MAPS_RECEIVE"/>
+
+    <permission android:name="com.androidlearningtutorials.googlemap.permission.MAPS_RECEIVE" />
 
     <application
         android:allowBackup="true"
@@ -18,38 +18,29 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/map_key">
-
-        </meta-data>
-
-        <!--        <activity android:name=".ui.welcomepage.MyWelcomeActivity"-->
-        <!--            android:theme="@style/WelcomeScreenTheme" />-->
-
-
-        <activity android:name=".SplashActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:value="@string/map_key" /> <!-- <activity android:name=".ui.welcomepage.MyWelcomeActivity" -->
+        <!-- android:theme="@style/WelcomeScreenTheme" /> -->
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" />
+        <activity android:name=".MainActivity2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name">
-        </activity>
-
-        <activity android:name=".MyWelcomeActivity"
-            android:theme="@style/WelcomeScreenTheme"/>
-
-        <activity android:name=".ui.map.StreetViewPanoramaActivity"
-            android:label="@string/app_name">
-        </activity>
-
-
+            android:name=".MyWelcomeActivity"
+            android:theme="@style/WelcomeScreenTheme" />
+        <activity
+            android:name=".ui.map.StreetViewPanoramaActivity"
+            android:label="@string/app_name" />
     </application>
 
 </manifest>

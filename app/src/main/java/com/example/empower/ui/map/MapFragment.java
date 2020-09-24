@@ -234,6 +234,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                 intent.setClass(Objects.requireNonNull(getActivity()), StreetViewPanoramaActivity.class);
                 String stringLatLngResult = currentLocation.getLatitude() + "," + currentLocation.getLongitude();
                 intent.putExtra("stringLatLngResult", stringLatLngResult);
+                getActivity().setVisible(false);
                 getActivity().startActivity(intent);
             }
         });
@@ -703,7 +704,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                         url = getUrl(currentLocationMarker.getPosition(), lastPoints.get(lastPoints.size()-1), "transit");
                         // add router on the map with selected
                         new FetchURL().execute(url, "transit");
-                        Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Polyline clicked", Toast.LENGTH_SHORT).show();
                     }
                 });
                 

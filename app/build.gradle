@@ -71,6 +71,10 @@ dependencies {
     // welcome page
     compile 'com.stephentuso:welcome:1.4.1'
 
+    // new main page
+    compile 'com.github.armcha:LuseenBottomNavigation:1.8.2'
+
+
 
 
 
