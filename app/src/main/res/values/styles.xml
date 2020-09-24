@@ -27,4 +27,16 @@
     </style>
 
 
+    <style name="NewAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--布局延伸到状态内4.4+-->
+        <item name="android:windowTranslucentStatus">true</item>
+        <!--设置状态的颜色5.0+-->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+
 </resources>

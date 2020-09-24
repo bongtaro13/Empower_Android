@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity2">
 
+
+    <include layout="@layout/layout_titlebar"/>
+
     <com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
