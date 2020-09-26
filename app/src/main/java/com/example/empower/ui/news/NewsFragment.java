@@ -85,7 +85,7 @@ public class NewsFragment extends Fragment {
 
         // get SharedPreferences value from main activity, check if the guide picture is need or not
         SharedPreferences sp = Objects.requireNonNull(getActivity()).getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
-        MainActivity mainActivity = (MainActivity) getActivity();
+
         if (sp.getBoolean("news_first_time_dialog", true)) {
             // pop up window for guidance in news
             GuideDialogNewsFragment dialogFragment = new GuideDialogNewsFragment();

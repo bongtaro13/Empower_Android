@@ -30,6 +30,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.empower.MainActivity;
+import com.example.empower.MainActivity2;
 import com.example.empower.R;
 import com.example.empower.api.DataParser;
 import com.example.empower.entity.ActiveHour;
@@ -159,10 +160,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                              ViewGroup container, Bundle savedInstanceState) {
 
 
-        MainActivity mainActivity = (MainActivity) getActivity();
+//        MainActivity mainActivity = (MainActivity) getActivity();
+//
+//        currentLocation = new Location("current location");
+//        currentLocation.setLatitude(mainActivity.getCurrentLatLngFromMain().latitude);
+//        currentLocation.setLongitude(mainActivity.getCurrentLatLngFromMain().longitude);
+
         currentLocation = new Location("current location");
-        currentLocation.setLatitude(mainActivity.getCurrentLatLngFromMain().latitude);
-        currentLocation.setLongitude(mainActivity.getCurrentLatLngFromMain().longitude);
+        currentLocation.setLatitude(-37.799446);
+        currentLocation.setLongitude(144.919102);
 
 
         root = inflater.inflate(R.layout.fragment_map, container, false);

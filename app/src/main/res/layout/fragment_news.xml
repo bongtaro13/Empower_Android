@@ -10,11 +10,10 @@
     <Spinner
         android:id="@+id/news_Spinner"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="20dp"
         android:layout_marginStart="52dp"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="0dp" />
+        tools:ignore="MissingConstraints" />
 
 <!--    <Button-->
 <!--        android:id="@+id/podcast_Button"-->
@@ -40,7 +39,6 @@
         android:id="@+id/news_recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

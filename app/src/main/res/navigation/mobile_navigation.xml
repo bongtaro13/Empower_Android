@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_map">
+    app:startDestination="@id/navigation_map2">
 
     <fragment
         android:id="@+id/navigation_news"
@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_news" />
 
     <fragment
-        android:id="@+id/navigation_map"
-        android:name="com.example.empower.ui.map.MapFragment"
+        android:id="@+id/navigation_map2"
+        android:name="com.example.empower.ui2.map2.MapFragment2"
         android:label="@string/title_map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map2" />
 
     <fragment
         android:id="@+id/navigation_about"

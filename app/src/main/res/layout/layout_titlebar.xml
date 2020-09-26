@@ -4,7 +4,7 @@
     android:id="@+id/layout_titlebar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="@color/orange_background">
+    android:background="@color/blue_background">
 
     <TextView
         android:id="@+id/text_title"

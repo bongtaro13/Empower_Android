@@ -4,6 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -31,6 +35,8 @@ public class MainActivity2 extends AppCompatActivity {
     private ImageView aboutImage;
     private RelativeLayout titleBarLayout;
 
+    NavController navigation;
+
 
     @SuppressLint({"ResourceAsColor", "ResourceType"})
     @Override
@@ -40,6 +46,8 @@ public class MainActivity2 extends AppCompatActivity {
 
         titleBarText = findViewById(R.id.text_title);
         aboutImage = findViewById(R.id.toolbarImageViewAbout);
+
+
         titleBarLayout = (RelativeLayout) findViewById(R.layout.layout_titlebar);
 
 
@@ -61,9 +69,11 @@ public class MainActivity2 extends AppCompatActivity {
         BottomNavigationItem bottomNavigationNews = new BottomNavigationItem
                 ("News", ContextCompat.getColor(this, R.color.blue_background), R.drawable.ic_news_black_24dp);
         BottomNavigationItem bottomNavigationMap = new BottomNavigationItem
-                ("Map", ContextCompat.getColor(this, R.color.orange_background), R.drawable.ic_map_black_24dp);
+                ("Map", ContextCompat.getColor(this, R.color.blue_background), R.drawable.ic_map_black_24dp);
         BottomNavigationItem bottomNavigationContact = new BottomNavigationItem
-                ("Contact us", ContextCompat.getColor(this, R.color.teal_background), R.drawable.ic_about_black_24dp);
+                ("Contact us", ContextCompat.getColor(this, R.color.blue_background), R.drawable.ic_about_black_24dp);
+
+
 
 
         bottomNavigationView.addTab(bottomNavigationNews);
@@ -73,28 +83,36 @@ public class MainActivity2 extends AppCompatActivity {
         bottomNavigationView.isWithText(false);
         bottomNavigationView.selectTab(1);
 
+        navigation = Navigation.findNavController(this, R.id.nav_host_fragment_main2);
+
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+
+
+
         bottomNavigationView.setOnBottomNavigationItemClickListener(new OnBottomNavigationItemClickListener() {
             @Override
             public void onNavigationItemClick(int index) {
                 Toast.makeText(MainActivity2.this, "Item " + index + " clicked", Toast.LENGTH_SHORT).show();
-                if (index == 0) {
-                    setStatusBarColor(MainActivity2.this, R.color.blue_background);
-                    setTitle("News");
-                    titleBarLayout.setBackgroundColor(R.color.blue_background);
-                } else if (index == 1) {
-                    setStatusBarColor(MainActivity2.this, R.color.orange_background);
-                    setTitle("Map");
-                    titleBarLayout.setBackgroundColor(R.color.orange_background);
-                } else {
-                    setStatusBarColor(MainActivity2.this, R.color.teal_background);
-                    setTitle("Contact");
-                    titleBarLayout.setBackgroundColor(R.color.teal_background);
-
+                switch (index){
+                    case 0:
+                        navigation.navigate(R.id.navigation_news);
+                        setTitle("News");
+                        titleBarLayout.setBackgroundColor(R.color.blue_background);
+                        break;
+                    case 1:
+                        navigation.navigate(R.id.navigation_map2);
+                        setTitle("Map");
+                        titleBarLayout.setBackgroundColor(R.color.orange_background);
+                        break;
+                    case 2:
+                        navigation.navigate(R.id.navigation_about);
+                        setTitle("Contact");
+                        titleBarLayout.setBackgroundColor(R.color.teal_background);
+                        break;
                 }
-
             }
         });
-
 
     }
 
