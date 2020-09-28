@@ -134,7 +134,7 @@ public class AboutFragment extends Fragment {
             // 1. MATCH_PARENT 自适应高度，保持和Item一样高;
             // 2. 指定具体的高，比如80;
             // 3. WRAP_CONTENT，自身高度，不推荐;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = getResources().getDimensionPixelSize(R.dimen.dp_70);
 
             SwipeMenuItem addItem = new SwipeMenuItem(getContext()).setBackground(R.drawable.selector_green)
                     .setImage(R.drawable.football)
