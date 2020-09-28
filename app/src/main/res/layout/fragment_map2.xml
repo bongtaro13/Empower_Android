@@ -11,6 +11,8 @@
         android:layout_height="match_parent"
         android:text="@string/hello_blank_fragment" />
 
+
+
     <com.esri.arcgisruntime.mapping.view.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"

@@ -75,6 +75,8 @@ public class MapFragment2 extends Fragment {
         root =  inflater.inflate(R.layout.fragment_map2, container, false);
         mMapView = root.findViewById(R.id.mapView);
         setupMap();
+
+
         return root;
     }
 
@@ -84,7 +86,7 @@ public class MapFragment2 extends Fragment {
             Basemap.Type basemapType = Basemap.Type.STREETS_VECTOR;
             double latitude = -37.876859;
             double longitude = 145.044946;
-            int levelOfDetail = 11;
+            int levelOfDetail = 10;
             ArcGISMap map = new ArcGISMap(basemapType, latitude, longitude, levelOfDetail);
             mMapView.setMap(map);
         }
