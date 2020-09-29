@@ -142,8 +142,8 @@ public class AboutFragment extends Fragment {
                     .setHeight(height);
             swipeLeftMenu.addMenuItem(addItem); // 添加菜单到左侧。
 
-            SwipeMenuItem closeItem = new SwipeMenuItem(getContext()).setBackground(R.drawable.selector_green)
-                    .setImage(R.drawable.basketball)
+            SwipeMenuItem closeItem = new SwipeMenuItem(getContext()).setBackground(R.drawable.selector_red)
+                    .setImage(R.drawable.ic_delete_forever)
                     .setWidth(width)
                     .setHeight(height);
             swipeRightMenu.addMenuItem(closeItem); // 添加菜单到右侧。
