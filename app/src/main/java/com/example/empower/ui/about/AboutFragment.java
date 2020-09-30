@@ -18,10 +18,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.empower.R;
+import com.example.empower.database.LikedVenue;
+import com.example.empower.ui.news.NewsViewModel;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -44,7 +48,12 @@ public class AboutFragment extends Fragment {
     private WebView webView;
     private TextView contactTextview;
 
+    private ArrayList<String> dataList;
+
     private SwipeRecyclerView mRecyclerView;
+
+
+    private AboutViewModel aboutViewModel;
 
     private View root;
 
@@ -52,6 +61,8 @@ public class AboutFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+
 
         root = inflater.inflate(R.layout.fragment_about, container, false);
 
@@ -68,13 +79,44 @@ public class AboutFragment extends Fragment {
         mRecyclerView.setSwipeMenuCreator(mSwipeMenuCreator);
         mRecyclerView.setOnItemMenuClickListener(mItemMenuClickListener);
 
+
+
+        aboutViewModel =
+                ViewModelProviders.of(this).get(AboutViewModel.class);
+        aboutViewModel.initalizeVars(getActivity().getApplication());
+
+
+        // initialize the LikedVenue list with sample example
+
+        LikedVenue one = new LikedVenue("1","venue one", "3168");
+        LikedVenue two = new LikedVenue("2","venue two", "3056");
+        aboutViewModel.insert(one);
+        aboutViewModel.insert(two);
+
         MainAdapter menuAdapter = new MainAdapter(getContext());
         mRecyclerView.setAdapter(menuAdapter);
-        List<String> dataList = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            dataList.add("我是第" + i + "个。");
-        }
-        menuAdapter.notifyDataSetChanged(dataList);
+
+        // get LikedVenue object from
+        aboutViewModel.getAllLikedVenues().observe(this, new Observer<List<LikedVenue>>() {
+            @Override
+            public void onChanged(List<LikedVenue> likedVenues) {
+                dataList = new ArrayList<>();
+                for (LikedVenue tempLikedVenue: likedVenues){
+                    dataList.add(tempLikedVenue.toString());
+                }
+                menuAdapter.notifyDataSetChanged(dataList);
+            }
+
+        });
+
+
+
+
+//        dataList = new ArrayList<>();
+//        for (int i = 0; i < 30; i++) {
+//            dataList.add("我是第" + i + "个。");
+//        }
+
 
 
         feedbackButton.setOnClickListener(new View.OnClickListener() {

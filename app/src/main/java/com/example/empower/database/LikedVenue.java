@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey;
 public class LikedVenue {
 
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int venueIndexID;
 
     @ColumnInfo(name = "venueID")
@@ -58,5 +58,15 @@ public class LikedVenue {
 
     public void setPostcode(String postcode) {
         this.postcode = postcode;
+    }
+
+    @Override
+    public String toString() {
+        return "LikedVenue{" +
+                "venueIndexID=" + venueIndexID +
+                ", venueID='" + venueID + '\'' +
+                ", name='" + name + '\'' +
+                ", postcode='" + postcode + '\'' +
+                '}';
     }
 }

@@ -13,50 +13,49 @@ import java.util.List;
 
 public class AboutViewModel extends ViewModel {
 
-   private LikedVenueRepository venueRepository;
-   private MutableLiveData<List<LikedVenue>> allLikedVenue;
+    private LikedVenueRepository venueRepository;
+    private MutableLiveData<List<LikedVenue>> allLikedVenue;
 
-   public AboutViewModel (){
-       allLikedVenue = new MutableLiveData<>();
-   }
+    public AboutViewModel() {
+        allLikedVenue = new MutableLiveData<>();
+    }
 
 
-   public void setLikedVenues (List<LikedVenue> likedVenues){
-       allLikedVenue.setValue(likedVenues);
-   }
+    public void setLikedVenues(List<LikedVenue> likedVenues) {
+        allLikedVenue.setValue(likedVenues);
+    }
 
-   public LiveData<List<LikedVenue>> getAllLikedVenues (){
-       return venueRepository.getAllLikedVeneu();
-   }
+    public LiveData<List<LikedVenue>> getAllLikedVenues() {
+        return venueRepository.getAllLikedVeneu();
+    }
 
-   public void initalizeVars(Application application){
-       venueRepository = new LikedVenueRepository(application);
-   }
+    public void initalizeVars(Application application) {
+        venueRepository = new LikedVenueRepository(application);
+    }
 
-   public void insert(LikedVenue likedVenue){
-       venueRepository.insert(likedVenue);
-   }
+    public void insert(LikedVenue likedVenue) {
+        venueRepository.insert(likedVenue);
+    }
 
-   public void insertAll(LikedVenue... likedVenues){
-       venueRepository.insertAll(likedVenues);
-   }
+    public void insertAll(LikedVenue... likedVenues) {
+        venueRepository.insertAll(likedVenues);
+    }
 
-   public void deleteAll(){
-       venueRepository.deleteAll();
-   }
+    public void delete(LikedVenue likedVenue) {
+        venueRepository.delete(likedVenue);
+    }
 
-   public void delete(LikedVenue likedVenue){
-       venueRepository.delete(likedVenue);
-   }
+    public void deleteAll() {
+        venueRepository.deleteAll();
+    }
 
-   public void update(LikedVenue... likedVenues){
-       venueRepository.updateLikedVenue(likedVenues);
-   }
+    public void update(LikedVenue... likedVenues) {
+        venueRepository.updateLikedVenue(likedVenues);
+    }
 
-   public LikedVenue findByID(int venueIndexID){
-       return venueRepository.findByID(venueIndexID);
-   }
-
+    public LikedVenue findByID(int venueIndexID) {
+        return venueRepository.findByID(venueIndexID);
+    }
 
 
 }
