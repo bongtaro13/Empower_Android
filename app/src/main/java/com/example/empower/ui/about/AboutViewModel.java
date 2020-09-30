@@ -1,5 +1,7 @@
 package com.example.empower.ui.about;
 
+import android.app.Application;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -17,6 +19,44 @@ public class AboutViewModel extends ViewModel {
    public AboutViewModel (){
        allLikedVenue = new MutableLiveData<>();
    }
+
+
+   public void setLikedVenues (List<LikedVenue> likedVenues){
+       allLikedVenue.setValue(likedVenues);
+   }
+
+   public LiveData<List<LikedVenue>> getAllLikedVenues (){
+       return venueRepository.getAllLikedVeneu();
+   }
+
+   public void initalizeVars(Application application){
+       venueRepository = new LikedVenueRepository(application);
+   }
+
+   public void insert(LikedVenue likedVenue){
+       venueRepository.insert(likedVenue);
+   }
+
+   public void insertAll(LikedVenue... likedVenues){
+       venueRepository.insertAll(likedVenues);
+   }
+
+   public void deleteAll(){
+       venueRepository.deleteAll();
+   }
+
+   public void delete(LikedVenue likedVenue){
+       venueRepository.delete(likedVenue);
+   }
+
+   public void update(LikedVenue... likedVenues){
+       venueRepository.updateLikedVenue(likedVenues);
+   }
+
+   public LikedVenue findByID(int venueIndexID){
+       return venueRepository.findByID(venueIndexID);
+   }
+
 
 
 }
