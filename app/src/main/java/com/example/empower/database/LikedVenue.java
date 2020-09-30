@@ -10,7 +10,7 @@ public class LikedVenue {
 
 
     @PrimaryKey
-    public int venueIndex;
+    public int venueIndexID;
 
     @ColumnInfo(name = "venueID")
     public String venueID;
@@ -28,12 +28,12 @@ public class LikedVenue {
     }
 
 
-    public int getVenueIndex() {
-        return venueIndex;
+    public int getVenueIndexID() {
+        return venueIndexID;
     }
 
-    public void setVenueIndex(int venueIndex) {
-        this.venueIndex = venueIndex;
+    public void setVenueIndexID(int venueIndexID) {
+        this.venueIndexID = venueIndexID;
     }
 
     public String getVenueID() {

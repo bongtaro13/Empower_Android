@@ -6,6 +6,10 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @Database(entities = {LikedVenue.class}, version = 2, exportSchema = false)
 public abstract class LikedVenueDatabase extends RoomDatabase {
 
@@ -13,7 +17,12 @@ public abstract class LikedVenueDatabase extends RoomDatabase {
 
     private static LikedVenueDatabase INSTANCE;
 
-    public static synchronized LikedVenueDatabase getINSTANCE(final Context context){
+    // create an executorService with a fixed thread pool
+    private static final int NUMBER_OF_THREADS = 4;
+
+    public static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+
+    public static synchronized LikedVenueDatabase getInstance(final Context context){
         if (INSTANCE == null){
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                     LikedVenueDatabase.class, "LikedVenueDatabase")

@@ -4,16 +4,19 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.empower.database.LikedVenue;
+import com.example.empower.database.LikedVenueRepository;
+
+import java.util.List;
+
 public class AboutViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+   private LikedVenueRepository venueRepository;
+   private MutableLiveData<List<LikedVenue>> allLikedVenue;
 
-    public AboutViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is about fragment");
-    }
+   public AboutViewModel (){
+       allLikedVenue = new MutableLiveData<>();
+   }
 
-    public LiveData<String> getText() {
-        return mText;
-    }
+
 }

@@ -1,5 +1,6 @@
 package com.example.empower.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -10,10 +11,10 @@ import java.util.List;
 public interface LikedVenueDao {
 
     @Query("SELECT * FROM LikedVenue")
-    List<LikedVenue> getAll();
+    LiveData<List<LikedVenue>> getAll();
 
 
-    @Query("SELECT * FROM LikedVenue WHERE venueIndex = :venueIndex LiMIT 1")
+    @Query("SELECT * FROM LikedVenue WHERE venueIndexID = :venueIndex LiMIT 1")
     LikedVenue findByID(int venueIndex);
 
 
