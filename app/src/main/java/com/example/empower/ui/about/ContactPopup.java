@@ -1,6 +1,8 @@
 package com.example.empower.ui.about;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -9,8 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.example.empower.R;
+import com.example.empower.ui.WebDetailActivity;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
+
+import java.net.URL;
+import java.util.Objects;
 
 public class ContactPopup extends BottomPopupView {
 
@@ -37,7 +43,13 @@ public class ContactPopup extends BottomPopupView {
         contactButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                Bundle bundle = new Bundle();
+                String url = "https://docs.google.com/forms/d/e/1FAIpQLSdtNt9-3_nZlKA4ZjP0uaClP6-B1Ok9EoU-qlcYuS0oOxWWkw/viewform";
+                bundle.putString("URL",url);
+                Intent intent = new Intent();
+                intent.setClass(Objects.requireNonNull(v.getContext()),WebDetailActivity.class);
+                intent.putExtras(bundle);
+                getContext().startActivity(intent, bundle);
             }
         });
 
