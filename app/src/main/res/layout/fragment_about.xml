@@ -6,19 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.about.AboutFragment">
 
-    <WebView
-        android:id="@+id/about_web_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent">
 
-    </WebView>
 
     <com.yanzhenjie.recyclerview.SwipeRecyclerView
         android:id="@+id/favourite_venue_list"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/about_contactdetail_textView"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -26,33 +20,6 @@
     </com.yanzhenjie.recyclerview.SwipeRecyclerView>
 
 
-    <TextView
-        android:id="@+id/about_contactdetail_textView"
-        android:layout_width="317dp"
-        android:layout_height="65dp"
-        android:layout_x="3dp"
-        android:layout_y="60dp"
-        android:text="Please contact us with email: \n empower@gmail.com"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/about_feedback_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/favourite_venue_list" />
-
-
-
-    <Button
-        android:id="@+id/about_feedback_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Give Feedback"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/about_contactdetail_textView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

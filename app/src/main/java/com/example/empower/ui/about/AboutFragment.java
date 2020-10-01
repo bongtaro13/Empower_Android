@@ -44,9 +44,7 @@ import java.util.List;
 
 public class AboutFragment extends Fragment {
 
-    private Button feedbackButton;
-    private WebView webView;
-    private TextView contactTextview;
+
 
     private ArrayList<String> dataList;
 
@@ -66,8 +64,6 @@ public class AboutFragment extends Fragment {
 
         root = inflater.inflate(R.layout.fragment_about, container, false);
 
-        contactTextview = root.findViewById(R.id.about_contactdetail_textView);
-        feedbackButton = root.findViewById(R.id.about_feedback_button);
 
         mRecyclerView = root.findViewById(R.id.favourite_venue_list);
 
@@ -117,35 +113,6 @@ public class AboutFragment extends Fragment {
 //        }
 
 
-
-        feedbackButton.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetJavaScriptEnabled")
-            @Override
-            public void onClick(View v) {
-
-                webView = (WebView) root.findViewById(R.id.about_web_view);
-                webView.getSettings().setJavaScriptEnabled(true);
-                //load WebView
-                webView.loadUrl("https://docs.google.com/forms/d/e/1FAIpQLSdtNt9-3_nZlKA4ZjP0uaClP6-B1Ok9EoU-qlcYuS0oOxWWkw/viewform");
-                feedbackButton.setVisibility(View.GONE);
-                contactTextview.setVisibility(View.GONE);
-                webView.setOnKeyListener(new View.OnKeyListener() {
-                    @Override
-                    public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        if (event.getAction() == KeyEvent.ACTION_DOWN){
-                            if (keyCode == KeyEvent.KEYCODE_BACK){
-                                webView.goBack();
-                                return true;
-
-                            }
-
-                        }
-                        return false;
-                    }
-                });
-
-            }
-        });
 
 
         return root;
