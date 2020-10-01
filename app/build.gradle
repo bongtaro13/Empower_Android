@@ -94,6 +94,14 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
 
+    // popup window
+    implementation 'com.lxj:xpopup:2.1.4'
+    
+    // recycle view
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+
+
 
 
 

@@ -24,9 +24,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.empower.ui.about.AboutBottomPopup;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 import com.luseen.luseenbottomnavigation.BottomNavigation.OnBottomNavigationItemClickListener;
+import com.lxj.xpopup.XPopup;
 
 public class MainActivity2 extends AppCompatActivity {
 
@@ -59,6 +61,11 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity2.this, "About clicked", Toast.LENGTH_SHORT).show();
+                new XPopup.Builder(v.getContext())
+                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+                        .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
+                        .asCustom(new AboutBottomPopup(v.getContext()))
+                        .show();
             }
         });
 
@@ -101,7 +108,7 @@ public class MainActivity2 extends AppCompatActivity {
                         titleBarLayout.setBackgroundColor(R.color.blue_background);
                         break;
                     case 1:
-                        navigation.navigate(R.id.navigation_map2);
+                        navigation.navigate(R.id.navigation_map);
                         setTitle("Map");
                         titleBarLayout.setBackgroundColor(R.color.orange_background);
                         break;

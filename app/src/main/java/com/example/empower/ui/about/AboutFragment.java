@@ -87,7 +87,6 @@ public class AboutFragment extends Fragment {
 
 
         // initialize the LikedVenue list with sample example
-
         LikedVenue one = new LikedVenue("1","venue one", "3168");
         LikedVenue two = new LikedVenue("2","venue two", "3056");
         aboutViewModel.insert(one);
