@@ -78,7 +78,7 @@ public class AboutBottomPopup extends BottomPopupView {
             textView.setGravity(Gravity.CENTER);
             linearLayout.addView(textView);
             ImageView imageView = new ImageView(container.getContext());
-            imageView.setImageResource(R.mipmap.ic_launcher);
+            imageView.setImageResource(R.mipmap.logo_empower);
             linearLayout.addView(imageView);
             container.addView(scrollView);
             return scrollView;

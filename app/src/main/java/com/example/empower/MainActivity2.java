@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.empower.ui.about.AboutBottomPopup;
+import com.example.empower.ui.about.ContactPopup;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 import com.luseen.luseenbottomnavigation.BottomNavigation.OnBottomNavigationItemClickListener;
@@ -62,9 +63,11 @@ public class MainActivity2 extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(MainActivity2.this, "About clicked", Toast.LENGTH_SHORT).show();
                 new XPopup.Builder(v.getContext())
-                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
                         .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
-                        .asCustom(new AboutBottomPopup(v.getContext()))
+                        .enableDrag(true)
+                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+//                        .isThreeDrag(true) //是否开启三阶拖拽，如果设置enableDrag(false)则无效
+                        .asCustom(new ContactPopup(v.getContext())/*.enableDrag(false)*/)
                         .show();
             }
         });
