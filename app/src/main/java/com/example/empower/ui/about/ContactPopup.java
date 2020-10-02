@@ -1,8 +1,6 @@
 package com.example.empower.ui.about;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -11,15 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.example.empower.R;
-import com.example.empower.ui.WebDetailActivity;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.interfaces.SimpleCallback;
 import com.lxj.xpopup.util.XPopupUtils;
-
-import java.net.URL;
-import java.util.Objects;
 
 public class ContactPopup extends BottomPopupView {
 
@@ -46,7 +40,7 @@ public class ContactPopup extends BottomPopupView {
         contactButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                final CustomEditTextBottomPopup textBottomPopup = new CustomEditTextBottomPopup(getContext());
+                final GoogleFormBottomPopup textBottomPopup = new GoogleFormBottomPopup(getContext());
                 new XPopup.Builder(getContext())
                         .autoOpenSoftInput(true)
 //                        .hasShadowBg(false)

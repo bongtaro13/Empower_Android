@@ -5,24 +5,23 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 
 import com.example.empower.R;
 import com.lxj.xpopup.core.BottomPopupView;
 
-public class CustomEditTextBottomPopup extends BottomPopupView {
+public class GoogleFormBottomPopup extends BottomPopupView {
 
     private WebView webView;
 
-    public CustomEditTextBottomPopup(@NonNull Context context) {
+    public GoogleFormBottomPopup(@NonNull Context context) {
         super(context);
     }
 
     @Override
     protected int getImplLayoutId() {
-        return R.layout.custom_edittext_bottom_popup;
+        return R.layout.google_form_bottom_popup;
     }
 
     @Override
