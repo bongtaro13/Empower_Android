@@ -83,20 +83,6 @@ public class NewsFragment extends Fragment {
         //podcastButton = root.findViewById(R.id.podcast_Button);
         newsProgressBar = root.findViewById(R.id.news_search_progressbar);
 
-        // get SharedPreferences value from main activity, check if the guide picture is need or not
-        SharedPreferences sp = Objects.requireNonNull(getActivity()).getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
-
-        if (sp.getBoolean("news_first_time_dialog", true)) {
-            // pop up window for guidance in news
-            GuideDialogNewsFragment dialogFragment = new GuideDialogNewsFragment();
-            assert getFragmentManager() != null;
-            dialogFragment.show(getFragmentManager(), "GuideDialogFragment");
-            dialogFragment.setCancelable(true);
-            SharedPreferences.Editor editor = sp.edit();
-            editor.putBoolean("news_first_time_dialog", false);
-            editor.apply();
-        }
-
 
         // listen the news spinner on the page, if button has been clicked, get info from the input and search the related news
         newsSpinnerDataList = new ArrayList<>();

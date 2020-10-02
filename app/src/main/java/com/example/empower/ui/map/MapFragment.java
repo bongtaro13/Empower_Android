@@ -200,18 +200,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         url = getUrl(currentLocationMarker.getPosition(), destinationMarker.getPosition(), "transit");
 
 
-        // get SharedPreferences value from main activity, check if the guide picture is need or not
-        SharedPreferences sp = Objects.requireNonNull(getActivity()).getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
-        if (sp.getBoolean("maps_first_time_dialog", true)) {
-            // pop up window for map page help guide
-            GuideDialogMapFragment dialogFragment = new GuideDialogMapFragment();
-            dialogFragment.show(getFragmentManager(), "GuideDialogFragment");
-            dialogFragment.setCancelable(true);
-            SharedPreferences.Editor editor = sp.edit();
-            editor.putBoolean("maps_first_time_dialog", false);
-            editor.apply();
-        }
-
 
         // float bar configuration
         floatBarLayout = root.findViewById(R.id.float_bar);
@@ -1137,7 +1125,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
             return new AlertDialog.Builder(getActivity())
                     .setTitle(positionName)
-                    .setPositiveButton("OK", null)
+                    .setPositiveButton("Close", null)
                     .setView(layout)
                     .create();
         }
