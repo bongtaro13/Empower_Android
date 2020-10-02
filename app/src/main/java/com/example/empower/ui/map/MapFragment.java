@@ -40,6 +40,7 @@ import com.example.empower.entity.Venue;
 import com.example.empower.ui.dialog.GuideDialogMapFragment;
 import com.example.empower.ui.dialog.SearchDialogMapFragment;
 import com.example.empower.ui.dialog.StepsDialogMapFragment;
+import com.example.empower.ui.dialog.StreetviewDialogMapFragment;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -236,12 +237,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
             @SuppressLint("ResourceType")
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(Objects.requireNonNull(getActivity()), StreetViewPanoramaActivity.class);
-                String stringLatLngResult = currentLocation.getLatitude() + "," + currentLocation.getLongitude();
-                intent.putExtra("stringLatLngResult", stringLatLngResult);
-                getActivity().setVisible(false);
-                getActivity().startActivity(intent);
+
+                StreetviewDialogMapFragment streetviewDialogMapFragment = new StreetviewDialogMapFragment();
+                //streetviewDialogMapFragment.setArguments(bundle);
+                streetviewDialogMapFragment.show(getFragmentManager(), "StepsDialogMapFragment");
+                streetviewDialogMapFragment.setCancelable(true);
+                streetviewDialogMapFragment.dismiss();
+
+
+
+//                Intent intent = new Intent();
+//                intent.setClass(Objects.requireNonNull(getActivity()), StreetViewPanoramaActivity.class);
+//                String stringLatLngResult = currentLocation.getLatitude() + "," + currentLocation.getLongitude();
+//                intent.putExtra("stringLatLngResult", stringLatLngResult);
+//                getActivity().setVisible(false);
+//                getActivity().startActivity(intent);
             }
         });
 
