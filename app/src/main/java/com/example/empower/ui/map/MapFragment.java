@@ -975,6 +975,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                                 }
                             });
 
+                            float_routerButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    url = getUrl(currentLocationMarker.getPosition(), marker.getPosition(), "transit");
+                                    // add router on the map with selected
+                                    new FetchURL().execute(url, "transit");
+                                    Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
 
                             Toast.makeText(getActivity(), "Marker selected", Toast.LENGTH_SHORT).show();
                         }else {
