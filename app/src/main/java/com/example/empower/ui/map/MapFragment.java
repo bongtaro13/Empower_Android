@@ -1,6 +1,6 @@
 package com.example.empower.ui.map;
 
-import android.annotation.SuppressLint;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -37,8 +37,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.empower.MainActivity;
-import com.example.empower.MainActivity2;
+
 import com.example.empower.R;
 import com.example.empower.api.DataParser;
 import com.example.empower.entity.ActiveHour;
@@ -128,8 +127,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     private String directionMode;
     private List<HashMap<String, String>> routeSteps;
 
-    // street view in application
-    private Button streetViewButton;
 
     // arrayList for all all sports venus read from teh csv data file
     private ArrayList<Venue> sportsVenueList = new ArrayList<>();
@@ -255,27 +252,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
             }
         });
 
-
-        streetViewButton = root.findViewById(R.id.map_search_streetView_button);
-
-        streetViewButton.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("ResourceType")
-            @Override
-            public void onClick(View v) {
-
-                LatLng tempLatLng = new LatLng(-37.819760, 144.968029);
-
-                showStreetViewDialog(tempLatLng);
-
-
-//                Intent intent = new Intent();
-//                intent.setClass(Objects.requireNonNull(getActivity()), StreetViewPanoramaActivity.class);
-//                String stringLatLngResult = currentLocation.getLatitude() + "," + currentLocation.getLongitude();
-//                intent.putExtra("stringLatLngResult", stringLatLngResult);
-//                getActivity().setVisible(false);
-//                getActivity().startActivity(intent);
-            }
-        });
 
         return root;
     }
@@ -1014,7 +990,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                                 @Override
                                 public void onClick(View v) {
                                     LatLng tempLatLng = new LatLng(marker.getPosition().latitude,marker.getPosition().longitude);
-                                    showStreetViewDialog(tempLatLng);
+                                    showStreetViewDialog(tempLatLng, marker.getTitle());
                                 }
                             });
 
@@ -1113,7 +1089,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     }
 
 
-    private void showStreetViewDialog(LatLng pos) {
+    private void showStreetViewDialog(LatLng pos, String posName) {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         Fragment prev = getFragmentManager().findFragmentByTag("streetview");
         if (prev != null) {
@@ -1121,7 +1097,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         }
         ft.addToBackStack(null);
 
-        DialogFragment newFragment = StrretViewDialogFragment.newInstance(pos);
+        DialogFragment newFragment = StrretViewDialogFragment.newInstance(pos, posName);
         newFragment.show(ft, "streetview");
     }
 
@@ -1129,12 +1105,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
         LatLng latLng;
 
-        static StrretViewDialogFragment newInstance(LatLng latLng) {
+        static StrretViewDialogFragment newInstance(LatLng latLng, String posName) {
             StrretViewDialogFragment f = new StrretViewDialogFragment();
 
             Bundle args = new Bundle();
             args.putDouble("latitude", latLng.latitude);
             args.putDouble("longitude", latLng.longitude);
+            args.putString("posName", posName);
             f.setArguments(args);
 
             return f;
@@ -1144,6 +1121,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             latLng = new LatLng(getArguments().getDouble("latitude"),
                     getArguments().getDouble("longitude"));
+            String positionName = getArguments().getString("posName");
 
             LinearLayout layout = new LinearLayout(getActivity());
             layout.setLayoutParams(new LinearLayout.LayoutParams(
@@ -1165,7 +1143,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
             layout.addView(streetViewPanoramaView);
 
             return new AlertDialog.Builder(getActivity())
-                    .setTitle(latLng.latitude + " : " + latLng.longitude)
+                    .setTitle(positionName)
                     .setPositiveButton("OK", null)
                     .setView(layout)
                     .create();

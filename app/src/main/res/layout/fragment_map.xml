@@ -31,16 +31,6 @@
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteY="58dp" />
 
-    <Button
-        android:id="@+id/map_search_streetView_button"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:text="Street View"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/map_search_button"
-        tools:layout_editor_absoluteY="0dp"
-        tools:ignore="MissingConstraints" />
-
 
     <fragment
         android:id="@+id/mapAPI"
@@ -93,6 +83,7 @@
             android:text="Venue address"
             android:textColor="@color/black"
             android:textSize="17sp"
+            android:maxLength="27"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/street_view_imageButton"
             app:layout_constraintStart_toEndOf="@+id/heart_button"
@@ -115,6 +106,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
             android:background="@color/white"
             android:src="@drawable/ic_commute_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
