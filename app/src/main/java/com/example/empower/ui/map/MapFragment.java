@@ -2,6 +2,7 @@ package com.example.empower.ui.map;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -21,13 +22,17 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.empower.MainActivity;
 import com.example.empower.MainActivity2;
@@ -40,7 +45,7 @@ import com.example.empower.entity.Venue;
 import com.example.empower.ui.dialog.GuideDialogMapFragment;
 import com.example.empower.ui.dialog.SearchDialogMapFragment;
 import com.example.empower.ui.dialog.StepsDialogMapFragment;
-import com.example.empower.ui.dialog.StreetviewDialogMapFragment;
+
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -56,6 +61,8 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
 import com.google.android.gms.maps.StreetViewPanorama;
+import com.google.android.gms.maps.StreetViewPanoramaOptions;
+import com.google.android.gms.maps.StreetViewPanoramaView;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -108,6 +115,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     private MapViewModel mapViewModel;
     private GoogleMap mapAPI;
     private SupportMapFragment mapFragment;
+
+
 
 
     // router between two locations
@@ -238,11 +247,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
             @Override
             public void onClick(View v) {
 
-                StreetviewDialogMapFragment streetviewDialogMapFragment = new StreetviewDialogMapFragment();
-                //streetviewDialogMapFragment.setArguments(bundle);
-                streetviewDialogMapFragment.show(getFragmentManager(), "StepsDialogMapFragment");
-                streetviewDialogMapFragment.setCancelable(true);
-                streetviewDialogMapFragment.dismiss();
+                LatLng tempLatLng = new LatLng(-37.819760, 144.968029);
+
+                showStreetViewDialog(tempLatLng);
 
 
 
@@ -1042,6 +1049,66 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                 toast_success.show();
             }
             mapProgressBar.setVisibility(View.GONE);
+        }
+    }
+
+
+    private void showStreetViewDialog(LatLng pos){
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("streetview");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        DialogFragment newFragment = StrretViewDialogFragment.newInstance(pos);
+        newFragment.show(ft, "streetview");
+    }
+
+    public static class StrretViewDialogFragment extends DialogFragment {
+
+        LatLng latLng;
+
+        static StrretViewDialogFragment newInstance(LatLng latLng) {
+            StrretViewDialogFragment f = new StrretViewDialogFragment();
+
+            Bundle args = new Bundle();
+            args.putDouble("latitude", latLng.latitude);
+            args.putDouble("longitude", latLng.longitude);
+            f.setArguments(args);
+
+            return f;
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            latLng = new LatLng(getArguments().getDouble("latitude"),
+                    getArguments().getDouble("longitude"));
+
+            LinearLayout layout = new LinearLayout(getActivity());
+            layout.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT));
+            layout.setOrientation(LinearLayout.VERTICAL);
+
+            StreetViewPanoramaOptions options=new StreetViewPanoramaOptions();
+            options.position(latLng);
+            StreetViewPanoramaView streetViewPanoramaView =
+                    new StreetViewPanoramaView(getActivity(), options);
+            streetViewPanoramaView.setLayoutParams(
+                    new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.MATCH_PARENT));
+            streetViewPanoramaView.setPadding(5, 5, 5, 5);
+            streetViewPanoramaView.onCreate(savedInstanceState);
+
+            layout.addView(streetViewPanoramaView);
+
+            return new AlertDialog.Builder(getActivity())
+                    .setTitle(latLng.latitude + " : "  + latLng.longitude)
+                    .setPositiveButton("OK", null)
+                    .setView(layout)
+                    .create();
         }
     }
 
