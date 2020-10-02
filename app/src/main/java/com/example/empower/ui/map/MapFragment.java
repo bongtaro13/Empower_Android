@@ -117,8 +117,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     private SupportMapFragment mapFragment;
 
 
-
-
     // router between two locations
     // https://maps.googleapis.com/maps/api/directions/json?origin=-37.9134167,145.1316983&destination=-35.876859,147.044946&mode=transit&key=AIzaSyBenJ8IiMcO7vlKFYcZXb9WhKWuTQEJeo4
     MarkerOptions currentLocationMarker, destinationMarker;
@@ -128,7 +126,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     private List<HashMap<String, String>> routeSteps;
 
     // street view in application
-    private StreetViewFragment streetViewFragment;
     private Button streetViewButton;
 
     // arrayList for all all sports venus read from teh csv data file
@@ -237,8 +234,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
             }
         });
 
-        streetViewFragment = new StreetViewFragment();
-        streetViewFragment.setTargetFragment(this, STREE_VIEW_FRAGMENT);
+
 
         streetViewButton = root.findViewById(R.id.map_search_streetView_button);
 

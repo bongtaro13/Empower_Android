@@ -33,7 +33,7 @@ public class MainAdapter extends BaseAdapter<MainAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(getInflater().inflate(R.layout.item_menu_main, parent, false));
+        return new ViewHolder(getInflater().inflate(R.layout.item_liked_venue, parent, false));
     }
 
     @Override
