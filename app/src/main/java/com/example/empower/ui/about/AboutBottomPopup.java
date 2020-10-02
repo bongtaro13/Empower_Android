@@ -81,6 +81,8 @@ public class AboutBottomPopup extends BottomPopupView {
             imageView.setImageResource(R.mipmap.logo_empower);
             linearLayout.addView(imageView);
             container.addView(scrollView);
+
+
             return scrollView;
         }
 
