@@ -22,13 +22,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -78,6 +81,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.like.LikeButton;
 
 import org.json.JSONObject;
 
@@ -104,7 +108,6 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 public class MapFragment extends Fragment implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback {
 
     public static final int SEARCH_MAP_FRAGMENT = 1;
-
 
 
     private SearchDialogMapFragment dialogMapFragment;
@@ -162,6 +165,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
+    // float bar
+    private ConstraintLayout floatBarLayout;
+    private LikeButton float_heartButton;
+    private TextView float_selectedAddress;
+    private ImageButton float_streetViewButton;
+    private ImageButton float_routerButton;
+
+
     // initialize the mapFragment
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -212,6 +223,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         }
 
 
+        // float bar configuration
+        floatBarLayout = root.findViewById(R.id.float_bar);
+        float_heartButton = root.findViewById(R.id.heart_button);
+        float_selectedAddress = root.findViewById(R.id.selected_marker_address);
+        float_streetViewButton = root.findViewById(R.id.street_view_imageButton);
+        float_routerButton = root.findViewById(R.id.router_planner_imageButton);
+
+        //floatBarLayout.setVisibility(View.GONE);
+
+
         //createSportsVenueList();
         getSportsListFromFireStore();
 
@@ -235,7 +256,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         });
 
 
-
         streetViewButton = root.findViewById(R.id.map_search_streetView_button);
 
         streetViewButton.setOnClickListener(new View.OnClickListener() {
@@ -246,7 +266,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                 LatLng tempLatLng = new LatLng(-37.819760, 144.968029);
 
                 showStreetViewDialog(tempLatLng);
-
 
 
 //                Intent intent = new Intent();
@@ -463,6 +482,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
             if (combineLocationMapping.size() != 0) {
                 mapAPI.clear();
+
+                mapAPI.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+
+                        floatBarLayout.setVisibility(View.VISIBLE);
+                        Toast.makeText(getActivity(), "Marker selected", Toast.LENGTH_SHORT).show();
+
+                        return false;
+                    }
+                });
+
+
 
                 mapAPI.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
@@ -708,10 +740,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
             // Drawing polyline in the Google Map for the i-th route
             if (lineOptions != null) {
-                if (currentPolyLine != null){
+                if (currentPolyLine != null) {
                     currentPolyLine.remove();
                 }
-                
+
                 final ArrayList<LatLng> lastPoints = points;
 
                 currentPolyLine = mapAPI.addPolyline(lineOptions);
@@ -720,13 +752,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                 mapAPI.setOnPolylineClickListener(new GoogleMap.OnPolylineClickListener() {
                     @Override
                     public void onPolylineClick(Polyline polyline) {
-                        url = getUrl(currentLocationMarker.getPosition(), lastPoints.get(lastPoints.size()-1), "transit");
+                        url = getUrl(currentLocationMarker.getPosition(), lastPoints.get(lastPoints.size() - 1), "transit");
                         // add router on the map with selected
                         new FetchURL().execute(url, "transit");
                         Toast.makeText(getActivity(), "Polyline clicked", Toast.LENGTH_SHORT).show();
                     }
                 });
-                
+
                 DisplaySteps(routeSteps);
 
 
@@ -860,7 +892,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     combineLocationMapping1 = venueFilter.getVenueWithSports(sportArrayList, combineLocationMapping1);
                     combineLocationMapping1 = venueFilter.getVenueNearby(nearbyResult, combineLocationMapping1, currentLocation);
 
-                    if (combineLocationMapping1.size()==0){
+                    if (combineLocationMapping1.size() == 0) {
                         Toast.makeText(getActivity(), "No Result Found", Toast.LENGTH_SHORT).show();
                     }
 
@@ -962,7 +994,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                 });
 
 
-
                 // long click jump to street view fragment
                 mapAPI.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
                     @Override
@@ -973,10 +1004,43 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     }
                 });
 
+                mapAPI.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        if (!marker.getTitle().equals("You current location")) {
+                            floatBarLayout.setVisibility(View.VISIBLE);
+                            float_selectedAddress.setText(marker.getSnippet());
+                            float_streetViewButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    LatLng tempLatLng = new LatLng(marker.getPosition().latitude,marker.getPosition().longitude);
+                                    showStreetViewDialog(tempLatLng);
+                                }
+                            });
+
+
+                            Toast.makeText(getActivity(), "Marker selected", Toast.LENGTH_SHORT).show();
+                        }else {
+                            floatBarLayout.setVisibility(View.INVISIBLE);
+                            Toast.makeText(getActivity(), "Current location marker selected", Toast.LENGTH_SHORT).show();
+                        }
+                            return false;
+
+                    }
+                });
+
+                mapAPI.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(LatLng latLng) {
+                        floatBarLayout.setVisibility(View.INVISIBLE);
+                        Toast.makeText(getActivity(), "Map clicked", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
 
                 for (Venue tempLocationAddressPair : sportsVenueArrayList) {
 
-                    if (tempLocationAddressPair.getLatitude().equals("") || tempLocationAddressPair.getLongitude().equals("")){
+                    if (tempLocationAddressPair.getLatitude().equals("") || tempLocationAddressPair.getLongitude().equals("")) {
                         continue;
                     }
 
@@ -1018,11 +1082,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 //                    }else {
 
 
-                    if (tempSportsVenue.getType().equals("sport venue")){
+                    if (tempSportsVenue.getType().equals("sport venue")) {
                         mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
                                 .title(tempSportsVenue.getName())
                                 .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode() + " " + active_hours.getAciveHours()));
-                    }else {
+                    } else {
                         mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
                                 .title(tempSportsVenue.getName())
                                 .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode()));
@@ -1049,7 +1113,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     }
 
 
-    private void showStreetViewDialog(LatLng pos){
+    private void showStreetViewDialog(LatLng pos) {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         Fragment prev = getFragmentManager().findFragmentByTag("streetview");
         if (prev != null) {
@@ -1087,7 +1151,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     LinearLayout.LayoutParams.MATCH_PARENT));
             layout.setOrientation(LinearLayout.VERTICAL);
 
-            StreetViewPanoramaOptions options=new StreetViewPanoramaOptions();
+            StreetViewPanoramaOptions options = new StreetViewPanoramaOptions();
             options.position(latLng);
             StreetViewPanoramaView streetViewPanoramaView =
                     new StreetViewPanoramaView(getActivity(), options);
@@ -1101,13 +1165,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
             layout.addView(streetViewPanoramaView);
 
             return new AlertDialog.Builder(getActivity())
-                    .setTitle(latLng.latitude + " : "  + latLng.longitude)
+                    .setTitle(latLng.latitude + " : " + latLng.longitude)
                     .setPositiveButton("OK", null)
                     .setView(layout)
                     .create();
         }
     }
-
 
 
 }

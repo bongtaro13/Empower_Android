@@ -58,12 +58,13 @@
     </fragment>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/float_bar"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="50dp"
         android:background="@drawable/background_round"
         android:gravity="center_horizontal"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -79,13 +80,13 @@
             app:icon_type="heart"
             app:is_enabled="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/selected_marker"
+            app:layout_constraintEnd_toStartOf="@+id/selected_marker_address"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:liked="false" />
 
         <TextView
-            android:id="@+id/selected_marker"
+            android:id="@+id/selected_marker_address"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
