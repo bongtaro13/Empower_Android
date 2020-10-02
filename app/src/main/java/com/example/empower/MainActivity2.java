@@ -9,8 +9,10 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -26,10 +28,12 @@ import android.widget.Toast;
 
 import com.example.empower.ui.about.AboutBottomPopup;
 import com.example.empower.ui.about.ContactPopup;
+import com.google.android.gms.maps.model.LatLng;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 import com.luseen.luseenbottomnavigation.BottomNavigation.OnBottomNavigationItemClickListener;
 import com.lxj.xpopup.XPopup;
+import com.stephentuso.welcome.WelcomeHelper;
 
 public class MainActivity2 extends AppCompatActivity {
 
@@ -38,12 +42,37 @@ public class MainActivity2 extends AppCompatActivity {
     private ImageView aboutImage;
     private RelativeLayout titleBarLayout;
 
+
+    // welcome page
+    WelcomeHelper welcomeScreen;
+
+    // current location required
+    private LatLng currentLatLng;
+    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
+
     NavController navigation;
 
 
     @SuppressLint({"ResourceAsColor", "ResourceType"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        welcomeScreen = new WelcomeHelper(this, MyWelcomeActivity.class);
+        welcomeScreen.show(savedInstanceState);
+
+        // get location from welcome activity
+        String stringCurrentLatLng = getIntent().getStringExtra("stringLatLngResult");
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            currentLatLng = new LatLng(-37.876859, 145.044946);
+        } else {
+            assert stringCurrentLatLng != null;
+            String[] arrayLatLng = stringCurrentLatLng.split(",");
+            double latitude = Double.parseDouble(arrayLatLng[0]);
+            double longitude = Double.parseDouble(arrayLatLng[1]);
+            currentLatLng = new LatLng(latitude, longitude);
+        }
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
@@ -150,6 +179,17 @@ public class MainActivity2 extends AppCompatActivity {
             ViewCompat.setFitsSystemWindows(mChildView, false);
             ViewCompat.requestApplyInsets(mChildView);
         }
+    }
+
+    public LatLng getCurrentLatLngFromMain() {
+        return currentLatLng;
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        welcomeScreen.onSaveInstanceState(outState);
     }
 
 }

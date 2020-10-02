@@ -38,6 +38,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import com.example.empower.MainActivity2;
 import com.example.empower.R;
 import com.example.empower.api.DataParser;
 import com.example.empower.entity.ActiveHour;
@@ -175,15 +176,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                              ViewGroup container, Bundle savedInstanceState) {
 
 
-//        MainActivity mainActivity = (MainActivity) getActivity();
-//
-//        currentLocation = new Location("current location");
-//        currentLocation.setLatitude(mainActivity.getCurrentLatLngFromMain().latitude);
-//        currentLocation.setLongitude(mainActivity.getCurrentLatLngFromMain().longitude);
+        MainActivity2 mainActivity = (MainActivity2) getActivity();
 
         currentLocation = new Location("current location");
-        currentLocation.setLatitude(-37.799446);
-        currentLocation.setLongitude(144.919102);
+        currentLocation.setLatitude(mainActivity.getCurrentLatLngFromMain().latitude);
+        currentLocation.setLongitude(mainActivity.getCurrentLatLngFromMain().longitude);
 
 
         root = inflater.inflate(R.layout.fragment_map, container, false);
@@ -192,10 +189,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
-        // street view in map page
-//        streetViewPanoramaFragment = (SupportStreetViewPanoramaFragment) getChildFragmentManager().findFragmentById(R.id.streetviewpanorama);
-//        assert streetViewPanoramaFragment != null;
-//        streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
 
 
         // router between two locations display
