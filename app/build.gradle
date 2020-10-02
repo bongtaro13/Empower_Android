@@ -100,6 +100,9 @@ dependencies {
     // recycle view
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
+    // liked button
+    compile 'com.github.jd-alexander:LikeButton:0.2.3'
+
 
 
 
