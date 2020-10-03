@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -36,16 +35,21 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 
 import com.example.empower.MainActivity2;
 import com.example.empower.R;
 import com.example.empower.api.DataParser;
+import com.example.empower.database.LikedVenue;
+import com.example.empower.database.LikedVenueDatabase;
 import com.example.empower.entity.ActiveHour;
 import com.example.empower.entity.LocationAddressPair;
 import com.example.empower.entity.Step;
 import com.example.empower.entity.Venue;
-import com.example.empower.ui.dialog.GuideDialogMapFragment;
+import com.example.empower.ui.about.AboutViewModel;
 import com.example.empower.ui.dialog.SearchDialogMapFragment;
 import com.example.empower.ui.dialog.StepsDialogMapFragment;
 
@@ -119,6 +123,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     private GoogleMap mapAPI;
     private SupportMapFragment mapFragment;
 
+    // liked venue
+    private ArrayList<LikedVenue> currentLikedVenues;
+    private AboutViewModel aboutViewModel;
+
 
     // router between two locations
     // https://maps.googleapis.com/maps/api/directions/json?origin=-37.9134167,145.1316983&destination=-35.876859,147.044946&mode=transit&key=AIzaSyBenJ8IiMcO7vlKFYcZXb9WhKWuTQEJeo4
@@ -129,9 +137,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     private List<HashMap<String, String>> routeSteps;
 
 
-    // arrayList for all all sports venus read from teh csv data file
+    // arrayList for all all sports venus read from teh cloud firebase data file
     private ArrayList<Venue> sportsVenueList = new ArrayList<>();
-    private ArrayList<LatLng> latLngList = new ArrayList<>();
+
 
     // visual component of the map fragment, include search input, search box, and a progressBar to display progress
     private EditText mapPostcodeEditText;
@@ -174,6 +182,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     // initialize the mapFragment
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        // get like venue list from live data in about view model
+
+        aboutViewModel =
+                ViewModelProviders.of(this).get(AboutViewModel.class);
+        aboutViewModel.initalizeVars(getActivity().getApplication());
+
+
+        // get LikedVenue object from
+        aboutViewModel.getAllLikedVenues().observe(this, new Observer<List<LikedVenue>>() {
+            @Override
+            public void onChanged(List<LikedVenue> likedVenues) {
+                currentLikedVenues = new ArrayList<>();
+                currentLikedVenues = (ArrayList<LikedVenue>) likedVenues;
+            }
+
+        });
 
 
         MainActivity2 mainActivity = (MainActivity2) getActivity();
@@ -234,6 +259,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         });
 
 
+        System.out.println("this is a test");
         return root;
     }
 
@@ -967,10 +993,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                         if (!marker.getTitle().equals("You current location")) {
                             floatBarLayout.setVisibility(View.VISIBLE);
                             float_selectedAddress.setText(marker.getSnippet());
+
+                            VenueFilter venueFilter = new VenueFilter();
+
+                            // get latlng info of the selected marker on the map
+                            LatLng tempLatLng = new LatLng(marker.getPosition().latitude,marker.getPosition().longitude);
+                            Venue foundVenue = venueFilter.findVenueByLatLng(tempLatLng, sportsVenueList);
+                            if (foundVenue != null){
+                                if (venueFilter.checkIfCurrentVeneuLiked(foundVenue, currentLikedVenues)){
+                                    float_heartButton.setLiked(true);
+                                }else {
+                                    float_heartButton.setLiked(false);
+                                }
+                            }
+
+
+
                             float_streetViewButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    LatLng tempLatLng = new LatLng(marker.getPosition().latitude,marker.getPosition().longitude);
                                     showStreetViewDialog(tempLatLng, marker.getTitle());
                                 }
                             });
@@ -1140,6 +1181,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     .create();
         }
     }
+
+
 
 
 }

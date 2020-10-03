@@ -2,7 +2,9 @@ package com.example.empower.ui.map;
 
 import android.location.Location;
 
+import com.example.empower.database.LikedVenue;
 import com.example.empower.entity.Venue;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
@@ -149,6 +151,34 @@ public class VenueFilter {
 
     private double rad2deg(double rad) {
         return (rad * 180.0 / Math.PI);
+    }
+
+
+    public Boolean checkIfCurrentVeneuLiked (Venue currentSelectedVeneu, ArrayList<LikedVenue> likedVenueArrayList){
+        if (likedVenueArrayList.isEmpty()){
+            return false;
+        }
+
+        for (LikedVenue tempVenue: likedVenueArrayList){
+            if (currentSelectedVeneu.getVenueID().equals(tempVenue.venueID)){
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
+
+    public Venue findVenueByLatLng (LatLng location, ArrayList<Venue> inputVeneus){
+        Venue outputVenue = null;
+        for (Venue tempVenue: inputVeneus){
+            if (tempVenue.getLatitude().equals(location.latitude) && tempVenue.getLongitude().equals(location.longitude)){
+                outputVenue = tempVenue;
+                break;
+            }
+        }
+        return outputVenue;
     }
 
 }

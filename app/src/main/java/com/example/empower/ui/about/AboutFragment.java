@@ -83,10 +83,10 @@ public class AboutFragment extends Fragment {
 
 
         // initialize the LikedVenue list with sample example
-        LikedVenue one = new LikedVenue("1","venue one", "3168");
-        LikedVenue two = new LikedVenue("2","venue two", "3056");
-        aboutViewModel.insert(one);
-        aboutViewModel.insert(two);
+//        LikedVenue one = new LikedVenue("1","venue one", "3168");
+//        LikedVenue two = new LikedVenue("2","venue two", "3056");
+//        aboutViewModel.insert(one);
+//        aboutViewModel.insert(two);
 
         MainAdapter menuAdapter = new MainAdapter(getContext());
         mRecyclerView.setAdapter(menuAdapter);
@@ -103,15 +103,6 @@ public class AboutFragment extends Fragment {
             }
 
         });
-
-
-
-
-//        dataList = new ArrayList<>();
-//        for (int i = 0; i < 30; i++) {
-//            dataList.add("我是第" + i + "个。");
-//        }
-
 
 
 

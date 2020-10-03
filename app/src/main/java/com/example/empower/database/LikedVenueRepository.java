@@ -81,6 +81,18 @@ public class LikedVenueRepository {
         return likedVenue;
     }
 
+    public LikedVenue findByVenueID(final String venueID){
+        LikedVenueDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                LikedVenue runLikedVeneu = dao.findByVenueID(venueID);
+                setLikedVenue(runLikedVeneu);
+            }
+        });
+
+        return likedVenue;
+    }
+
     public void setLikedVenue(LikedVenue likedVenue){
         this.likedVenue = likedVenue;
     }

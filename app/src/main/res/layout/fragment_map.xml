@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="50dp"
-        android:background="@drawable/background_round"
+        android:background="@drawable/background_rect_radius"
         android:gravity="center_horizontal"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="5dp"
             app:anim_scale_factor="2"
             app:icon_size="18dp"
             app:icon_type="heart"
@@ -99,7 +99,8 @@
             android:src="@drawable/ic_satellite_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/router_planner_imageButton"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <ImageButton
             android:id="@+id/router_planner_imageButton"

@@ -57,5 +57,9 @@ public class AboutViewModel extends ViewModel {
         return venueRepository.findByID(venueIndexID);
     }
 
+    public LikedVenue findByVenueID(String venueID){
+        return venueRepository.findByVenueID(venueID);
+    }
+
 
 }
