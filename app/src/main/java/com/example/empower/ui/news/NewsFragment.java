@@ -27,11 +27,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.empower.MainActivity;
+
 import com.example.empower.R;
 import com.example.empower.api.NewsAPI;
 import com.example.empower.entity.News;
-import com.example.empower.ui.dialog.GuideDialogNewsFragment;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;

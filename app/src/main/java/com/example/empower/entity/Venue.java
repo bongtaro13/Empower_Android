@@ -1,6 +1,9 @@
 package com.example.empower.entity;
 
-public class Venue {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Venue implements Parcelable {
     private String venueID;
     private String type;
     private String name;
@@ -104,5 +107,15 @@ public class Venue {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }

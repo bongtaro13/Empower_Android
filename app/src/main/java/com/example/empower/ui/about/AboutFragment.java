@@ -2,6 +2,7 @@ package com.example.empower.ui.about;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,11 +27,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.empower.R;
 import com.example.empower.database.LikedVenue;
+import com.example.empower.entity.Venue;
+import com.example.empower.ui.dialog.LikedVenueDialogAboutFragment;
+import com.example.empower.ui.dialog.StepsDialogMapFragment;
+import com.example.empower.ui.map.VenueFilter;
 import com.example.empower.ui.news.NewsViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.yanzhenjie.recyclerview.OnItemClickListener;
 import com.yanzhenjie.recyclerview.OnItemMenuClickListener;
 import com.yanzhenjie.recyclerview.SwipeMenu;
@@ -44,8 +53,15 @@ import com.yanzhenjie.recyclerview.widget.DefaultItemDecoration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import static android.content.ContentValues.TAG;
 
 public class AboutFragment extends Fragment {
+
+    private ArrayList<Venue> venueArrayList;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     private ArrayList<String> dataList;
@@ -60,9 +76,12 @@ public class AboutFragment extends Fragment {
     private MainAdapter menuAdapter;
 
 
+
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
+        venueArrayList = new ArrayList<>();
+        getSportsListFromFireStore();
 
         root = inflater.inflate(R.layout.fragment_about, container, false);
 
@@ -120,6 +139,26 @@ public class AboutFragment extends Fragment {
         @Override
         public void onItemClick(View itemView, int position) {
             Toast.makeText(getContext(), "Index " + position, Toast.LENGTH_SHORT).show();
+
+            // display step info in likedVenue detail dialog
+
+            String[] totalString = dataList.get(position).split(";");
+            String selectedLikedVenueID = totalString[0].replace("venueID=", "");
+
+            VenueFilter venueFilter = new VenueFilter();
+            Venue foundVenue = venueFilter.findVenueByVenueId(selectedLikedVenueID, venueArrayList);
+
+            if (foundVenue != null) {
+
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("selectLikedVenue",foundVenue);
+
+                LikedVenueDialogAboutFragment likedVenueDialogAboutFragment = new LikedVenueDialogAboutFragment();
+                likedVenueDialogAboutFragment.setArguments(bundle);
+                likedVenueDialogAboutFragment.show(getFragmentManager(), "LikedVenueDialogAboutFragment");
+                likedVenueDialogAboutFragment.setCancelable(true);
+            }
+
         }
     };
 
@@ -182,6 +221,38 @@ public class AboutFragment extends Fragment {
             }
         }
     };
+
+    // get the sports venues info from the Cloud FireStore NoSql database
+    private void getSportsListFromFireStore() {
+        db.collection("sportsVenues")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                                Map<String, Object> tempSportsVenueMap = document.getData();
+                                String venueID = Objects.requireNonNull(tempSportsVenueMap.get("venueID")).toString();
+                                String type = Objects.requireNonNull(tempSportsVenueMap.get("type")).toString();
+                                String name = Objects.requireNonNull(tempSportsVenueMap.get("name")).toString();
+                                String address = Objects.requireNonNull(tempSportsVenueMap.get("address")).toString();
+                                String suburb = Objects.requireNonNull(tempSportsVenueMap.get("suburb")).toString();
+                                String postcode = Objects.requireNonNull(tempSportsVenueMap.get("postcode")).toString();
+                                String businessCategory = Objects.requireNonNull(tempSportsVenueMap.get("businessCategory")).toString();
+                                String lga = Objects.requireNonNull(tempSportsVenueMap.get("lga")).toString();
+                                String latitude = Objects.requireNonNull(tempSportsVenueMap.get("latitude")).toString();
+                                String longitude = Objects.requireNonNull(tempSportsVenueMap.get("longitude")).toString();
+
+                                venueArrayList.add(new Venue(venueID, type, name, address, suburb, postcode, businessCategory, lga, latitude, longitude));
+
+
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting sportsVenues documents: " + task.getException());
+                        }
+                    }
+                });
+    }
 
 
 }

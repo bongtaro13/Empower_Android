@@ -184,7 +184,7 @@ public class VenueFilter {
     public Venue findVenueByVenueId (String inputVenueID, ArrayList<Venue> inputVeneus){
         Venue outputVenue = null;
         for (Venue tempVenue: inputVeneus){
-            if (inputVeneus.equals(tempVenue.getVenueID())){
+            if (inputVenueID.equals(tempVenue.getVenueID())){
                 outputVenue = tempVenue;
                 break;
             }

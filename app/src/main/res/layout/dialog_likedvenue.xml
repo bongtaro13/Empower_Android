@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,106 +18,120 @@
         android:textColor="#333" />
 
     <TextView
+        android:id="@+id/tv_venueID_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textSize="20sp"
         android:textStyle="bold"
-        tools:text="VenueID: "/>
+        android:text="VenueID"/>
 
     <TextView
         android:id="@+id/tv_venueID_dialog_likedVenue"
-        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         tools:text="VenueID: "/>
 
     <TextView
+        android:id="@+id/tv_venueName_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
-        tools:text="Name"/>
+        android:text="Name"/>
 
     <TextView
         android:id="@+id/tv_venueName_dialog_likedVenue"
-        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         tools:text="Name: "/>
 
     <TextView
+        android:id="@+id/tv_venueType_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
-        tools:text="Type"/>
+        android:text="Type"/>
 
     <TextView
         android:id="@+id/tv_venueType_dialog_likedVenue"
-        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         tools:text="Type: "/>
 
     <TextView
+        android:id="@+id/tv_venueAddress_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
-        tools:text="Address"/>
+        android:text="Address"/>
 
     <TextView
         android:id="@+id/tv_venueAddress_dialog_likedVenue"
-        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         tools:text="Address: "/>
 
     <TextView
+        android:id="@+id/tv_venueSuburb_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
-        tools:text="Suburb"/>
+        android:text="Suburb"/>
 
     <TextView
         android:id="@+id/tv_venueSuburb_dialog_likedVenue"
-        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         tools:text="Suburb: "/>
 
     <TextView
+        android:id="@+id/tv_venuePostcode_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
-        tools:text="Postcode"/>
+        android:text="Postcode"/>
 
     <TextView
         android:id="@+id/tv_venuePostcode_dialog_likedVenue"
-        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         tools:text="Postcode: "/>
 
     <TextView
+        android:id="@+id/tv_venueBusinessCategory_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
-        tools:text="Business category"/>
+        android:text="Business category"/>
 
     <TextView
         android:id="@+id/tv_venueBusinessCategory_dialog_likedVenue"
-        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         tools:text="Business Category: "/>
@@ -129,17 +142,19 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
-        tools:text="LGA"/>
+        android:text="LGA"/>
 
     <TextView
         android:id="@+id/tv_venueLGAdialog_likedVenue"
-        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         tools:text="LGA: "/>
 
 
     <Button
+        android:id="@+id/button_close_likedVenue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
