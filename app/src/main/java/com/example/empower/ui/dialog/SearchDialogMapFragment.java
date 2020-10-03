@@ -103,28 +103,8 @@ public class SearchDialogMapFragment extends DialogFragment {
 
 
 
-//        // venue array list management
         venueArrayList = new ArrayList<>();
-//        checkBox_sportVenue.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked){
-//                    venueArrayList.add("sport venue");
-//                }
-//            }
-//        });
-//
-//        checkBox_sportVenue.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked){
-//                    venueArrayList.add("open space");
-//                }
-//            }
-//        });
-//
-//
-//        // sport array list management
+
         sportArrayList = new ArrayList<>();
 
         checkBox_allSport.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -143,50 +123,7 @@ public class SearchDialogMapFragment extends DialogFragment {
         });
 
 
-//        checkBox_football.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked){
-//                    sportArrayList.add("football");
-//                }
-//            }
-//        });
-//
-//        checkBox_basketball.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked){
-//                    sportArrayList.add("basketball");
-//                }else {
-//                    if (sportArrayList.contains("basketball")){
-//                        sportArrayList.remove("basketball");
-//                    }
-//                }
-//            }
-//        });
-//
-//        checkBox_cricket.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked){
-//                    sportArrayList.add("cricket");
-//                }else {
-//                    if (sportArrayList.contains("cricket")){
-//                        sportArrayList.remove("cricket");
-//                    }
-//                }
-//            }
-//        });
-//
         nearbyResult = null;
-//        nearbyRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                RadioButton radioButton = root.findViewById(checkedId);
-//                nearbyResult = radioButton.getText().toString();
-//            }
-//        });
-
 
 
         button_searchResult.setOnClickListener(new View.OnClickListener() {
