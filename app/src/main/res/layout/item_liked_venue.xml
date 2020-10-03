@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:background="?selectableItemBackground"
     android:gravity="center_vertical"
-    android:minHeight="50dp"
+    android:minHeight="70dp"
     android:padding="10dp">
 
     <TextView
@@ -14,5 +15,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Testing"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="venue name"/>
+    <TextView
+        android:id="@+id/tv_postcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="venue postcode"/>
+
 
 </LinearLayout>

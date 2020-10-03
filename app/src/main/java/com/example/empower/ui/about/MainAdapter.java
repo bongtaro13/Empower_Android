@@ -44,14 +44,25 @@ public class MainAdapter extends BaseAdapter<MainAdapter.ViewHolder> {
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvTitle;
+        TextView tvName;
+        TextView tvPostcode;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tv_title);
+            tvName = itemView.findViewById(R.id.tv_name);
+            tvPostcode = itemView.findViewById(R.id.tv_postcode);
         }
 
         public void setData(String title) {
-            this.tvTitle.setText(title);
+            String[] totalString = title.split(";");
+
+            String selectedLikedVenueID = totalString[0].replace("venueID=", "");
+            String selectedLikedVenueName = totalString[1].replace("name=", "");
+            String selectedLikedVenuePostcode = totalString[2].replace("postcode=", "");
+            this.tvTitle.setText("Venue ID: " + selectedLikedVenueID);
+            this.tvName.setText("Venue name: " + selectedLikedVenueName);
+            this.tvPostcode.setText("Venue postcode: " + selectedLikedVenuePostcode);
         }
     }
 
