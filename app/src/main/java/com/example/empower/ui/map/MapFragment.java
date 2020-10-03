@@ -86,6 +86,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import org.json.JSONObject;
 
@@ -215,7 +216,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         mapFragment.getMapAsync(this);
 
 
-
         // router between two locations display
         currentLocationMarker = new MarkerOptions().position(
                 new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
@@ -223,7 +223,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         destinationMarker = new MarkerOptions().position(new LatLng(-37.799446, 144.919102)).title("Destination Location");
 
         url = getUrl(currentLocationMarker.getPosition(), destinationMarker.getPosition(), "transit");
-
 
 
         // float bar configuration
@@ -476,7 +475,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                         return false;
                     }
                 });
-
 
 
                 mapAPI.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -997,16 +995,31 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                             VenueFilter venueFilter = new VenueFilter();
 
                             // get latlng info of the selected marker on the map
-                            LatLng tempLatLng = new LatLng(marker.getPosition().latitude,marker.getPosition().longitude);
+                            LatLng tempLatLng = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
                             Venue foundVenue = venueFilter.findVenueByLatLng(tempLatLng, sportsVenueList);
-                            if (foundVenue != null){
-                                if (venueFilter.checkIfCurrentVeneuLiked(foundVenue, currentLikedVenues)){
+                            if (foundVenue != null) {
+                                Toast.makeText(getActivity(), "Related venue found", Toast.LENGTH_SHORT).show();
+                                if (venueFilter.checkIfCurrentVeneuLiked(foundVenue, currentLikedVenues)) {
                                     float_heartButton.setLiked(true);
-                                }else {
+                                } else {
                                     float_heartButton.setLiked(false);
                                 }
                             }
 
+
+                            float_heartButton.setOnLikeListener(new OnLikeListener() {
+                                @Override
+                                public void liked(LikeButton likeButton) {
+                                    aboutViewModel.insert(new LikedVenue(foundVenue.getVenueID(), foundVenue.getName(), foundVenue.getPostcode()));
+                                }
+
+                                @Override
+                                public void unLiked(LikeButton likeButton) {
+                                    aboutViewModel.delete(new LikedVenue(foundVenue.getVenueID(), foundVenue.getName(), foundVenue.getPostcode()));
+
+                                    Toast.makeText(getActivity(), "Venue added", Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
 
                             float_streetViewButton.setOnClickListener(new View.OnClickListener() {
@@ -1028,11 +1041,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
 
                             Toast.makeText(getActivity(), "Marker selected", Toast.LENGTH_SHORT).show();
-                        }else {
+                        } else {
                             floatBarLayout.setVisibility(View.INVISIBLE);
                             Toast.makeText(getActivity(), "Current location marker selected", Toast.LENGTH_SHORT).show();
                         }
-                            return false;
+                        return false;
 
                     }
                 });
@@ -1181,8 +1194,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     .create();
         }
     }
-
-
 
 
 }

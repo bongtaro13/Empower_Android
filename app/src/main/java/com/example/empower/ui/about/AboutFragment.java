@@ -22,6 +22,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.empower.R;
 import com.example.empower.database.LikedVenue;
@@ -37,13 +38,14 @@ import com.yanzhenjie.recyclerview.SwipeMenuBridge;
 import com.yanzhenjie.recyclerview.SwipeMenuCreator;
 import com.yanzhenjie.recyclerview.SwipeMenuItem;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
+import com.yanzhenjie.recyclerview.touch.OnItemMoveListener;
 import com.yanzhenjie.recyclerview.widget.DefaultItemDecoration;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AboutFragment extends Fragment {
-
 
 
     private ArrayList<String> dataList;
@@ -55,11 +57,11 @@ public class AboutFragment extends Fragment {
 
     private View root;
 
+    private MainAdapter menuAdapter;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
 
 
         root = inflater.inflate(R.layout.fragment_about, container, false);
@@ -76,6 +78,8 @@ public class AboutFragment extends Fragment {
         mRecyclerView.setOnItemMenuClickListener(mItemMenuClickListener);
 
 
+        mRecyclerView.setItemViewSwipeEnabled(false);
+
 
         aboutViewModel =
                 ViewModelProviders.of(this).get(AboutViewModel.class);
@@ -88,7 +92,7 @@ public class AboutFragment extends Fragment {
 //        aboutViewModel.insert(one);
 //        aboutViewModel.insert(two);
 
-        MainAdapter menuAdapter = new MainAdapter(getContext());
+        menuAdapter = new MainAdapter(getContext());
         mRecyclerView.setAdapter(menuAdapter);
 
         // get LikedVenue object from
@@ -96,7 +100,7 @@ public class AboutFragment extends Fragment {
             @Override
             public void onChanged(List<LikedVenue> likedVenues) {
                 dataList = new ArrayList<>();
-                for (LikedVenue tempLikedVenue: likedVenues){
+                for (LikedVenue tempLikedVenue : likedVenues) {
                     dataList.add(tempLikedVenue.toString());
                 }
                 menuAdapter.notifyDataSetChanged(dataList);
@@ -105,11 +109,8 @@ public class AboutFragment extends Fragment {
         });
 
 
-
         return root;
     }
-
-
 
 
     /**
@@ -118,7 +119,7 @@ public class AboutFragment extends Fragment {
     private OnItemClickListener mItemClickListener = new OnItemClickListener() {
         @Override
         public void onItemClick(View itemView, int position) {
-            Toast.makeText(getContext(), "第" + position + "个", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Index " + position, Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -161,13 +162,26 @@ public class AboutFragment extends Fragment {
             int menuPosition = menuBridge.getPosition(); // 菜单在RecyclerView的Item中的Position。
 
             if (direction == SwipeRecyclerView.RIGHT_DIRECTION) {
-                Toast.makeText(getContext(), "list第" + position + "; 右侧菜单第" + menuPosition, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "list index" + position + "; delete clicked " + menuPosition, Toast.LENGTH_SHORT).show();
+
+                String[] totalString = dataList.get(position).split(";");
+
+
+                String selectedLikedVenueID = totalString[0].replace("venueID=", "");
+                String selectedLikedVenueName = totalString[1].replace("name=", "");
+                String selectedLikedVenuePostcode = totalString[1].replace("postcode=", "");
+
+                LikedVenue choosenLikedVenue = new LikedVenue(selectedLikedVenueID, selectedLikedVenueName, selectedLikedVenuePostcode);
+                aboutViewModel.delete(choosenLikedVenue);
+                dataList.remove(position);
+                menuAdapter.notifyDataSetChanged(dataList);
+
             } else if (direction == SwipeRecyclerView.LEFT_DIRECTION) {
-                Toast.makeText(getContext(), "list第" + position + "; 左侧菜单第" + menuPosition, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "list index " + position + "; left menu " + menuPosition, Toast.LENGTH_SHORT).show();
+
             }
         }
     };
-
 
 
 }

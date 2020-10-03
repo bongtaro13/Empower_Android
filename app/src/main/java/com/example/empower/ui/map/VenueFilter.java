@@ -173,7 +173,7 @@ public class VenueFilter {
     public Venue findVenueByLatLng (LatLng location, ArrayList<Venue> inputVeneus){
         Venue outputVenue = null;
         for (Venue tempVenue: inputVeneus){
-            if (tempVenue.getLatitude().equals(location.latitude) && tempVenue.getLongitude().equals(location.longitude)){
+            if (tempVenue.getLatitude().equals(String.valueOf(location.latitude)) && tempVenue.getLongitude().equals(String.valueOf(location.longitude))){
                 outputVenue = tempVenue;
                 break;
             }

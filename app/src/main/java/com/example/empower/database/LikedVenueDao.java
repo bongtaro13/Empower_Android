@@ -15,9 +15,6 @@ public interface LikedVenueDao {
     LiveData<List<LikedVenue>> getAll();
 
 
-    @Query("SELECT * FROM LikedVenue WHERE venueIndexID = :venueIndex LiMIT 1")
-    LikedVenue findByID(int venueIndex);
-
     @Query("SELECT * FROM LikedVenue WHERE venueID = :venueID LiMIT 1")
     LikedVenue findByVenueID(String venueID);
 

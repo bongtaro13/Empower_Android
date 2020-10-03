@@ -10,7 +10,7 @@ import androidx.room.RoomDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {LikedVenue.class}, version = 3, exportSchema = false)
+@Database(entities = {LikedVenue.class}, version = 4, exportSchema = false)
 public abstract class LikedVenueDatabase extends RoomDatabase {
 
     public abstract LikedVenueDao likedVenueDao();

@@ -69,17 +69,6 @@ public class LikedVenueRepository {
         });
     }
 
-    public LikedVenue findByID(final int venueIndexID){
-        LikedVenueDatabase.databaseWriteExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                LikedVenue runLikedVeneu = dao.findByID(venueIndexID);
-                setLikedVenue(runLikedVeneu);
-            }
-        });
-
-        return likedVenue;
-    }
 
     public LikedVenue findByVenueID(final String venueID){
         LikedVenueDatabase.databaseWriteExecutor.execute(new Runnable() {

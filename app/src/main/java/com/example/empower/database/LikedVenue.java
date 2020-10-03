@@ -1,6 +1,7 @@
 package com.example.empower.database;
 
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -9,9 +10,9 @@ import androidx.room.PrimaryKey;
 public class LikedVenue {
 
 
-    @PrimaryKey(autoGenerate = true)
-    public int venueIndexID;
 
+    @PrimaryKey
+    @NonNull
     @ColumnInfo(name = "venueID")
     public String venueID;
 
@@ -28,13 +29,6 @@ public class LikedVenue {
     }
 
 
-    public int getVenueIndexID() {
-        return venueIndexID;
-    }
-
-    public void setVenueIndexID(int venueIndexID) {
-        this.venueIndexID = venueIndexID;
-    }
 
     public String getVenueID() {
         return venueID;
@@ -62,11 +56,6 @@ public class LikedVenue {
 
     @Override
     public String toString() {
-        return "LikedVenue{" +
-                "venueIndexID=" + venueIndexID +
-                ", venueID='" + venueID + '\'' +
-                ", name='" + name + '\'' +
-                ", postcode='" + postcode + '\'' +
-                '}';
+        return "venueID=" + venueID + ';' + "name=" + name + ';' + "postcode=" + postcode;
     }
 }
