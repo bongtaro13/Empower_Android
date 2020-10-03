@@ -146,7 +146,7 @@ public class MainActivity2 extends AppCompatActivity {
                         break;
                     case 2:
                         navigation.navigate(R.id.navigation_about);
-                        setTitle("Contact");
+                        setTitle("Liked Venue");
                         titleBarLayout.setBackgroundColor(R.color.teal_background);
                         break;
                 }
