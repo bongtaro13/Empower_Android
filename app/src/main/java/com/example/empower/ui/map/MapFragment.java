@@ -999,13 +999,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     public boolean onMarkerClick(Marker marker) {
                         if (!marker.getTitle().equals("You current location")) {
                             floatBarLayout.setVisibility(View.VISIBLE);
-                            float_selectedAddress.setText(marker.getSnippet());
+                            //float_selectedAddress.setText(marker.getSnippet());
 
                             VenueFilter venueFilter = new VenueFilter();
 
                             // get latlng info of the selected marker on the map
                             LatLng tempLatLng = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
                             Venue foundVenue = venueFilter.findVenueByLatLng(tempLatLng, sportsVenueList);
+
                             if (foundVenue != null) {
                                 Toast.makeText(getActivity(), "Related venue found", Toast.LENGTH_SHORT).show();
                                 if (venueFilter.checkIfCurrentVeneuLiked(foundVenue, currentLikedVenues)) {
@@ -1013,6 +1014,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                                 } else {
                                     float_heartButton.setLiked(false);
                                 }
+                                float_selectedAddress.setText(foundVenue.getAddress());
                             }
 
 
@@ -1115,7 +1117,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     if (tempSportsVenue.getType().equals("sport venue")) {
                         mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
                                 .title(tempSportsVenue.getName())
-                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode() + " " + active_hours.getAciveHours()));
+                                .snippet(tempSportsVenue.getPostcode() + " " + active_hours.getAciveHours()));
                     } else {
                         mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
                                 .title(tempSportsVenue.getName())
