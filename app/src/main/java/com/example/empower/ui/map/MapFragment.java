@@ -251,7 +251,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         searchNearbyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                floatBarLayout.setVisibility(View.INVISIBLE);
                 dialogMapFragment.show(getFragmentManager().beginTransaction(), "SearchDialogMapFragment");
                 //dialogMapFragment.setCancelable(true);
                 mapProgressBar.setVisibility(View.VISIBLE);
