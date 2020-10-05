@@ -81,8 +81,6 @@ dependencies {
     // new main page
     compile 'com.github.armcha:LuseenBottomNavigation:1.8.2'
 
-    // new map API with ArcGIS
-    implementation 'com.esri.arcgisruntime:arcgis-android:100.8.0'
 
     // swipe recycleView
     implementation 'com.yanzhenjie.recyclerview:x:1.3.2'

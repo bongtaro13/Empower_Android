@@ -1,6 +1,7 @@
 package com.example.empower.ui.map;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -32,6 +33,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -464,6 +466,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
             if (combineLocationMapping.size() != 0) {
                 mapAPI.clear();
+
+
 
                 mapAPI.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
@@ -963,6 +967,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
             ArrayList<Venue> sportsVenueArrayList = arrayLists;
 
             mapAPI.clear();
+
+            if (!(ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+                mapAPI.setMyLocationEnabled(true);
+            }
+
             if (sportsVenueArrayList.size() != 0) {
                 mapAPI.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
