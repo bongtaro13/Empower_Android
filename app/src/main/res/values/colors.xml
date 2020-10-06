@@ -4,10 +4,10 @@
     <color name="colorPrimaryDark">#1976D2</color>
     <color name="colorAccent">#03DAC5</color>
 
-<!--//origin color-->
-<!--    <color name="colorPrimary">#6200EE</color>-->
-<!--    <color name="colorPrimaryDark">#3700B3</color>-->
-<!--    <color name="colorAccent">#03DAC5</color>-->
+    <!--//origin color-->
+    <!--    <color name="colorPrimary">#6200EE</color>-->
+    <!--    <color name="colorPrimaryDark">#3700B3</color>-->
+    <!--    <color name="colorAccent">#03DAC5</color>-->
 
 
     <color name="black">#000000</color>
@@ -33,4 +33,13 @@
     <color name="color_tab_3">#8B6B62</color>
     <color name="color_tab_4">#6C4A42</color>
     <color name="color_tab_5">#F63D2B</color>
+
+
+    <color name="light_gray">#EAEAEA</color>
+    <color name="darker_orange">#EE5C42</color>
+    <color name="light_orange">#EEAD0E</color>
+    <color name="darker_green">#00CD66</color>
+    <color name="light_green">#00FA9A</color>
+
+
 </resources>

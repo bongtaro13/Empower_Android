@@ -181,11 +181,11 @@ public class AboutFragment extends Fragment {
             // 3. WRAP_CONTENT，自身高度，不推荐;
             int height = getResources().getDimensionPixelSize(R.dimen.dp_70);
 
-            SwipeMenuItem addItem = new SwipeMenuItem(getContext()).setBackground(R.drawable.selector_green)
+            /*SwipeMenuItem addItem = new SwipeMenuItem(getContext()).setBackground(R.drawable.selector_green)
                     .setImage(R.drawable.football)
                     .setWidth(width)
                     .setHeight(height);
-            swipeLeftMenu.addMenuItem(addItem); // 添加菜单到左侧。
+            swipeLeftMenu.addMenuItem(addItem); // 添加菜单到左侧。*/
 
             SwipeMenuItem closeItem = new SwipeMenuItem(getContext()).setBackground(R.drawable.selector_red)
                     .setImage(R.drawable.ic_delete_forever)

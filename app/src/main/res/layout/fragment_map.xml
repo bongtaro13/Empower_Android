@@ -100,6 +100,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/router_planner_imageButton"
             app:layout_constraintTop_toTopOf="parent"
+            android:clickable="true"
             />
 
         <ImageButton
@@ -112,7 +113,8 @@
             android:src="@drawable/ic_commute_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:clickable="true"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
