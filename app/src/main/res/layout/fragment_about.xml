@@ -6,19 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.about.AboutFragment">
 
-<!--    <TextView-->
-<!--        android:id="@+id/liked_venue_title"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="48dp"-->
-<!--        android:gravity="center"-->
-<!--        android:textSize="18sp"-->
-<!--        android:textStyle="bold"-->
-<!--        android:text="Liked Venue"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        android:background="#eee"-->
-<!--        android:textColor="#333" />-->
 
     <com.yanzhenjie.recyclerview.SwipeRecyclerView
         android:id="@+id/favourite_venue_list"
@@ -35,10 +22,10 @@
         android:id="@+id/default_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:visibility="invisible"
         android:text="This is the default textview"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/favourite_venue_list"
         app:layout_constraintEnd_toEndOf="@+id/favourite_venue_list"
         app:layout_constraintStart_toStartOf="@+id/favourite_venue_list"
