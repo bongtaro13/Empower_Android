@@ -31,6 +31,18 @@
 
     </com.yanzhenjie.recyclerview.SwipeRecyclerView>
 
+    <TextView
+        android:id="@+id/default_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        android:text="This is the default textview"
+        app:layout_constraintBottom_toBottomOf="@+id/favourite_venue_list"
+        app:layout_constraintEnd_toEndOf="@+id/favourite_venue_list"
+        app:layout_constraintStart_toStartOf="@+id/favourite_venue_list"
+        app:layout_constraintTop_toTopOf="@+id/favourite_venue_list" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

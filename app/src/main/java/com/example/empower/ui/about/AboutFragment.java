@@ -68,6 +68,8 @@ public class AboutFragment extends Fragment {
 
     private SwipeRecyclerView mRecyclerView;
 
+    private TextView defaultTextview;
+
 
     private AboutViewModel aboutViewModel;
 
@@ -85,6 +87,7 @@ public class AboutFragment extends Fragment {
 
         root = inflater.inflate(R.layout.fragment_about, container, false);
 
+        defaultTextview= root.findViewById(R.id.default_textView);
 
         mRecyclerView = root.findViewById(R.id.favourite_venue_list);
 
@@ -121,6 +124,9 @@ public class AboutFragment extends Fragment {
                 dataList = new ArrayList<>();
                 for (LikedVenue tempLikedVenue : likedVenues) {
                     dataList.add(tempLikedVenue.toString());
+                }
+                if (dataList.isEmpty()){
+                    defaultTextview.setVisibility(View.VISIBLE);
                 }
                 menuAdapter.notifyDataSetChanged(dataList);
             }
@@ -213,6 +219,9 @@ public class AboutFragment extends Fragment {
                 LikedVenue choosenLikedVenue = new LikedVenue(selectedLikedVenueID, selectedLikedVenueName, selectedLikedVenuePostcode);
                 aboutViewModel.delete(choosenLikedVenue);
                 dataList.remove(position);
+                if (dataList.isEmpty()){
+                    defaultTextview.setVisibility(View.VISIBLE);
+                }
                 menuAdapter.notifyDataSetChanged(dataList);
 
             } else if (direction == SwipeRecyclerView.LEFT_DIRECTION) {
@@ -253,6 +262,8 @@ public class AboutFragment extends Fragment {
                     }
                 });
     }
+
+
 
 
 }
