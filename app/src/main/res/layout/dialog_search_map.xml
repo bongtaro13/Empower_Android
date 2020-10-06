@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:hint="postcode"
         android:gravity="center"
+        android:background="@drawable/dialog_background"
         android:ems="10"
         android:inputType="number" />
 
