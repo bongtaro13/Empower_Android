@@ -98,6 +98,7 @@ public class LikedVenueDialogAboutFragment extends DialogFragment {
             }
         });
 
+
         shareViaEmail_ImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
