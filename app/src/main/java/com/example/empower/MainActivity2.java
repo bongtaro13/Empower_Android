@@ -110,8 +110,7 @@ public class MainActivity2 extends AppCompatActivity {
         BottomNavigationItem bottomNavigationMap = new BottomNavigationItem
                 ("Map", ContextCompat.getColor(this, R.color.blue_background), R.drawable.ic_map_black_24dp);
         BottomNavigationItem bottomNavigationContact = new BottomNavigationItem
-                ("Liked Venue", ContextCompat.getColor(this, R.color.blue_background), R.drawable.ic_about_black_24dp);
-
+                ("Liked Venue", ContextCompat.getColor(this, R.color.blue_background), R.drawable.ic_favorite_24dp);
 
 
 
