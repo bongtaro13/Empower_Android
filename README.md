@@ -31,5 +31,6 @@
   
   - [Map SDK for Android](https://developers.google.com/maps/documentation/android-sdk/start)
   
-    
+  ### Database
+  The database is hosted in Google Cloud, but the final database was put together using the script in the following Jupyter notebook: [Wrangling Script](https://drive.google.com/file/d/1fWHJjWf_doOC0YR1SyBd359tWoxenIsj/view?usp=sharing)
 
