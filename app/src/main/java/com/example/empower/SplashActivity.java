@@ -2,16 +2,17 @@ package com.example.empower;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 
 
 import android.os.Looper;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -36,6 +38,11 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import io.github.inflationx.calligraphy3.CalligraphyConfig;
+import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
+import io.github.inflationx.viewpump.ViewPump;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+
 
 /**
  * Class name: SplashActivity.java
@@ -45,6 +52,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private TextView tv_version;        // text view for slogan display on the welcome page
     private ImageView logoImage;        // image view for the logo displayed on the welcome page
+    private ImageView gifImage;
 
     private LatLng  latLngResult;
 
@@ -54,6 +62,15 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ViewPump.init(ViewPump.builder()
+                .addInterceptor(new CalligraphyInterceptor(
+                        new CalligraphyConfig.Builder()
+                                .setDefaultFontPath("fonts/roboto_regular.ttf")
+                                .setFontAttrId(R.attr.fontPath)
+                                .build()))
+                .build());
+
+
         setContentView(R.layout.activity_splash);
         // set current screen vertically
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -62,6 +79,10 @@ public class SplashActivity extends AppCompatActivity {
         // add two visual components to this activity
         tv_version = findViewById(R.id.tv_version);
         logoImage = findViewById(R.id.splash_logo_image);
+        gifImage = findViewById(R.id.imageView_gif);
+        Glide.with(this).asGif().load(R.raw.logo_o).into(gifImage);
+
+
 
 
         Dexter.withContext(this)
@@ -167,6 +188,11 @@ public class SplashActivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
 

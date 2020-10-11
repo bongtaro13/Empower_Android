@@ -23,6 +23,7 @@
         android:layout_below="@+id/splash_logo_image"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
+        fontPath="fonts/Montserrat-ExtraBoldItalic.ttf"
 
         android:layout_gravity="bottom"
         android:layout_marginStart="49dp"
@@ -31,5 +32,20 @@
         android:gravity="center"
         android:text="Empowering disabled people to stay healthy"
         android:textColor="@color/black"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        adnroid:ignore="MissingPrefix" />
+
+    <ImageView
+        android:id="@+id/imageView_gif"
+        android:layout_width="wrap_content"
+        android:layout_height="47dp"
+        android:layout_alignBottom="@+id/splash_logo_image"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="181dp"
+        android:layout_marginTop="254dp"
+        android:layout_marginEnd="190dp"
+        android:layout_marginBottom="99dp"
+        app:srcCompat="@android:drawable/sym_def_app_icon" />
 </RelativeLayout>
