@@ -42,7 +42,7 @@
             app:number_of_tabs="three"
             app:starting_position="two"
             app:tab_color="@color/colorPrimary"
-            app:text_color="#61FFFFFF"
+            app:text_color="#FFFFFF"
             app:text_one="News"
             app:text_three="Liked Venue"
             app:text_two="Map" />

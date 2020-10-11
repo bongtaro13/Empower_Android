@@ -3,6 +3,7 @@ package com.example.empower;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.transition.Slide;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
@@ -79,6 +80,8 @@ public class MainActivity3 extends AppCompatActivity {
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.fragment_viewPager);
         tabLayout = (SpaceTabLayout) findViewById(R.id.spaceTabLayout);
+
+
         tabLayout.initialize(viewPager, getSupportFragmentManager(),
                 fragmentList, savedInstanceState);
 
