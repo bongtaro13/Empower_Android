@@ -4,6 +4,7 @@
     android:id="@+id/layout_titlebar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
+    xmlns:adnroid="http://schemas.android.com/tools"
     android:background="@color/blue_background">
 
     <TextView
@@ -15,8 +16,10 @@
         android:layout_marginTop="10dp"
         android:singleLine="true"
         android:text="Title bar"
+        fontPath="fonts/Montserrat-ExtraBoldItalic.ttf"
         android:textColor="@color/white"
-        android:textSize="22sp" />
+        android:textSize="22sp"
+        adnroid:ignore="MissingPrefix" />
 
     <ImageView
         android:id="@+id/toolbarImageViewAbout"

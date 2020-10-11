@@ -12,6 +12,7 @@ import androidx.navigation.ui.NavigationUI;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -34,6 +35,11 @@ import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 import com.luseen.luseenbottomnavigation.BottomNavigation.OnBottomNavigationItemClickListener;
 import com.lxj.xpopup.XPopup;
 import com.stephentuso.welcome.WelcomeHelper;
+
+import io.github.inflationx.calligraphy3.CalligraphyConfig;
+import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
+import io.github.inflationx.viewpump.ViewPump;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class MainActivity2 extends AppCompatActivity {
 
@@ -59,6 +65,14 @@ public class MainActivity2 extends AppCompatActivity {
 
         welcomeScreen = new WelcomeHelper(this, MyWelcomeActivity.class);
         welcomeScreen.show(savedInstanceState);
+
+        ViewPump.init(ViewPump.builder()
+                .addInterceptor(new CalligraphyInterceptor(
+                        new CalligraphyConfig.Builder()
+                                .setDefaultFontPath("fonts/Roboto-RobotoRegular.ttf")
+                                .setFontAttrId(R.attr.fontPath)
+                                .build()))
+                .build());
 
         // get location from welcome activity
         String stringCurrentLatLng = getIntent().getStringExtra("stringLatLngResult");
@@ -189,6 +203,11 @@ public class MainActivity2 extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         welcomeScreen.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
 }
