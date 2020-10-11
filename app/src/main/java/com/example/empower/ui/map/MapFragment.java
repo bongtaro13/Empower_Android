@@ -43,6 +43,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 
 import com.example.empower.MainActivity2;
+import com.example.empower.MainActivity3;
 import com.example.empower.R;
 import com.example.empower.api.DataParser;
 import com.example.empower.database.LikedVenue;
@@ -204,7 +205,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         });
 
 
-        MainActivity2 mainActivity = (MainActivity2) getActivity();
+//        MainActivity2 mainActivity = (MainActivity2) getActivity();
+
+        MainActivity3 mainActivity = (MainActivity3) getActivity();
 
         currentLocation = new Location("current location");
         currentLocation.setLatitude(mainActivity.getCurrentLatLngFromMain().latitude);

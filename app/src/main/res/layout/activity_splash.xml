@@ -5,47 +5,48 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:adnroid="http://schemas.android.com/tools"
-    android:background="@drawable/border">
+    android:background="@color/splashbackground">
     <!--show the version of the application-->
 
 
+<!--    <ImageView-->
+<!--        android:id="@+id/splash_logo_image"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="400dp"-->
+<!--        android:scaleType="fitCenter"-->
+<!--        app:srcCompat="@drawable/logo" />-->
+
     <ImageView
-        android:id="@+id/splash_logo_image"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/logo" />
+        android:id="@+id/imageView_gif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="183dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="99dp"
+        android:background="@color/white"
+        app:srcCompat="@android:drawable/sym_def_app_icon" />
 
     <TextView
         android:id="@+id/tv_version"
+        fontPath="fonts/Montserrat-Bold.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/splash_logo_image"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        fontPath="fonts/Montserrat-ExtraBoldItalic.ttf"
-
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        android:layout_marginStart="49dp"
-        android:layout_marginTop="109dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginEnd="47dp"
+        android:layout_marginBottom="150dp"
         android:gravity="center"
         android:text="Empowering disabled people to stay healthy"
         android:textColor="@color/black"
         android:textSize="30sp"
         adnroid:ignore="MissingPrefix" />
 
-    <ImageView
-        android:id="@+id/imageView_gif"
-        android:layout_width="wrap_content"
-        android:layout_height="47dp"
-        android:layout_alignBottom="@+id/splash_logo_image"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="181dp"
-        android:layout_marginTop="254dp"
-        android:layout_marginEnd="190dp"
-        android:layout_marginBottom="99dp"
-        app:srcCompat="@android:drawable/sym_def_app_icon" />
+
 </RelativeLayout>

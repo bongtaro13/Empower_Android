@@ -78,7 +78,6 @@ public class SplashActivity extends AppCompatActivity {
 
         // add two visual components to this activity
         tv_version = findViewById(R.id.tv_version);
-        logoImage = findViewById(R.id.splash_logo_image);
         gifImage = findViewById(R.id.imageView_gif);
         Glide.with(this).asGif().load(R.raw.logo_o).into(gifImage);
 
@@ -111,7 +110,7 @@ public class SplashActivity extends AppCompatActivity {
                             }
                         };
                         //Schedule the execution of timerTask, the second parameter is passed in the delay time (ms)
-                        timer.schedule(timerTask, 3000);
+                        timer.schedule(timerTask, 3330);
                     }
 
                     @Override
@@ -145,7 +144,7 @@ public class SplashActivity extends AppCompatActivity {
                                 }
                             };
                             //Schedule the execution of timerTask, the second parameter is passed in the delay time (ms)
-                            timer.schedule(timerTask, 3000);
+                            timer.schedule(timerTask, 3330);
 
                         }
                     }

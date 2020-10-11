@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity3">
+
+
+    <include
+        android:id="@+id/titleBar_main2"
+        layout="@layout/layout_titlebar" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/titleBar_main2"
+        android:layout_marginTop="0dp">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/fragment_viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="56dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <eu.long1.spacetablayout.SpaceTabLayout
+            android:id="@+id/spaceTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:button_color="@color/colorAccent"
+            app:icon_one="@drawable/ic_news_black_24dp"
+            app:icon_three="@drawable/ic_favorite_24dp"
+            app:icon_two="@drawable/ic_map_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_behavior="eu.long1.spacetablayout.SpaceTabLayoutBehavior"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_viewPager"
+            app:number_of_tabs="three"
+            app:starting_position="two"
+            app:tab_color="@color/colorPrimary"
+            app:text_color="#61FFFFFF"
+            app:text_one="News"
+            app:text_three="Liked Venue"
+            app:text_two="Map" />
+
+
+    </FrameLayout>
+
+
+
+
+</LinearLayout>
