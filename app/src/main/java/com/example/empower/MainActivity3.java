@@ -94,7 +94,7 @@ public class MainActivity3 extends AppCompatActivity {
         titleBarText = findViewById(R.id.text_title);
         aboutImage = findViewById(R.id.toolbarImageViewAbout);
 
-        titleBarText.setText("Map");
+        titleBarText.setText("Empower");
 
         aboutImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,15 +125,25 @@ public class MainActivity3 extends AppCompatActivity {
         tabLayout = (SpaceTabLayout) findViewById(R.id.spaceTabLayout);
 
 
+
+
         tabLayout.initialize(viewPager, getSupportFragmentManager(),
                 fragmentList, savedInstanceState);
 
+        tabLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity3.this, "this " + tabLayout.getCurrentPosition(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
-        int a = tabLayout.getCurrentPosition();
+
+
 
         tabLayout.setTabOneOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 titleBarText.setText("News");
             }
         });
@@ -141,14 +151,14 @@ public class MainActivity3 extends AppCompatActivity {
         tabLayout.setTabTwoOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                titleBarText.setText("News");
+                titleBarText.setText("Map");
             }
         });
 
         tabLayout.setTabThreeOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                titleBarText.setText("News");
+                titleBarText.setText("Liked venue");
             }
         });
 

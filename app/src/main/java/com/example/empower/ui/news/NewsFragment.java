@@ -28,6 +28,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.abdeveloper.library.MultiSelectDialog;
+import com.abdeveloper.library.MultiSelectModel;
 import com.example.empower.R;
 import com.example.empower.api.NewsAPI;
 import com.example.empower.entity.News;
@@ -63,6 +65,9 @@ public class NewsFragment extends Fragment {
     private Button podcastButton;
     private ProgressBar newsProgressBar;
 
+
+    private Button topicSlectedButton;
+
     private static final String TAG = "searchApp";
 
     // search field about news
@@ -83,6 +88,10 @@ public class NewsFragment extends Fragment {
         //podcastButton = root.findViewById(R.id.podcast_Button);
         newsProgressBar = root.findViewById(R.id.news_search_progressbar);
 
+        topicSlectedButton = root.findViewById(R.id.show_dialog);
+
+
+
 
         // listen the news spinner on the page, if button has been clicked, get info from the input and search the related news
         newsSpinnerDataList = new ArrayList<>();
@@ -90,6 +99,64 @@ public class NewsFragment extends Fragment {
         newsSpinnerDataList.add("Football");
         newsSpinnerDataList.add("Basketball");
         newsSpinnerDataList.add("Cricket");
+
+
+        //List of Countries with Name and Id
+        ArrayList<MultiSelectModel> listOfCountries= new ArrayList<>();
+        listOfCountries.add(new MultiSelectModel(1,"Paralympic"));
+        listOfCountries.add(new MultiSelectModel(2,"Football"));
+        listOfCountries.add(new MultiSelectModel(3,"Basketball"));
+        listOfCountries.add(new MultiSelectModel(4,"Cricket"));
+
+        //preselected Ids of Country List
+        final ArrayList<Integer> alreadySelectedCountries = new ArrayList<>();
+        alreadySelectedCountries.add(1);
+
+
+
+
+        MultiSelectDialog multiSelectDialog = new MultiSelectDialog()
+                .title(getResources().getString(R.string.multi_select_dialog_title)) //setting title for dialog
+                .titleSize(25)
+                .positiveText("Done")
+                .negativeText("Cancel")
+                .setMinSelectionLimit(1) //you can set minimum checkbox selection limit (Optional)
+                .setMaxSelectionLimit(listOfCountries.size()) //you can set maximum checkbox selection limit (Optional)
+                .preSelectIDsList(alreadySelectedCountries) //List of ids that you need to be selected
+                .multiSelectList(listOfCountries) // the multi select model list with ids and name
+                .onSubmit(new MultiSelectDialog.SubmitCallbackListener() {
+                    @Override
+                    public void onSelected(ArrayList<Integer> selectedIds, ArrayList<String> selectedNames, String dataString) {
+                        //will return list of selected IDS
+
+                        String initalText = "";
+                        for (int i = 0; i < selectedIds.size(); i++) {
+
+                            initalText += dataString + "+";
+
+                            Toast.makeText(getActivity(), "Selected Ids : " + selectedIds.get(i) + "\n" +
+                                    "Selected Names : " + selectedNames.get(i) + "\n" +
+                                    "DataString : " + dataString, Toast.LENGTH_SHORT).show();
+                        }
+
+
+
+                        String searchString = "disability+" + initalText;
+                        searchNewsWithKeyword(searchString);
+
+
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Log.d(TAG,"Dialog cancelled");
+                    }
+
+
+                });
+
+
+
 
         newsSpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, newsSpinnerDataList);
         newsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -114,6 +181,13 @@ public class NewsFragment extends Fragment {
             }
         });
 
+
+        topicSlectedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                multiSelectDialog.show(getChildFragmentManager(), "multiSelectDialog");
+            }
+        });
 
         return root;
     }

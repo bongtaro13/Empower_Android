@@ -117,7 +117,14 @@ dependencies {
 
 
     // navigation bar space layout
-    compile 'eu.long1:spacetablayout:1.0.4'
+    implementation 'eu.long1:spacetablayout:1.0.4'
+
+
+    // multiple select dialog
+    compile 'com.github.abumoallim:Android-Multi-Select-Dialog:v1.9'
+
+
+
 
 
 

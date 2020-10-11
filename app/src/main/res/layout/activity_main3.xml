@@ -17,8 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/titleBar_main2"
-        android:layout_marginTop="0dp"
-        tools:context=".MainActivity3">
+        android:layout_marginTop="0dp">
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/fragment_viewPager"
@@ -44,6 +43,7 @@
             app:starting_position="two"
             app:tab_color="@color/colorPrimary"
             app:text_color="#FFFFFF"
+            fontPath="fonts/OpenSans-Bold.ttf"
             app:text_one="News"
             app:text_three="Liked Venue"
             app:text_two="Map" />
