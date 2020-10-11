@@ -101,7 +101,7 @@ public class SplashActivity extends AppCompatActivity {
                                 //Send intent to realize page jump, the first parameter is the context of the current page
                                 // and the second parameter is the homepage to jump to
 
-                                Intent intentMain = new Intent(getBaseContext(), MainActivity2.class);
+                                Intent intentMain = new Intent(getBaseContext(), MainActivity3.class);
                                 String stringLatLngResult = latLngResult.latitude + "," + latLngResult.longitude;
                                 intentMain.putExtra("stringLatLngResult", stringLatLngResult);
                                 startActivity(intentMain);
@@ -138,7 +138,7 @@ public class SplashActivity extends AppCompatActivity {
                                 public void run() {
                                     //Send intent to realize page jump, the first parameter is the context of the current page
                                     // and the second parameter is the homepage to jump to
-                                    startActivity(new Intent(SplashActivity.this, MainActivity2.class));
+                                    startActivity(new Intent(SplashActivity.this, MainActivity3.class));
                                     //Close the current welcome page after the jump
                                     SplashActivity.this.finish();
                                 }
