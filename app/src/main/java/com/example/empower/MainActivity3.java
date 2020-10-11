@@ -7,6 +7,7 @@ import androidx.transition.Slide;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -56,6 +57,7 @@ public class MainActivity3 extends AppCompatActivity {
     private SpaceTabLayout tabLayout;
 
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -129,6 +131,9 @@ public class MainActivity3 extends AppCompatActivity {
 
         tabLayout.initialize(viewPager, getSupportFragmentManager(),
                 fragmentList, savedInstanceState);
+
+
+
 
         tabLayout.setOnClickListener(new View.OnClickListener() {
             @Override
