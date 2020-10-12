@@ -29,7 +29,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="4dp"
-        android:background="@drawable/ripple_effect"
+        android:background="@drawable/ripple_effect_primarycolor"
         android:src="@drawable/ic_error_outline_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
