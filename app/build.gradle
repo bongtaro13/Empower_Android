@@ -123,6 +123,9 @@ dependencies {
     // multiple select dialog
     compile 'com.github.abumoallim:Android-Multi-Select-Dialog:v1.9'
 
+    // boom menu
+    compile 'com.nightonke:boommenu:2.1.1'
+
 
 
 
