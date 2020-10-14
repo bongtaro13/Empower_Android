@@ -86,6 +86,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -118,6 +119,10 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 public class MapFragment extends Fragment implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback {
 
     public static final int SEARCH_MAP_FRAGMENT = 1;
+
+
+    // map search fab
+    private FloatingActionButton fab;
 
 
     private SearchDialogMapFragment dialogMapFragment;
@@ -241,25 +246,29 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         //floatBarLayout.setVisibility(View.GONE);
 
 
+        fab = root.findViewById(R.id.map_search_fab);
+
+
         //createSportsVenueList();
         getSportsListFromFireStore();
 
 
-        searchNearbyButton = root.findViewById(R.id.map_search_button);
+
         mapProgressBar = root.findViewById(R.id.map_search_progressBar);
 
 
         dialogMapFragment = new SearchDialogMapFragment();
         dialogMapFragment.setTargetFragment(this, SEARCH_MAP_FRAGMENT);
 
-        searchNearbyButton.setOnClickListener(new View.OnClickListener() {
+
+
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 floatBarLayout.setVisibility(View.INVISIBLE);
                 dialogMapFragment.show(getFragmentManager().beginTransaction(), "SearchDialogMapFragment");
                 //dialogMapFragment.setCancelable(true);
                 mapProgressBar.setVisibility(View.VISIBLE);
-
             }
         });
 
@@ -1044,6 +1053,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                             });
 
 
+                            venueDeatilBundle.putString("activeHour", active_hours.getAciveHours());
+
                             new XPopup.Builder(getContext())
                                     .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
                                     .enableDrag(true)
@@ -1137,12 +1148,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
                     if (tempSportsVenue.getType().equals("sport venue")) {
                         mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
-                                .title(tempSportsVenue.getName())
-                                .snippet(tempSportsVenue.getPostcode() + " " + active_hours.getAciveHours()));
+                                .title(tempSportsVenue.getName()));
                     } else {
                         mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
-                                .title(tempSportsVenue.getName())
-                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode()));
+                                .title(tempSportsVenue.getName()));
                     }
 
                     //}

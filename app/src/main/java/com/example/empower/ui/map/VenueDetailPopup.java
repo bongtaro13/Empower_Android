@@ -89,6 +89,8 @@ public class VenueDetailPopup extends BottomPopupView {
         latitude = selectLikedVenue.getLatitude();
         longitude = selectLikedVenue.getLongitude();
 
+        String activeHourString = venueDetail.getString("activeHour");
+
         if (selectLikedVenue != null) {
             venueName.setText(selectLikedVenue.getName());
             venueType.setText(selectLikedVenue.getType());
@@ -96,6 +98,11 @@ public class VenueDetailPopup extends BottomPopupView {
             venueSuburb.setText(selectLikedVenue.getSuburb() + " " + selectLikedVenue.getPostcode());
             venueBusinessCategory.setText(selectLikedVenue.getBusinessCategory().replace(","," "));
             venueLga.setText(selectLikedVenue.getLga());
+            if (venueType.equals("sport venue")){
+                activeHour.setText(activeHourString);
+            }else {
+                activeHour.setVisibility(GONE);
+            }
         }
 
 
