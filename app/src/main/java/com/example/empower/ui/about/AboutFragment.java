@@ -127,6 +127,8 @@ public class AboutFragment extends Fragment {
                 }
                 if (dataList.isEmpty()){
                     defaultTextview.setVisibility(View.VISIBLE);
+                }else {
+                    defaultTextview.setVisibility(View.INVISIBLE);
                 }
                 menuAdapter.notifyDataSetChanged(dataList);
             }
@@ -221,6 +223,8 @@ public class AboutFragment extends Fragment {
                 dataList.remove(position);
                 if (dataList.isEmpty()){
                     defaultTextview.setVisibility(View.VISIBLE);
+                }else {
+                    defaultTextview.setVisibility(View.INVISIBLE);
                 }
                 menuAdapter.notifyDataSetChanged(dataList);
 
