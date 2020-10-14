@@ -10,15 +10,33 @@
     android:clipChildren="false"
     android:clipToPadding="false">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_round">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:gravity="center"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Venue search"
+            android:textColor="#000"
+            android:background="#eee"
+            android:textSize="20sp" />
+    </com.google.android.material.appbar.AppBarLayout>
+
 
     <EditText
         android:id="@+id/dialog_inputPostcode"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:hint="postcode"
         android:gravity="center"
         android:background="@drawable/dialog_background"
         android:ems="10"
+        android:fontFamily="@font/roboto_regular"
         android:inputType="number" />
 
     <CheckBox
@@ -26,6 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:fontFamily="@font/roboto_regular"
         android:text="Sport Venue"
         android:checked="true"/>
     <CheckBox
@@ -33,13 +52,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:fontFamily="@font/roboto_regular"
         android:text="Open Space"
         android:checked="false"/>
 
     <com.ramotion.foldingcell.FoldingCell
 
         android:id="@+id/folding_cell"
-        android:background="@android:color/holo_green_light"
+        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         ​
@@ -48,7 +68,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_green_light"
+            android:background="@android:color/white"
             android:visibility="gone">
 
             <TextView
@@ -101,8 +121,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
+                android:fontFamily="@font/roboto_regular"
+                android:background="@color/colorAccent"
                 android:text="Search supported sport with sport venue"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                />
 
 
         </LinearLayout>
@@ -116,7 +139,7 @@
     <com.ramotion.foldingcell.FoldingCell
 
         android:id="@+id/folding_cell_2"
-        android:background="@android:color/holo_blue_light"
+        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         ​
@@ -125,7 +148,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_blue_light"
+            android:background="@android:color/white"
             android:visibility="gone">
 
             <TextView
@@ -178,8 +201,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
+                android:fontFamily="@font/roboto_regular"
                 android:text="Search nearby"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:background="@color/colorAccent"/>
 
         </LinearLayout>
 
@@ -191,6 +216,8 @@
         android:id="@+id/dialog_search_map_confirm_button"
         android:layout_width="match_parent"
         android:text="Search Result"
+        android:fontFamily="@font/opensans_bold"
+        android:background="@drawable/ripple_effect_primarycolor"
         android:layout_height="wrap_content"/>
 
 

@@ -99,6 +99,7 @@ public class VenueDetailPopup extends BottomPopupView {
             venueBusinessCategory.setText(selectLikedVenue.getBusinessCategory().replace(","," "));
             venueLga.setText(selectLikedVenue.getLga());
             if (venueType.equals("sport venue")){
+                activeHour.setVisibility(VISIBLE);
                 activeHour.setText(activeHourString);
             }else {
                 activeHour.setVisibility(GONE);
