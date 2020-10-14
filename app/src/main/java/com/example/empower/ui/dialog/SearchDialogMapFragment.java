@@ -66,7 +66,7 @@ public class SearchDialogMapFragment extends DialogFragment {
         root = inflater.inflate(R.layout.dialog_search_map, container, true);
 
         foldingCell = root.findViewById(R.id.folding_cell);
-        foldingCell.initialize(1000, Color.GRAY, 4);
+        foldingCell.initialize(2000, Color.GRAY, 4);
 
         foldingCell.setOnClickListener(new View.OnClickListener() {
             @Override
