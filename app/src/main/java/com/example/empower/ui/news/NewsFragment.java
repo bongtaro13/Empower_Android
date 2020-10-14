@@ -96,17 +96,68 @@ public class NewsFragment extends Fragment {
         // listen the news spinner on the page, if button has been clicked, get info from the input and search the related news
         newsSpinnerDataList = new ArrayList<>();
         newsSpinnerDataList.add("Paralympic");
-        newsSpinnerDataList.add("Football");
-        newsSpinnerDataList.add("Basketball");
-        newsSpinnerDataList.add("Cricket");
+        newsSpinnerDataList.add("Alpine skiing");
+        newsSpinnerDataList.add("Archery");
+        newsSpinnerDataList.add("Athletics");
+        newsSpinnerDataList.add("Badminton");
+        newsSpinnerDataList.add("Boccia");
+        newsSpinnerDataList.add("Canoe");
+        newsSpinnerDataList.add("Cycling");
+        newsSpinnerDataList.add("Dance sport");
+        newsSpinnerDataList.add("Equestrian");
+        newsSpinnerDataList.add("Football 5 a side");
+        newsSpinnerDataList.add("Goalball");
+        newsSpinnerDataList.add("Judo");
+        newsSpinnerDataList.add("Nordic skiing");
+        newsSpinnerDataList.add("Para ice hockey");
+        newsSpinnerDataList.add("Powerlifting");
+        newsSpinnerDataList.add("Rowing");
+        newsSpinnerDataList.add("Shooting");
+        newsSpinnerDataList.add("Sitting volleyball");
+        newsSpinnerDataList.add("Snowboard");
+        newsSpinnerDataList.add("Swimming");
+        newsSpinnerDataList.add("Table tennis");
+        newsSpinnerDataList.add("Taekwondo");
+        newsSpinnerDataList.add("Triathlon");
+        newsSpinnerDataList.add("Wheelchair basketball");
+        newsSpinnerDataList.add("Wheelchair curling");
+        newsSpinnerDataList.add("Wheelchair fencing");
+        newsSpinnerDataList.add("Wheelchair rugby");
+        newsSpinnerDataList.add("Wheelchair tennis");
 
 
         //List of Countries with Name and Id
         ArrayList<MultiSelectModel> listOfCountries= new ArrayList<>();
         listOfCountries.add(new MultiSelectModel(1,"Paralympic"));
-        listOfCountries.add(new MultiSelectModel(2,"Football"));
-        listOfCountries.add(new MultiSelectModel(3,"Basketball"));
-        listOfCountries.add(new MultiSelectModel(4,"Cricket"));
+        listOfCountries.add(new MultiSelectModel(2,"Alpine skiing"));
+        listOfCountries.add(new MultiSelectModel(3,"Archery"));
+        listOfCountries.add(new MultiSelectModel(4,"Athletics"));
+        listOfCountries.add(new MultiSelectModel(5,"Badminton"));
+        listOfCountries.add(new MultiSelectModel(6,"Boccia"));
+        listOfCountries.add(new MultiSelectModel(7,"Canoe"));
+        listOfCountries.add(new MultiSelectModel(8,"Cycling"));
+        listOfCountries.add(new MultiSelectModel(9,"Dance sport"));
+        listOfCountries.add(new MultiSelectModel(10,"Equestrian"));
+        listOfCountries.add(new MultiSelectModel(11,"Football 5 a side"));
+        listOfCountries.add(new MultiSelectModel(12,"Goalball"));
+        listOfCountries.add(new MultiSelectModel(13,"Judo"));
+        listOfCountries.add(new MultiSelectModel(14,"Nordic skiing"));
+        listOfCountries.add(new MultiSelectModel(15,"Para ice hockey"));
+        listOfCountries.add(new MultiSelectModel(16,"Powerlifting"));
+        listOfCountries.add(new MultiSelectModel(17,"Rowing"));
+        listOfCountries.add(new MultiSelectModel(18,"Shooting"));
+        listOfCountries.add(new MultiSelectModel(19,"Sitting volleyball"));
+        listOfCountries.add(new MultiSelectModel(20,"Snowboard"));
+        listOfCountries.add(new MultiSelectModel(21,"Swimming"));
+        listOfCountries.add(new MultiSelectModel(22,"Table tennis"));
+        listOfCountries.add(new MultiSelectModel(23,"Taekwondo"));
+        listOfCountries.add(new MultiSelectModel(24,"Triathlon"));
+        listOfCountries.add(new MultiSelectModel(25,"Wheelchair basketball"));
+        listOfCountries.add(new MultiSelectModel(26,"Wheelchair curling"));
+        listOfCountries.add(new MultiSelectModel(27,"Wheelchair fencing"));
+        listOfCountries.add(new MultiSelectModel(28,"Wheelchair rugby"));
+        listOfCountries.add(new MultiSelectModel(29,"Wheelchair tennis"));
+
 
         //preselected Ids of Country List
         final ArrayList<Integer> alreadySelectedCountries = new ArrayList<>();
@@ -170,7 +221,7 @@ public class NewsFragment extends Fragment {
                 Toast toast_news_sport = Toast.makeText(getActivity(), "you selected sport is: " + newsSpinnerAdapter.getItem(position), Toast.LENGTH_SHORT);
                 toast_news_sport.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
                 toast_news_sport.show();
-                String searchString = "disability+" + newsSpinnerAdapter.getItem(position);
+                String searchString = newsSpinnerAdapter.getItem(position);
                 searchNewsWithKeyword(searchString);
 
             }
