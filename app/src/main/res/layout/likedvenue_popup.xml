@@ -14,10 +14,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#eee"
             android:padding="20dp"
             android:fontFamily="@font/montserrat_bold"
-            android:text="Contact us"
+            android:text="Venue Information"
             android:textColor="#000"
+            android:gravity="center"
             android:textSize="20sp" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -34,7 +36,7 @@
         android:visibility="visible"/>
 
     <Button
-        android:id="@+id/report_button"
+        android:id="@+id/close_likedVenueDetail_button"
         android:padding="10dp"
         android:textColor="#333"
         android:fontFamily="@font/opensans_bold"
@@ -42,8 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_effect"
-        android:text="Give Feedback"
-        android:visibility="visible" />
+        android:text="Close" />
 
 
 </LinearLayout>

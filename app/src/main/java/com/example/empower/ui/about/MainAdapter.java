@@ -60,9 +60,9 @@ public class MainAdapter extends BaseAdapter<MainAdapter.ViewHolder> {
             String selectedLikedVenueID = totalString[0].replace("venueID=", "");
             String selectedLikedVenueName = totalString[1].replace("name=", "");
             String selectedLikedVenuePostcode = totalString[2].replace("postcode=", "");
-            this.tvTitle.setText("Venue ID: " + selectedLikedVenueID);
-            this.tvName.setText("Venue name: " + selectedLikedVenueName);
-            this.tvPostcode.setText("Venue postcode: " + selectedLikedVenuePostcode);
+            this.tvTitle.setText(selectedLikedVenueID);
+            this.tvName.setText(selectedLikedVenueName);
+            this.tvPostcode.setText(selectedLikedVenuePostcode);
         }
     }
 
