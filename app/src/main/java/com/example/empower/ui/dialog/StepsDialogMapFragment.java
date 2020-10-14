@@ -79,10 +79,10 @@ public class StepsDialogMapFragment extends DialogFragment {
         venueNameTextView.setTypeface(typeface_mon);
         venueNameTextView.setText(venueName);
 
-        startAddressTextView.setText("Start address: \n" + startAddress);
-        endAddressTextView.setText("End address: \n" + endAddress);
-        totalDistanceTextView.setText("Total distance: " + totalDistance);
-        durationTextView.setText("Duration: " + duration);
+        startAddressTextView.setText( startAddress);
+        endAddressTextView.setText(endAddress);
+        totalDistanceTextView.setText( totalDistance);
+        durationTextView.setText( duration);
 
 
         List<Step> stepList = getArguments().getParcelableArrayList("stepList");

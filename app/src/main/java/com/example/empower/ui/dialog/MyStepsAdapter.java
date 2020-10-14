@@ -70,6 +70,8 @@ public class MyStepsAdapter  extends RecyclerView.Adapter<MyStepsAdapter.MyViewH
         holder.distance.setText("Distance: " +step.getDistance());
         holder.travelMode.setText("Travel mode: " + step.getTravelMode());
         if (!step.getTravelMode().equals("WALKING")) {
+            holder.vehicleName.setVisibility(View.VISIBLE);
+            holder.shortName.setVisibility(View.VISIBLE);
             holder.vehicleName.setText("Vehilce type: " +step.getVehicleName());
             holder.shortName.setText("Vehilce number: " + step.getShortName());
         }
