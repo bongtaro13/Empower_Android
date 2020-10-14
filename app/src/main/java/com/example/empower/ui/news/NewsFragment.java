@@ -34,6 +34,7 @@ import com.abdeveloper.library.MultiSelectModel;
 import com.example.empower.R;
 import com.example.empower.api.NewsAPI;
 import com.example.empower.entity.News;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 import java.io.BufferedReader;
@@ -61,14 +62,13 @@ public class NewsFragment extends Fragment {
     private List<String> newsSpinnerDataList;
 
 
-
-    private Button podcastButton;
     private ProgressBar newsProgressBar;
 
 
-    private Button topicSlectedButton;
-
     private static final String TAG = "searchApp";
+
+
+    private FloatingActionButton fab;
 
     // search field about news
     static String result = null;
@@ -87,8 +87,8 @@ public class NewsFragment extends Fragment {
         //podcastButton = root.findViewById(R.id.podcast_Button);
         newsProgressBar = root.findViewById(R.id.news_search_progressbar);
 
-        topicSlectedButton = root.findViewById(R.id.show_dialog);
 
+        fab = root.findViewById(R.id.news_search_fab);
 
         searchNewsWithKeyword("Paralympic");
 
@@ -205,32 +205,7 @@ public class NewsFragment extends Fragment {
 
 
 
-
-//        newsSpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, newsSpinnerDataList);
-//        newsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        newsSpinner.setAdapter(newsSpinnerAdapter);
-//
-//        // add listener to the spinner selected action
-//        newsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//
-//                Toast toast_news_sport = Toast.makeText(getActivity(), "you selected sport is: " + newsSpinnerAdapter.getItem(position), Toast.LENGTH_SHORT);
-//                toast_news_sport.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
-//                toast_news_sport.show();
-//                String searchString = newsSpinnerAdapter.getItem(position);
-//                searchNewsWithKeyword(searchString);
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
-
-
-        topicSlectedButton.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 multiSelectDialog.show(getChildFragmentManager(), "multiSelectDialog");
