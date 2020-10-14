@@ -1,6 +1,7 @@
 package com.example.empower.ui.dialog;
 
 import android.annotation.SuppressLint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,11 +13,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.empower.R;
 import com.example.empower.entity.Step;
+
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 
@@ -30,6 +35,9 @@ public class StepsDialogMapFragment extends DialogFragment {
 
     private View root;
     private Button closeButton;
+
+    private TextView venueNameTextView;
+
     private TextView startAddressTextView;
     private TextView endAddressTextView;
     private TextView totalDistanceTextView;
@@ -51,19 +59,28 @@ public class StepsDialogMapFragment extends DialogFragment {
             }
         });
 
+        venueNameTextView = root.findViewById(R.id.step_venueName);
+
         startAddressTextView = root.findViewById(R.id.step_dialog_start_address);
         endAddressTextView = root.findViewById(R.id.step_dialog_end_address);
         totalDistanceTextView = root.findViewById(R.id.step_dialog_total_distance);
         durationTextView = root.findViewById(R.id.step_dialog_duration);
 
 
+        String venueName = getArguments().getString("venue_name");
+
         String startAddress = getArguments().getString("start_address");
         String endAddress = getArguments().getString("end_address");
         String totalDistance = getArguments().getString("total_distance");
         String duration = getArguments().getString("duration");
 
-        startAddressTextView.setText("Start address: " + startAddress);
-        endAddressTextView.setText("End address: " + endAddress);
+
+        Typeface typeface_mon = getResources().getFont(R.font.montserrat_bold);
+        venueNameTextView.setTypeface(typeface_mon);
+        venueNameTextView.setText(venueName);
+
+        startAddressTextView.setText("Start address: \n" + startAddress);
+        endAddressTextView.setText("End address: \n" + endAddress);
         totalDistanceTextView.setText("Total distance: " + totalDistance);
         durationTextView.setText("Duration: " + duration);
 
@@ -76,6 +93,7 @@ public class StepsDialogMapFragment extends DialogFragment {
 
         // manage recycle view contents with map adapter
         recyclerView.setAdapter(myStepsAdapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         RecyclerView.LayoutManager layoutManager =
                 new LinearLayoutManager(getContext());

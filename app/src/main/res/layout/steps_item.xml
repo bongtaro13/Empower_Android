@@ -22,17 +22,20 @@
         android:id="@+id/step_tranpost_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.715"
         app:layout_constraintStart_toEndOf="@+id/step_item_count"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.356"
         app:srcCompat="@drawable/ic_walk_24dp"
-        tools:layout_editor_absoluteY="16dp"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/step_item_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:paddingStart="40dp"
         android:text="distance"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/step_item_count"
@@ -42,7 +45,7 @@
         android:id="@+id/step_item_travel_mode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:paddingStart="40dp"
         android:text="travel mode"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/step_item_distance"
@@ -52,7 +55,7 @@
         android:id="@+id/step_item_vehicle_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:paddingStart="40dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/step_item_travel_mode"
         tools:ignore="MissingConstraints" />
@@ -61,6 +64,7 @@
         android:id="@+id/step_item_short_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingStart="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/step_item_vehicle_name"

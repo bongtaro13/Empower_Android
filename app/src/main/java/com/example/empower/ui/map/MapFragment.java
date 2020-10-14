@@ -798,6 +798,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         bundle.putString("total_distance", totalDistance);
         bundle.putString("duration", duration);
         bundle.putParcelableArrayList("stepList", stepArrayList);
+        bundle.putString("venue_name", "sample venue name");
 
 
         // display step info in step dialog

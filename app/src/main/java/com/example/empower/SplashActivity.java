@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -65,7 +64,7 @@ public class SplashActivity extends AppCompatActivity {
         ViewPump.init(ViewPump.builder()
                 .addInterceptor(new CalligraphyInterceptor(
                         new CalligraphyConfig.Builder()
-                                .setDefaultFontPath("fonts/roboto_regular.ttf")
+                                .setDefaultFontPath("fonts/Roboto_Regular.ttf")
                                 .setFontAttrId(R.attr.fontPath)
                                 .build()))
                 .build());
