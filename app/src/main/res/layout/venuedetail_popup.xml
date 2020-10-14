@@ -36,11 +36,12 @@
 
             <TextView
                 android:id="@+id/venueName_map_popup"
-                android:layout_width="200dp"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/roboto_regular"
+                android:background="#eee"
                 android:gravity="center"
-                android:padding="20dp"
+                android:padding="10dp"
                 android:text="venueName"
                 android:textColor="#000"
                 android:textSize="20sp" />
@@ -54,7 +55,7 @@
             android:layout_gravity="center_vertical"
             android:background="#eee"
             android:clickable="true"
-            android:paddingStart="20dp"
+            android:paddingStart="10dp"
             android:src="@drawable/ic_satellite_24dp" />
 
         <ImageButton
@@ -64,7 +65,7 @@
             android:layout_gravity="center_vertical"
             android:background="#eee"
             android:clickable="true"
-            android:paddingStart="20dp"
+            android:paddingStart="10dp"
             android:src="@drawable/ic_commute_24dp" />
 
         <ImageButton
@@ -155,6 +156,31 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_bold"
             android:padding="10dp"
+            android:text="Active time: "
+            android:textColor="#000"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/active_time_map_popup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="10dp"
+            android:text="activeTime"
+            android:textColor="#000"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"
+            android:padding="10dp"
             android:text="Suburb and Postcode: "
             android:textColor="#000"
             android:textSize="15sp" />
@@ -188,7 +214,7 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/businessCategory_detail_textView"
+            android:id="@+id/businessCategory_map_popup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"
@@ -214,7 +240,7 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/LGA_detail_textView"
+            android:id="@+id/LGA_map_popup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"

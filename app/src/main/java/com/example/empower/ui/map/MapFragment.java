@@ -90,6 +90,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+import com.lxj.xpopup.XPopup;
 
 import org.json.JSONObject;
 
@@ -1011,14 +1012,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                             LatLng tempLatLng = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
                             Venue foundVenue = venueFilter.findVenueByLatLng(tempLatLng, sportsVenueList);
 
+                            Bundle venueDeatilBundle = new Bundle();
+                            venueDeatilBundle.putParcelable("selectLikedVenue",foundVenue);
+
+
                             if (foundVenue != null) {
                                 Toast.makeText(getActivity(), "Related venue found", Toast.LENGTH_SHORT).show();
                                 if (venueFilter.checkIfCurrentVeneuLiked(foundVenue, currentLikedVenues)) {
                                     float_heartButton.setLiked(true);
+                                    venueDeatilBundle.putBoolean("heartFlag", true);
                                 } else {
                                     float_heartButton.setLiked(false);
+                                    venueDeatilBundle.putBoolean("heartFlag", false);
                                 }
                                 float_selectedAddress.setText(foundVenue.getAddress());
+
                             }
 
 
@@ -1035,6 +1043,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                                     Toast.makeText(getActivity(), "Venue added", Toast.LENGTH_SHORT).show();
                                 }
                             });
+
+
+                            new XPopup.Builder(getContext())
+                                    .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
+                                    .enableDrag(true)
+                                    .hasShadowBg(false)
+                                    .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+//                        .isThreeDrag(true) //是否开启三阶拖拽，如果设置enableDrag(false)则无效
+                                    .asCustom(new VenueDetailPopup(getContext(), venueDeatilBundle)/*.enableDrag(false)*/)
+                                    .show();
 
 
                             float_streetViewButton.setOnClickListener(new View.OnClickListener() {
