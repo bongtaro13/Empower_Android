@@ -1,6 +1,7 @@
 package com.example.empower.ui.about;
 
 import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;

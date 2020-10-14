@@ -2,6 +2,7 @@ package com.example.empower.ui.about;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.example.empower.R;
 import com.example.empower.entity.Venue;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
+
+import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 import static com.example.empower.ui.dialog.LikedVenueDialogAboutFragment.sendMail;
@@ -143,6 +146,25 @@ public class LikedVenuePopup extends BottomPopupView {
     protected int getMaxHeight() {
 //        return XPopupUtils.getWindowHeight(getContext());
         return (int) (XPopupUtils.getWindowHeight(getContext()) * .9f);
+    }
+
+
+    private class PLacePhotoSearchAsyncTask extends AsyncTask<ArrayList<String>,Void,String> {
+
+        @Override
+        protected String doInBackground(ArrayList<String>... arrayLists) {
+
+            String locationName = arrayLists[0].get(0).replace(" ", "%20");
+            locationName = "Audiology%20ultra%20hearing%20service";
+
+            String locationLatitude = arrayLists[0].get(1);
+            String locationLongitude = arrayLists[0].get(2);
+
+
+
+            String url = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + locationName + "&inputtype=textquery&fields=photos,,opening_hours&locationbias=circle:2000@47.6918452,-122.2226413&key=AIzaSyBenJ8IiMcO7vlKFYcZXb9WhKWuTQEJeo4";
+            return null;
+        }
     }
 
 
