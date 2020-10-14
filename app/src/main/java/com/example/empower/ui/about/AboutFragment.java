@@ -40,6 +40,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.lxj.xpopup.XPopup;
 import com.yanzhenjie.recyclerview.OnItemClickListener;
 import com.yanzhenjie.recyclerview.OnItemMenuClickListener;
 import com.yanzhenjie.recyclerview.SwipeMenu;
@@ -47,11 +48,9 @@ import com.yanzhenjie.recyclerview.SwipeMenuBridge;
 import com.yanzhenjie.recyclerview.SwipeMenuCreator;
 import com.yanzhenjie.recyclerview.SwipeMenuItem;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
-import com.yanzhenjie.recyclerview.touch.OnItemMoveListener;
 import com.yanzhenjie.recyclerview.widget.DefaultItemDecoration;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -146,9 +145,9 @@ public class AboutFragment extends Fragment {
     private OnItemClickListener mItemClickListener = new OnItemClickListener() {
         @Override
         public void onItemClick(View itemView, int position) {
-            Toast.makeText(getContext(), "Index " + position, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), "Index " + position, Toast.LENGTH_SHORT).show();
 
-            // display step info in likedVenue detail dialog
+
 
             String[] totalString = dataList.get(position).split(";");
             String selectedLikedVenueID = totalString[0].replace("venueID=", "");
@@ -161,10 +160,14 @@ public class AboutFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("selectLikedVenue",foundVenue);
 
-                LikedVenueDialogAboutFragment likedVenueDialogAboutFragment = new LikedVenueDialogAboutFragment();
-                likedVenueDialogAboutFragment.setArguments(bundle);
-                likedVenueDialogAboutFragment.show(getFragmentManager(), "LikedVenueDialogAboutFragment");
-                likedVenueDialogAboutFragment.setCancelable(true);
+                // display the liked venue details in bottom popup window
+                new XPopup.Builder(getContext())
+                        .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
+                        .enableDrag(true)
+                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+//                        .isThreeDrag(true) //是否开启三阶拖拽，如果设置enableDrag(false)则无效
+                        .asCustom(new LikedVenuePopup(getContext(), bundle)/*.enableDrag(false)*/)
+                        .show();
             }
 
         }
