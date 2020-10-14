@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,6 +37,8 @@ import com.example.empower.api.NewsAPI;
 import com.example.empower.entity.News;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -70,6 +73,8 @@ public class NewsFragment extends Fragment {
 
     private FloatingActionButton fab;
 
+    private TextView defaultText;
+
     // search field about news
     static String result = null;
     Integer responseCode = null;
@@ -86,7 +91,7 @@ public class NewsFragment extends Fragment {
 
         //podcastButton = root.findViewById(R.id.podcast_Button);
         newsProgressBar = root.findViewById(R.id.news_search_progressbar);
-
+        defaultText = root.findViewById(R.id.default_empty_news);
 
         fab = root.findViewById(R.id.news_search_fab);
 
@@ -297,6 +302,7 @@ public class NewsFragment extends Fragment {
 
                     Log.d(TAG, "result=" + result);
 
+
                     return result;
 
                 } else {
@@ -335,6 +341,12 @@ public class NewsFragment extends Fragment {
             NewsAPI newsAPI = new NewsAPI(result);
 
             final List<News> newsList = newsAPI.getNewsFromJsonResult();
+
+            if (newsList.isEmpty()){
+                defaultText.setVisibility(View.VISIBLE);
+            }else {
+                defaultText.setVisibility(View.GONE);
+            }
 
 
             //bind new list with view adapter
