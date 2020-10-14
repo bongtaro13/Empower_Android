@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -177,11 +178,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
 
     // float bar
-    private ConstraintLayout floatBarLayout;
+    private LinearLayout floatBarLayout;
     private LikeButton float_heartButton;
     private TextView float_selectedAddress;
-    private ImageButton float_streetViewButton;
-    private ImageButton float_routerButton;
+    private ImageView float_streetViewButton;
+    private ImageView float_routerButton;
 
 
     // initialize the mapFragment
@@ -234,7 +235,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         // float bar configuration
         floatBarLayout = root.findViewById(R.id.float_bar);
         float_heartButton = root.findViewById(R.id.heart_button);
-        float_selectedAddress = root.findViewById(R.id.selected_marker_address);
         float_streetViewButton = root.findViewById(R.id.street_view_imageButton);
         float_routerButton = root.findViewById(R.id.router_planner_imageButton);
 
@@ -1025,7 +1025,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                                     float_heartButton.setLiked(false);
                                     venueDeatilBundle.putBoolean("heartFlag", false);
                                 }
-                                float_selectedAddress.setText(foundVenue.getAddress());
 
                             }
 

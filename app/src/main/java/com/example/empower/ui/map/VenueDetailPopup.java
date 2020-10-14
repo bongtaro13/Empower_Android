@@ -40,10 +40,7 @@ public class VenueDetailPopup extends BottomPopupView {
 
 
     // top menu bar
-    private LikeButton heartButton;
     private TextView venueName;
-    private ImageButton streetViewButton;
-    private ImageButton routerPlannerButton;
     private ImageButton closeButton;
 
     // venue details
@@ -61,9 +58,6 @@ public class VenueDetailPopup extends BottomPopupView {
     private Bundle venueDetail;
 
 
-    private boolean heartFlag;
-
-
     public VenueDetailPopup(@NonNull Context context, Bundle venueInformationBundle) {
         super(context);
         venueDetail = venueInformationBundle;
@@ -79,10 +73,7 @@ public class VenueDetailPopup extends BottomPopupView {
         super.onCreate();
 
         venueName = findViewById(R.id.venueName_map_popup);
-        streetViewButton = findViewById(R.id.street_view_map_popup);
-        routerPlannerButton = findViewById(R.id.router_planner_map_popup);
         closeButton = findViewById(R.id.close_map_popup);
-
 
         venueType = findViewById(R.id.venueType_map_popup);
         venueAddress = findViewById(R.id.venueAddress_map_popup);
@@ -97,7 +88,6 @@ public class VenueDetailPopup extends BottomPopupView {
         Venue selectLikedVenue = venueDetail.getParcelable("selectLikedVenue");
         latitude = selectLikedVenue.getLatitude();
         longitude = selectLikedVenue.getLongitude();
-        heartFlag = venueDetail.getBoolean("heartFlag");
 
         if (selectLikedVenue != null) {
             venueName.setText(selectLikedVenue.getName());
@@ -108,26 +98,7 @@ public class VenueDetailPopup extends BottomPopupView {
             venueLga.setText(selectLikedVenue.getLga());
         }
 
-        if (heartFlag){
-            heartButton.setLiked(true);
-        }else {
-            heartButton.setLiked(false);
-        }
 
-
-        heartButton.setOnLikeListener(new OnLikeListener() {
-            @Override
-            public void liked(LikeButton likeButton) {
-
-            }
-
-            @Override
-            public void unLiked(LikeButton likeButton) {
-
-
-                Toast.makeText(getContext(), "Venue added", Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
         closeButton.setOnClickListener(new OnClickListener() {
@@ -135,21 +106,6 @@ public class VenueDetailPopup extends BottomPopupView {
             public void onClick(View v) {
 
                 dismiss();
-            }
-        });
-
-
-        streetViewButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        routerPlannerButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
             }
         });
 
