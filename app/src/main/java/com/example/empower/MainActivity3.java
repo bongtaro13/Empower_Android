@@ -33,10 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eu.long1.spacetablayout.SpaceTabLayout;
-import io.github.inflationx.calligraphy3.CalligraphyConfig;
-import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
-import io.github.inflationx.viewpump.ViewPump;
-import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+
 
 public class MainActivity3 extends AppCompatActivity {
 
@@ -70,14 +67,6 @@ public class MainActivity3 extends AppCompatActivity {
         setContentView(R.layout.activity_main3);
 
 
-
-        ViewPump.init(ViewPump.builder()
-                .addInterceptor(new CalligraphyInterceptor(
-                        new CalligraphyConfig.Builder()
-                                .setDefaultFontPath("fonts/Roboto-RobotoRegular.ttf")
-                                .setFontAttrId(R.attr.fontPath)
-                                .build()))
-                .build());
 
         // get location from welcome activity
         String stringCurrentLatLng = getIntent().getStringExtra("stringLatLngResult");
@@ -183,10 +172,5 @@ public class MainActivity3 extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
-    }
 
 }

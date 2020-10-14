@@ -7,14 +7,6 @@
     tools:context=".ui.news.NewsFragment">
 
 
-    <Spinner
-        android:id="@+id/news_Spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_marginStart="52dp"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        android:visibility="invisible"/>
 
     <Button
         android:id="@+id/show_dialog"
@@ -28,20 +20,10 @@
         android:background="@drawable/ripple_effect"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/news_Spinner"
+        app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
 
 
-<!--    <Button-->
-<!--        android:id="@+id/podcast_Button"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="40dp"-->
-<!--        android:text="sports podcast"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.558"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/news_Spinner"-->
-<!--        tools:ignore="MissingConstraints"-->
-<!--        tools:layout_editor_absoluteY="0dp" />-->
 
     <ProgressBar
         android:id="@+id/news_search_progressbar"

@@ -36,10 +36,6 @@ import com.luseen.luseenbottomnavigation.BottomNavigation.OnBottomNavigationItem
 import com.lxj.xpopup.XPopup;
 import com.stephentuso.welcome.WelcomeHelper;
 
-import io.github.inflationx.calligraphy3.CalligraphyConfig;
-import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
-import io.github.inflationx.viewpump.ViewPump;
-import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class MainActivity2 extends AppCompatActivity {
 
@@ -66,13 +62,6 @@ public class MainActivity2 extends AppCompatActivity {
         welcomeScreen = new WelcomeHelper(this, MyWelcomeActivity.class);
         welcomeScreen.show(savedInstanceState);
 
-        ViewPump.init(ViewPump.builder()
-                .addInterceptor(new CalligraphyInterceptor(
-                        new CalligraphyConfig.Builder()
-                                .setDefaultFontPath("fonts/Roboto-RobotoRegular.ttf")
-                                .setFontAttrId(R.attr.fontPath)
-                                .build()))
-                .build());
 
         // get location from welcome activity
         String stringCurrentLatLng = getIntent().getStringExtra("stringLatLngResult");
@@ -205,9 +194,5 @@ public class MainActivity2 extends AppCompatActivity {
         welcomeScreen.onSaveInstanceState(outState);
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
-    }
 
 }

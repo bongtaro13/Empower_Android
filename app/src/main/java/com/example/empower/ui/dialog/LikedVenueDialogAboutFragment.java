@@ -24,10 +24,6 @@ import androidx.fragment.app.DialogFragment;
 import com.example.empower.R;
 import com.example.empower.entity.Venue;
 
-import io.github.inflationx.calligraphy3.CalligraphyConfig;
-import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
-import io.github.inflationx.viewpump.ViewPump;
-import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class LikedVenueDialogAboutFragment extends DialogFragment {
     private static final String TAG = "LikedVenueDialogAboutFragment";
@@ -70,13 +66,7 @@ public class LikedVenueDialogAboutFragment extends DialogFragment {
 
         root = inflater.inflate(R.layout.dialog_likedvenue, container, true);
 
-        ViewPump.init(ViewPump.builder()
-                .addInterceptor(new CalligraphyInterceptor(
-                        new CalligraphyConfig.Builder()
-                                .setDefaultFontPath("fonts/Roboto-RobotoRegular.ttf")
-                                .setFontAttrId(R.attr.fontPath)
-                                .build()))
-                .build());
+
 
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
 

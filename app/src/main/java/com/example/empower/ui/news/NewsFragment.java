@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,9 +58,8 @@ public class NewsFragment extends Fragment {
     private View root;
 
     // visual component on the news page
-    private Spinner newsSpinner;
     private List<String> newsSpinnerDataList;
-    private ArrayAdapter<String> newsSpinnerAdapter;
+
 
 
     private Button podcastButton;
@@ -83,14 +83,14 @@ public class NewsFragment extends Fragment {
                 ViewModelProviders.of(this).get(NewsViewModel.class);
         root = inflater.inflate(R.layout.fragment_news, container, false);
 
-        // initialize three visual components
-        newsSpinner = root.findViewById(R.id.news_Spinner);
+
         //podcastButton = root.findViewById(R.id.podcast_Button);
         newsProgressBar = root.findViewById(R.id.news_search_progressbar);
 
         topicSlectedButton = root.findViewById(R.id.show_dialog);
 
 
+        searchNewsWithKeyword("Paralympic");
 
 
         // listen the news spinner on the page, if button has been clicked, get info from the input and search the related news
@@ -161,7 +161,6 @@ public class NewsFragment extends Fragment {
 
         //preselected Ids of Country List
         final ArrayList<Integer> alreadySelectedCountries = new ArrayList<>();
-        alreadySelectedCountries.add(1);
 
 
 
@@ -190,10 +189,8 @@ public class NewsFragment extends Fragment {
                                     "DataString : " + dataString, Toast.LENGTH_SHORT).show();
                         }
 
-
-
-                        String searchString = "disability+" + initalText;
-                        searchNewsWithKeyword(searchString);
+                        searchNewsWithKeyword(initalText);
+                        alreadySelectedCountries.clear();
 
 
                     }
@@ -209,28 +206,28 @@ public class NewsFragment extends Fragment {
 
 
 
-        newsSpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, newsSpinnerDataList);
-        newsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        newsSpinner.setAdapter(newsSpinnerAdapter);
-
-        // add listener to the spinner selected action
-        newsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                Toast toast_news_sport = Toast.makeText(getActivity(), "you selected sport is: " + newsSpinnerAdapter.getItem(position), Toast.LENGTH_SHORT);
-                toast_news_sport.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
-                toast_news_sport.show();
-                String searchString = newsSpinnerAdapter.getItem(position);
-                searchNewsWithKeyword(searchString);
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        newsSpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, newsSpinnerDataList);
+//        newsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        newsSpinner.setAdapter(newsSpinnerAdapter);
+//
+//        // add listener to the spinner selected action
+//        newsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//
+//                Toast toast_news_sport = Toast.makeText(getActivity(), "you selected sport is: " + newsSpinnerAdapter.getItem(position), Toast.LENGTH_SHORT);
+//                toast_news_sport.setGravity(Gravity.TOP | Gravity.CENTER, 0, 400);
+//                toast_news_sport.show();
+//                String searchString = newsSpinnerAdapter.getItem(position);
+//                searchNewsWithKeyword(searchString);
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
 
         topicSlectedButton.setOnClickListener(new View.OnClickListener() {
@@ -374,9 +371,10 @@ public class NewsFragment extends Fragment {
             //manage recycle view contents with new adapter
             recyclerView.setAdapter(myNewsAdapter);
 
-
+            recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
             RecyclerView.LayoutManager layoutManager =
                     new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
 
