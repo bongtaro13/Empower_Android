@@ -1,81 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-
-    <Button
-        android:id="@+id/step_dialog_close_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Close"
-        tools:ignore="MissingConstraints" />
-
-
-    <TextView
-        android:id="@+id/step_dialog_start_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxLines="3"
-        android:text="start_address: "
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@+id/step_dialog_close_button"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp" />
-
-    <TextView
-        android:id="@+id/step_dialog_end_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxLines="3"
-        android:text="end address: "
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@+id/step_dialog_start_address"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp" />
-
-
-    <TextView
-        android:id="@+id/step_dialog_total_distance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxLines="3"
-        android:text="total distance: "
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@+id/step_dialog_end_address"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp" />
-
-    <TextView
-        android:id="@+id/step_dialog_duration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxLines="3"
-        android:text="duration: "
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@+id/step_dialog_total_distance"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/step_recyclerView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:paddingBottom="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/step_dialog_duration"
-        app:layout_constraintVertical_bias="0.0"
-        tools:ignore="MissingConstraints" />
+        android:divider="@drawable/divider"
+        android:orientation="vertical"
+        android:showDividers="middle">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_round">
+
+            <TextView
+                android:id="@+id/step_venueName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="venue name"
+                android:textColor="#000"
+                android:textSize="20sp" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <TextView
+            android:id="@+id/step_dialog_start_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:text="start_address: "
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintTop_toBottomOf="@+id/step_dialog_close_button"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="0dp" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/step_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/step_dialog_duration"
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="MissingConstraints" />
+
+
+        <TextView
+            android:id="@+id/step_dialog_end_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:text="end address: "
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintTop_toBottomOf="@+id/step_dialog_start_address"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <TextView
+            android:id="@+id/step_dialog_total_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:text="total distance: "
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintTop_toBottomOf="@+id/step_dialog_end_address"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <TextView
+            android:id="@+id/step_dialog_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:text="duration: "
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintTop_toBottomOf="@+id/step_dialog_total_distance"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <Button
+            android:id="@+id/step_dialog_close_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="Close"
+            tools:ignore="MissingConstraints" />
+
+    </LinearLayout>
+
+
+</ScrollView>

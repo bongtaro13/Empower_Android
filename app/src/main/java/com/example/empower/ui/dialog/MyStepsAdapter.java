@@ -4,12 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.empower.R;
 import com.example.empower.entity.Step;
 
@@ -48,6 +50,22 @@ public class MyStepsAdapter  extends RecyclerView.Adapter<MyStepsAdapter.MyViewH
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Step step = stepList.get(position);
         int count = position + 1;
+
+
+        if (step.getTravelMode().equals("WALKING")){
+            holder.typeImage.setImageResource(R.drawable.ic_walk_24dp);
+        }else {
+
+            if (step.getVehicleName().equals("Train")) {
+                holder.typeImage.setImageResource(R.drawable.ic_train_24dp);
+            } else if (step.getVehicleName().equals("Bus")) {
+                holder.typeImage.setImageResource(R.drawable.ic_bus_24dp);
+            }else if (step.getVehicleName().equals("Tram")){
+                holder.typeImage.setImageResource(R.drawable.ic_tram_24dp);
+            }
+        }
+
+
         holder.stepCount.setText("Step: " + count);
         holder.distance.setText("Distance: " +step.getDistance());
         holder.travelMode.setText("Travel mode: " + step.getTravelMode());
@@ -68,6 +86,8 @@ public class MyStepsAdapter  extends RecyclerView.Adapter<MyStepsAdapter.MyViewH
     class MyViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout stepItem;      // get new recycle view item layout
 
+
+        ImageView typeImage;
         TextView stepCount;
         TextView distance;
         TextView travelMode;
@@ -76,6 +96,7 @@ public class MyStepsAdapter  extends RecyclerView.Adapter<MyStepsAdapter.MyViewH
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            typeImage = itemView.findViewById(R.id.step_tranpost_icon);
             stepCount = itemView.findViewById(R.id.step_item_count);
             distance = itemView.findViewById(R.id.step_item_distance);
             travelMode = itemView.findViewById(R.id.step_item_travel_mode);
