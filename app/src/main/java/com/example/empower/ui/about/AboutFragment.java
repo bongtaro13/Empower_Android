@@ -185,13 +185,14 @@ public class AboutFragment extends Fragment {
             // 1. MATCH_PARENT 自适应高度，保持和Item一样高;
             // 2. 指定具体的高，比如80;
             // 3. WRAP_CONTENT，自身高度，不推荐;
-            int height = getResources().getDimensionPixelSize(R.dimen.dp_70);
+            int height = getResources().getDimensionPixelSize(R.dimen.dp_80);
 
-            /*SwipeMenuItem addItem = new SwipeMenuItem(getContext()).setBackground(R.drawable.selector_green)
-                    .setImage(R.drawable.football)
+            SwipeMenuItem addItem = new SwipeMenuItem(getContext()).setBackground(R.drawable.selector_green)
+                    .setImage(R.drawable.ic_map_black_24dp)
                     .setWidth(width)
                     .setHeight(height);
-            swipeLeftMenu.addMenuItem(addItem); // 添加菜单到左侧。*/
+            swipeLeftMenu.addMenuItem(addItem); // 添加菜单到左侧。
+
 
             SwipeMenuItem closeItem = new SwipeMenuItem(getContext()).setBackground(R.drawable.selector_red)
                     .setImage(R.drawable.ic_delete_forever)
