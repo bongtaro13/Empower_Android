@@ -145,52 +145,6 @@ public class LikedVenuePopup extends BottomPopupView {
                         JSONObject firstCandidate = (JSONObject) candidatesJsonArray.get(0);
                         selectedPlaceID = firstCandidate.getString("place_id");
 
-
-                        // Initialize the SDK
-                        Places.initialize(getContext().getApplicationContext(), "AIzaSyBenJ8IiMcO7vlKFYcZXb9WhKWuTQEJeo4");
-
-                        // Create a new PlacesClient instance
-                        PlacesClient placesClient = Places.createClient(getContext());
-
-                        // Define a Place ID.
-                        String placeId = selectedPlaceID;
-
-                        // Specify fields. Requests for photos must always have the PHOTO_METADATAS field.
-                        final List<Place.Field> fields = Collections.singletonList(Place.Field.PHOTO_METADATAS);
-
-                        // Get a Place object (this example uses fetchPlace(), but you can also use findCurrentPlace())
-                        final FetchPlaceRequest placeRequest = FetchPlaceRequest.newInstance(placeId, fields);
-
-                        placesClient.fetchPlace(placeRequest).addOnSuccessListener((response) -> {
-                            final Place place = response.getPlace();
-
-                            // Get the photo metadata.
-                            final List<PhotoMetadata> metadata = place.getPhotoMetadatas();
-                            if (metadata == null || metadata.isEmpty()) {
-                                Log.w(TAG, "No photo metadata.");
-                                return;
-                            }
-                            final PhotoMetadata photoMetadata = metadata.get(0);
-
-                            // Get the attribution text.
-                            final String attributions = photoMetadata.getAttributions();
-
-                            // Create a FetchPhotoRequest.
-                            final FetchPhotoRequest photoRequest = FetchPhotoRequest.builder(photoMetadata)
-                                    .build();
-                            placesClient.fetchPhoto(photoRequest).addOnSuccessListener((fetchPhotoResponse) -> {
-                                Bitmap bitmap = fetchPhotoResponse.getBitmap();
-                                venueImage.setImageBitmap(bitmap);
-                            }).addOnFailureListener((exception) -> {
-                                if (exception instanceof ApiException) {
-                                    final ApiException apiException = (ApiException) exception;
-                                    Log.e(TAG, "Place not found: " + exception.getMessage());
-                                    final int statusCode = apiException.getStatusCode();
-                                    // TODO: Handle error with given status code.
-                                }
-                            });
-                        });
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -199,11 +153,57 @@ public class LikedVenuePopup extends BottomPopupView {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    selectedPlaceID = "";
+
                 }
             });
 
             queue.add(placeIDRequest);
+
+
+            // Initialize the SDK
+            Places.initialize(getContext().getApplicationContext(), "AIzaSyBenJ8IiMcO7vlKFYcZXb9WhKWuTQEJeo4");
+
+            // Create a new PlacesClient instance
+            PlacesClient placesClient = Places.createClient(getContext());
+
+            // Define a Place ID.
+            String placeId = selectedPlaceID;
+
+            // Specify fields. Requests for photos must always have the PHOTO_METADATAS field.
+            final List<Place.Field> fields = Collections.singletonList(Place.Field.PHOTO_METADATAS);
+
+            // Get a Place object (this example uses fetchPlace(), but you can also use findCurrentPlace())
+            final FetchPlaceRequest placeRequest = FetchPlaceRequest.newInstance(placeId, fields);
+
+            placesClient.fetchPlace(placeRequest).addOnSuccessListener((response) -> {
+                final Place place = response.getPlace();
+
+                // Get the photo metadata.
+                final List<PhotoMetadata> metadata = place.getPhotoMetadatas();
+                if (metadata == null || metadata.isEmpty()) {
+                    Log.w(TAG, "No photo metadata.");
+                    return;
+                }
+                final PhotoMetadata photoMetadata = metadata.get(0);
+
+                // Get the attribution text.
+                final String attributions = photoMetadata.getAttributions();
+
+                // Create a FetchPhotoRequest.
+                final FetchPhotoRequest photoRequest = FetchPhotoRequest.builder(photoMetadata)
+                        .build();
+                placesClient.fetchPhoto(photoRequest).addOnSuccessListener((fetchPhotoResponse) -> {
+                    Bitmap bitmap = fetchPhotoResponse.getBitmap();
+                    venueImage.setImageBitmap(bitmap);
+                }).addOnFailureListener((exception) -> {
+                    if (exception instanceof ApiException) {
+                        final ApiException apiException = (ApiException) exception;
+                        Log.e(TAG, "Place not found: " + exception.getMessage());
+                        final int statusCode = apiException.getStatusCode();
+                        // TODO: Handle error with given status code.
+                    }
+                });
+            });
 
 
 
