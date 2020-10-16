@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.empower.MainActivity3;
 import com.example.empower.R;
 import com.example.empower.database.LikedVenue;
 import com.example.empower.entity.Venue;
@@ -33,14 +34,20 @@ import com.example.empower.ui.dialog.LikedVenueDialogAboutFragment;
 import com.example.empower.ui.dialog.StepsDialogMapFragment;
 import com.example.empower.ui.map.VenueFilter;
 import com.example.empower.ui.news.NewsViewModel;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.FetchPlaceRequest;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.type.LatLng;
 import com.lxj.xpopup.XPopup;
 import com.yanzhenjie.recyclerview.OnItemClickListener;
 import com.yanzhenjie.recyclerview.OnItemMenuClickListener;
@@ -51,7 +58,10 @@ import com.yanzhenjie.recyclerview.SwipeMenuItem;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 import com.yanzhenjie.recyclerview.widget.DefaultItemDecoration;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -78,8 +88,6 @@ public class AboutFragment extends Fragment {
     private MainAdapter menuAdapter;
 
 
-
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         venueArrayList = new ArrayList<>();
@@ -87,7 +95,7 @@ public class AboutFragment extends Fragment {
 
         root = inflater.inflate(R.layout.fragment_about, container, false);
 
-        defaultTextview= root.findViewById(R.id.default_textView);
+        defaultTextview = root.findViewById(R.id.default_textView);
 
         mRecyclerView = root.findViewById(R.id.favourite_venue_list);
 
@@ -125,15 +133,18 @@ public class AboutFragment extends Fragment {
                 for (LikedVenue tempLikedVenue : likedVenues) {
                     dataList.add(tempLikedVenue.toString());
                 }
-                if (dataList.isEmpty()){
+                if (dataList.isEmpty()) {
                     defaultTextview.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     defaultTextview.setVisibility(View.INVISIBLE);
                 }
                 menuAdapter.notifyDataSetChanged(dataList);
             }
 
         });
+
+
+
 
 
         return root;
@@ -149,7 +160,6 @@ public class AboutFragment extends Fragment {
             //Toast.makeText(getContext(), "Index " + position, Toast.LENGTH_SHORT).show();
 
 
-
             String[] totalString = dataList.get(position).split(";");
             String selectedLikedVenueID = totalString[0].replace("venueID=", "");
 
@@ -159,7 +169,7 @@ public class AboutFragment extends Fragment {
             if (foundVenue != null) {
 
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("selectLikedVenue",foundVenue);
+                bundle.putParcelable("selectLikedVenue", foundVenue);
 
                 // display the liked venue details in bottom popup window
                 new XPopup.Builder(getContext())
@@ -226,9 +236,9 @@ public class AboutFragment extends Fragment {
                 LikedVenue choosenLikedVenue = new LikedVenue(selectedLikedVenueID, selectedLikedVenueName, selectedLikedVenuePostcode);
                 aboutViewModel.delete(choosenLikedVenue);
                 dataList.remove(position);
-                if (dataList.isEmpty()){
+                if (dataList.isEmpty()) {
                     defaultTextview.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     defaultTextview.setVisibility(View.INVISIBLE);
                 }
                 menuAdapter.notifyDataSetChanged(dataList);
@@ -271,6 +281,65 @@ public class AboutFragment extends Fragment {
                     }
                 });
     }
+
+
+    // get place id for selected place
+//    private class GetPlaceIDWithLatLngAsyncTask extends AsyncTask<ArrayList<String>, Void, String> {
+//
+//
+//        @Override
+//        protected String doInBackground(ArrayList<String>... arrayLists) {
+//            String locationName = arrayLists[0].get(0);
+//            double latitude = Double.parseDouble(arrayLists[0].get(1));
+//            double longitude = Double.parseDouble(arrayLists[0].get(2));
+//
+//
+//            String textResult = "";
+//            URL url = null;
+//
+//            HttpURLConnection httpURLConnection = null;
+//
+//            final String methodPath = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=";
+//
+//            try {
+//                url = new URL(MainActivity3)
+//            }
+//
+//
+//
+//            return null;
+//        }
+//    }
+
+
+
+//            Places.initialize(Objects.requireNonNull(getActivity()).getApplicationContext(), "AIzaSyBenJ8IiMcO7vlKFYcZXb9WhKWuTQEJeo4");
+//            PlacesClient placesClient = Places.createClient(getActivity());
+//
+//
+//            // Define a Place ID.
+//            String placeId = "ChIJlSm3odJq1moRXEmH3ATQapk";
+//
+//            // Specify the fields to return.
+//            List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
+//
+//            // Construct a request object, passing the place ID and fields array.
+//            FetchPlaceRequest request = FetchPlaceRequest.builder(placeId, placeFields)
+//                    .build();
+//
+//
+//            // Add a listener to handle the response.
+//            placesClient.fetchPlace(request).addOnSuccessListener((response) -> {
+//                Place place = response.getPlace();
+//                Log.i(TAG, "Place found: " + place.getName());
+//            }).addOnFailureListener((exception) -> {
+//                if (exception instanceof ApiException) {
+//                    ApiException apiException = (ApiException) exception;
+//                    int statusCode = apiException.getStatusCode();
+//                    // Handle error with given status code.
+//                    Log.e(TAG, "Place not found: " + exception.getMessage());
+//                }
+//            });
 
 
 
