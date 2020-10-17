@@ -829,15 +829,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
 
     // create dialog of the route step info
-
-
     private String getUrl(LatLng origin, LatLng dest, String directionMode) {
         // Origin of route
         String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
         // Destination of route
         String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
         // Mode
-        String mode = "mode=" + directionMode;
+        String mode = "mode=" + directionMode + "&transit_mode=train";
+
+
         // Building the parameters to the web service
         String parameters = str_origin + "&" + str_dest + "&" + mode;
         // Output format
@@ -1131,37 +1131,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                             Double.parseDouble(tempLocationAddressPair.getLatitude()),
                             Double.parseDouble(tempLocationAddressPair.getLongitude()));
                     Venue tempSportsVenue = tempLocationAddressPair;
-
-
-//                    int height = 100;
-//                    int width = 100;
-//                    Bitmap bf = BitmapFactory.decodeResource(getResources(), R.drawable.football);
-//                    Bitmap smallFootable = Bitmap.createScaledBitmap(bf, width, height, false);
-//
-//
-//                    Bitmap bb = BitmapFactory.decodeResource(getResources(), R.drawable.basketball);
-//                    Bitmap smallBasketball = Bitmap.createScaledBitmap(bb, width, height, false);
-//
-//
-//                    Bitmap bc = BitmapFactory.decodeResource(getResources(), R.drawable.cricket);
-//                    Bitmap smallCricket = Bitmap.createScaledBitmap(bc, width, height, false);
-
-//                    if (tempSportsVenue.getBusinessCategory().toLowerCase().contains("football")){
-//                        mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
-//                                .title(tempSportsVenue.getName())
-//                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode())
-//                        .icon(BitmapDescriptorFactory.fromBitmap(smallFootable)));
-//                    }else if (tempSportsVenue.getBusinessCategory().toLowerCase().contains("basketball")){
-//                        mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
-//                                .title(tempSportsVenue.getName())
-//                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode())
-//                                .icon(BitmapDescriptorFactory.fromBitmap(smallBasketball)));
-//                    }else if (tempSportsVenue.getBusinessCategory().toLowerCase().contains("cricket")){
-//                        mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
-//                                .title(tempSportsVenue.getName())
-//                                .snippet(tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode())
-//                                .icon(BitmapDescriptorFactory.fromBitmap(smallCricket)));
-//                    }else {
 
 
                     if (tempSportsVenue.getType().equals("sport venue")) {
