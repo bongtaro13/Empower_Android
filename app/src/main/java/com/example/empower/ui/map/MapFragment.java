@@ -712,6 +712,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
             for (int i = 0; i < result.size(); i++) {
                 points = new ArrayList<>();
                 lineOptions = new PolylineOptions();
+
+                List<Polyline> mmPolylines = new ArrayList<>();
                 // Fetching i-th route
                 List<HashMap<String, String>> path = result.get(i);
                 // Fetching all the points in i-th route
@@ -723,7 +725,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
                     points.add(position);
 
+
                 }
+
+                // test for adding polyline section by section
+//                for (int k = 0; k < points.size()-1; k+=2){
+//                    PolylineOptions tempPolylineOptions = new PolylineOptions();
+//
+//
+//                    tempPolylineOptions.add(points.get(k), points.get(k+1));
+//                    tempPolylineOptions.color(Color.MAGENTA);
+//                    mmPolylines.add(mapAPI.addPolyline(tempPolylineOptions));
+//                }
+
+
                 // Adding all the points in the route to LineOptions
                 lineOptions.addAll(points);
                 if (directionMode.equalsIgnoreCase("walking")) {
@@ -746,7 +761,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                 final ArrayList<LatLng> lastPoints = points;
 
                 currentPolyLine = mapAPI.addPolyline(lineOptions);
-                currentPolyLine.setClickable(true);
+                currentPolyLine.setClickable(false);
 
 
                 DisplaySteps(routeSteps);
