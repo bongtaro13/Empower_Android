@@ -748,7 +748,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                 currentPolyLine = mapAPI.addPolyline(lineOptions);
                 currentPolyLine.setClickable(true);
 
-                mapAPI.setOnPolylineClickListener(new GoogleMap.OnPolylineClickListener() {
+/*                mapAPI.setOnPolylineClickListener(new GoogleMap.OnPolylineClickListener() {
                     @Override
                     public void onPolylineClick(Polyline polyline) {
                         url = getUrl(currentLocationMarker.getPosition(), lastPoints.get(lastPoints.size() - 1), "transit");
@@ -756,7 +756,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                         new FetchURL().execute(url, "transit");
                         Toast.makeText(getActivity(), "Polyline clicked", Toast.LENGTH_SHORT).show();
                     }
-                });
+                });*/
 
                 DisplaySteps(routeSteps);
 
