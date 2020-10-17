@@ -133,31 +133,6 @@ public class MainActivity3 extends AppCompatActivity {
 
 
 
-// change the appropriate title text in title bar
-//        tabLayout.setTabOneOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                titleBarText.setText("News");
-//            }
-//        });
-//
-//        tabLayout.setTabTwoOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                titleBarText.setText("Map");
-//            }
-//        });
-//
-//        tabLayout.setTabThreeOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                titleBarText.setText("Liked venue");
-//            }
-//        });
-
-
-
     }
 
 
