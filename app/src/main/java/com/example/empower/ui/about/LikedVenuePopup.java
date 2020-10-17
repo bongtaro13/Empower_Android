@@ -144,6 +144,7 @@ public class LikedVenuePopup extends BottomPopupView {
                         JSONArray candidatesJsonArray = responseResult.getJSONArray("candidates");
                         JSONObject firstCandidate = (JSONObject) candidatesJsonArray.get(0);
                         selectedPlaceID = firstCandidate.getString("place_id");
+//                        selectedPlaceID = "ChIJdX6CmVhE1moRjNjM6yDQJBs";
 
                     } catch (JSONException e) {
                         e.printStackTrace();

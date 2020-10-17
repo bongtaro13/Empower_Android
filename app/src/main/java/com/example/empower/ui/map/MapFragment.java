@@ -720,6 +720,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     double lat = Double.parseDouble(point.get("lat"));
                     double lng = Double.parseDouble(point.get("lng"));
                     LatLng position = new LatLng(lat, lng);
+
                     points.add(position);
 
                 }
@@ -1079,6 +1080,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                                     // add router on the map with selected
                                     new FetchURL().execute(url, "transit");
                                     Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
+                                    // move map camera position to start point on the map
+                                    getCurrentLocation();
+                                    LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                                    mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap).title("You current location")
+                                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+                                    CameraPosition newCameraPosition = new CameraPosition.Builder()
+                                            .target(currentLocationMarkerOnMap).zoom(12).build();
+
+
+                                    mapAPI.animateCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition));
                                 }
                             });
 
