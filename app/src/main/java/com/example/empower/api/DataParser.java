@@ -1,5 +1,7 @@
 package com.example.empower.api;
 
+import android.icu.text.UFormat;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonObject;
 
@@ -61,6 +63,61 @@ public class DataParser {
 
         return routes;
 
+    }
+
+    public List<HashMap<String , LatLng>>  stopParse(JSONObject jsonObject){
+        List<HashMap<String , LatLng>> stopsLatlng = new ArrayList<>();
+
+        try {
+            JSONArray routes = jsonObject.getJSONArray("routes");
+            JSONObject routeObject = routes.getJSONObject(0);
+            JSONArray legs = routeObject.getJSONArray("legs");
+            JSONObject legObject = legs.getJSONObject(0);
+
+            JSONArray steps = legObject.getJSONArray("steps");
+
+            for (int i = 0; i< steps.length(); i++){
+                JSONObject step = steps.getJSONObject(i);
+                String travelMode = step.getString("travel_mode");
+                if (!travelMode.equals("WALKING")){
+                    JSONObject transitDetails = step.getJSONObject("transit_details");
+
+                    JSONObject departureStop = transitDetails.getJSONObject("departure_stop");
+                    String departName = departureStop.getString("name");
+                    // get departure stop latlng information
+                    JSONObject departLocation = departureStop.getJSONObject("location");
+                    Double departLat = Double.parseDouble(departLocation.getString("lat"));
+                    Double departLng = Double.parseDouble(departLocation.getString("lng"));
+                    LatLng tempLatlng = new LatLng(departLat, departLng);
+                    HashMap<String , LatLng> tempHashmap = new HashMap<>();
+                    tempHashmap.put(departName, tempLatlng);
+                    stopsLatlng.add(tempHashmap);
+
+
+                    JSONObject arrivalStop = transitDetails.getJSONObject("arrival_stop");
+                    String arriName = arrivalStop.getString("name");
+
+                    // get arrival stop latlng information
+                    JSONObject arriLocation = arrivalStop.getJSONObject("location");
+                    Double arriLat = Double.parseDouble(arriLocation.getString("lat"));
+                    Double arriLng = Double.parseDouble(arriLocation.getString("lng"));
+                    tempLatlng = new LatLng(arriLat, arriLng);
+                    tempHashmap = new HashMap<>();
+                    tempHashmap.put(arriName, tempLatlng);
+                    stopsLatlng.add(tempHashmap);
+
+                }
+
+            }
+
+
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+
+        return stopsLatlng;
     }
 
 

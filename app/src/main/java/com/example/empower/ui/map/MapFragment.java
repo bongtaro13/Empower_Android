@@ -9,7 +9,10 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -23,7 +26,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -105,6 +107,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -129,6 +132,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     // map search fab
     private FloatingActionButton fab;
 
+    private ArrayList<Venue> combineLocationMapping1;
+
 
     private SearchDialogMapFragment dialogMapFragment;
 
@@ -151,6 +156,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     private String url;
     private String directionMode;
     private List<HashMap<String, String>> routeSteps;
+
+    // stop information of a route
+    private List<HashMap<String, LatLng>> stopsLatlng;
 
 
     // arrayList for all all sports venus read from teh cloud firebase data file
@@ -700,6 +708,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                 // Starts parsing data
                 routes = parser.parse(jObject);
                 routeSteps = parser.stepParse(jObject);
+                stopsLatlng = parser.stopParse(jObject);
+
 
                 Log.d("mylog", "Executing routes");
                 Log.d("mylog", routes.toString());
@@ -736,15 +746,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
                 }
 
-                // test for adding polyline section by section
-//                for (int k = 0; k < points.size()-1; k+=2){
-//                    PolylineOptions tempPolylineOptions = new PolylineOptions();
-//
-//
-//                    tempPolylineOptions.add(points.get(k), points.get(k+1));
-//                    tempPolylineOptions.color(Color.MAGENTA);
-//                    mmPolylines.add(mapAPI.addPolyline(tempPolylineOptions));
-//                }
+                // add stop marker on the map of selected route
+                if (stopsLatlng != null) {
+                    // add stop marker on map
+                    AsyncAddStopMarkerOnMap(stopsLatlng);
+                }
 
 
                 // Adding all the points in the route to LineOptions
@@ -782,9 +788,44 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                 toast_error.show();
 
             }
+
         }
     }
 
+    private Bitmap getBitmap(int drawableRes) {
+        Drawable drawable = getResources().getDrawable(drawableRes);
+        Canvas canvas = new Canvas();
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        canvas.setBitmap(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
+
+    public void AsyncAddStopMarkerOnMap(List<HashMap<String, LatLng>> stopList) {
+
+
+        for (int i = 0; i < stopList.size(); i++) {
+            HashMap<String, LatLng> stopInfo = stopList.get(i);
+            Map.Entry<String, LatLng> entry = stopInfo.entrySet().iterator().next();
+            String stopName = entry.getKey();
+            LatLng stopLatlng = entry.getValue();
+            MarkerOptions tempMakerOptions = new MarkerOptions();
+            tempMakerOptions.position(stopLatlng);
+            tempMakerOptions.title("Stop: " +stopName);
+
+
+            Bitmap drawableBitmap = getBitmap(R.drawable.ic_commute_24dp);
+            tempMakerOptions.icon(BitmapDescriptorFactory.fromBitmap(drawableBitmap));
+
+            //Marker tempMaker = tempMakerOptions;
+
+            mapAPI.addMarker(tempMakerOptions);
+
+        }
+
+    }
 
     // display step information in every route planner dialogue
     public void DisplaySteps(List<HashMap<String, String>> stepInfoList) {
@@ -851,7 +892,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
             mode = "mode=" + directionMode;
         } else {
             // Mode
-            mode = "mode=transit"  + "&transit_mode=train";
+            mode = "mode=transit" + "&transit_mode=train";
         }
 
 
@@ -908,7 +949,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     String nearbyResult = bundle.getString("nearbyResult");
 
 
-                    ArrayList<Venue> combineLocationMapping1 = new ArrayList<>();
+                    combineLocationMapping1 = new ArrayList<>();
                     VenueFilter venueFilter = new VenueFilter();
                     combineLocationMapping1 = venueFilter.getVenueWithPostCode(inputPostcode, sportsVenueList);
                     combineLocationMapping1 = venueFilter.getVenueWithType(venueArrayList, combineLocationMapping1);
@@ -919,6 +960,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                         Toast.makeText(getActivity(), "No Result Found", Toast.LENGTH_SHORT).show();
                     }
 
+                    // add mark result on the map
                     new AsyncAddMarkerOnMap().execute(combineLocationMapping1);
 
 //                    if (combineLocationMapping1.size() != 0) {
@@ -1006,6 +1048,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
             mapAPI.clear();
 
+
             if (!(ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
                 mapAPI.setMyLocationEnabled(true);
             }
@@ -1014,10 +1057,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                 mapAPI.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
-                        url = getUrl(currentLocationMarker.getPosition(), marker.getPosition(), "transit");
-                        // add router on the map with selected
-                        new FetchURL().execute(url, "transit");
                         Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
+                        floatBarLayout.setVisibility(View.INVISIBLE);
+                        showStreetViewDialog(marker.getPosition(), marker.getTitle());
                     }
                 });
 
@@ -1027,7 +1069,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     @Override
                     public void onInfoWindowLongClick(Marker marker) {
                         Toast.makeText(getActivity(), "Info window long clicked", Toast.LENGTH_SHORT).show();
-//                        streetViewFragment.show(getFragmentManager().beginTransaction(), "StreetViewFragment");
 
                     }
                 });
@@ -1036,8 +1077,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     @Override
                     public boolean onMarkerClick(Marker marker) {
                         if (!marker.getTitle().equals("You current location")) {
-                            floatBarLayout.setVisibility(View.VISIBLE);
-                            //float_selectedAddress.setText(marker.getSnippet());
 
                             VenueFilter venueFilter = new VenueFilter();
 
@@ -1045,11 +1084,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                             LatLng tempLatLng = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
                             Venue foundVenue = venueFilter.findVenueByLatLng(tempLatLng, sportsVenueList);
 
-                            Bundle venueDeatilBundle = new Bundle();
-                            venueDeatilBundle.putParcelable("selectLikedVenue", foundVenue);
-
-
+                            // check if current select marker is a venue in dataset
                             if (foundVenue != null) {
+                                floatBarLayout.setVisibility(View.VISIBLE);
+                                //float_selectedAddress.setText(marker.getSnippet());
+
+                                Bundle venueDeatilBundle = new Bundle();
+                                venueDeatilBundle.putParcelable("selectLikedVenue", foundVenue);
+
+
                                 Toast.makeText(getActivity(), "Related venue found", Toast.LENGTH_SHORT).show();
                                 if (venueFilter.checkIfCurrentVeneuLiked(foundVenue, currentLikedVenues)) {
                                     float_heartButton.setLiked(true);
@@ -1059,80 +1102,88 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                                     venueDeatilBundle.putBoolean("heartFlag", false);
                                 }
 
-                            }
 
-
-                            float_heartButton.setOnLikeListener(new OnLikeListener() {
-                                @Override
-                                public void liked(LikeButton likeButton) {
-                                    aboutViewModel.insert(new LikedVenue(foundVenue.getVenueID(), foundVenue.getName(), foundVenue.getPostcode()));
-                                }
-
-                                @Override
-                                public void unLiked(LikeButton likeButton) {
-                                    aboutViewModel.delete(new LikedVenue(foundVenue.getVenueID(), foundVenue.getName(), foundVenue.getPostcode()));
-
-                                    Toast.makeText(getActivity(), "Venue added", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-
-                            venueDeatilBundle.putString("activeHour", active_hours.getAciveHours());
-
-                            new XPopup.Builder(getContext())
-                                    .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
-                                    .enableDrag(true)
-                                    .hasShadowBg(false)
-                                    .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
-//                        .isThreeDrag(true) //是否开启三阶拖拽，如果设置enableDrag(false)则无效
-                                    .asCustom(new VenueDetailPopup(getContext(), venueDeatilBundle)/*.enableDrag(false)*/)
-                                    .show();
-
-
-                            float_streetViewButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    showStreetViewDialog(tempLatLng, marker.getTitle());
-                                }
-                            });
-
-                            float_routerButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-
-                                    // accessible flag check
-                                    accessibleFlag = getActivity().getSharedPreferences("switchFlag", Context.MODE_PRIVATE);
-                                    accessibleBoolean = accessibleFlag.getBoolean("flag", false);
-                                    System.out.println(accessibleBoolean.toString());
-
-                                    if (accessibleBoolean) {
-                                        url = getUrl(currentLocationMarker.getPosition(), marker.getPosition(), "transit-accessible");
-                                        new FetchURL().execute(url, "transit-accessible");
-                                        Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        url = getUrl(currentLocationMarker.getPosition(), marker.getPosition(), "transit");
-                                        // add router on the map with selected
-                                        new FetchURL().execute(url, "transit");
-                                        Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
+                                float_heartButton.setOnLikeListener(new OnLikeListener() {
+                                    @Override
+                                    public void liked(LikeButton likeButton) {
+                                        aboutViewModel.insert(new LikedVenue(foundVenue.getVenueID(), foundVenue.getName(), foundVenue.getPostcode()));
                                     }
 
+                                    @Override
+                                    public void unLiked(LikeButton likeButton) {
+                                        aboutViewModel.delete(new LikedVenue(foundVenue.getVenueID(), foundVenue.getName(), foundVenue.getPostcode()));
 
-                                    // move map camera position to start point on the map
-                                    getCurrentLocation();
-                                    LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                                    mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap).title("You current location")
-                                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-
-                                    CameraPosition newCameraPosition = new CameraPosition.Builder()
-                                            .target(currentLocationMarkerOnMap).zoom(12).build();
+                                        Toast.makeText(getActivity(), "Venue added", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
 
 
-                                    mapAPI.animateCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition));
-                                }
-                            });
+                                venueDeatilBundle.putString("activeHour", active_hours.getAciveHours());
 
+
+                                new XPopup.Builder(getContext())
+                                        .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
+                                        .enableDrag(true)
+                                        .hasShadowBg(false)
+                                        .isDestroyOnDismiss(true) //对于只使用一次的弹窗，推荐设置这个
+//                        .isThreeDrag(true) //是否开启三阶拖拽，如果设置enableDrag(false)则无效
+                                        .asCustom(new VenueDetailPopup(getContext(), venueDeatilBundle)/*.enableDrag(false)*/)
+                                        .show();
+
+
+                                float_streetViewButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        showStreetViewDialog(tempLatLng, marker.getTitle());
+                                    }
+                                });
+
+                                float_routerButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+
+                                        // accessible flag check
+                                        accessibleFlag = getActivity().getSharedPreferences("switchFlag", Context.MODE_PRIVATE);
+                                        accessibleBoolean = accessibleFlag.getBoolean("flag", false);
+                                        System.out.println(accessibleBoolean.toString());
+
+                                        if (accessibleBoolean) {
+                                            url = getUrl(currentLocationMarker.getPosition(), marker.getPosition(), "transit-accessible");
+                                            new FetchURL().execute(url, "transit-accessible");
+                                            Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            url = getUrl(currentLocationMarker.getPosition(), marker.getPosition(), "transit");
+                                            // add router on the map with selected
+                                            new FetchURL().execute(url, "transit");
+                                            Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
+                                        }
+
+//                                    // add stop marker on the map of selected route
+//                                    if (stopsLatlng != null) {
+//                                        // add stop marker on map
+//                                        new AsyncAddStopMarkerOnMap().execute(stopsLatlng);
+//                                    }
+
+                                        // move map camera position to start point on the map
+                                        getCurrentLocation();
+                                        LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                                        mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap).title("You current location")
+                                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+                                        CameraPosition newCameraPosition = new CameraPosition.Builder()
+                                                .target(currentLocationMarkerOnMap).zoom(12).build();
+
+
+                                        mapAPI.animateCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition));
+                                    }
+                                });
+
+                            }else {
+                                floatBarLayout.setVisibility(View.INVISIBLE);
+                            }
 
                             Toast.makeText(getActivity(), "Marker selected", Toast.LENGTH_SHORT).show();
+
                         } else {
                             floatBarLayout.setVisibility(View.INVISIBLE);
                             Toast.makeText(getActivity(), "Current location marker selected", Toast.LENGTH_SHORT).show();

@@ -81,8 +81,6 @@ public class VenueDetailPopup extends BottomPopupView {
 
 
 
-
-
         venueName = findViewById(R.id.venueName_map_popup);
         closeButton = findViewById(R.id.close_map_popup);
         accessibleSwtih = findViewById(R.id.accessible_switch);
@@ -122,6 +120,8 @@ public class VenueDetailPopup extends BottomPopupView {
 
 
         Venue selectLikedVenue = venueDetail.getParcelable("selectLikedVenue");
+
+
         latitude = selectLikedVenue.getLatitude();
         longitude = selectLikedVenue.getLongitude();
 
