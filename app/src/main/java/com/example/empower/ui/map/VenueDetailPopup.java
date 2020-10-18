@@ -2,11 +2,14 @@ package com.example.empower.ui.map;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +45,7 @@ public class VenueDetailPopup extends BottomPopupView {
     // top menu bar
     private TextView venueName;
     private ImageButton closeButton;
+    private Switch accessibleSwtih;
 
     // venue details
     private TextView venueType;
@@ -53,6 +57,8 @@ public class VenueDetailPopup extends BottomPopupView {
 
     private String latitude;
     private String longitude;
+
+    private Boolean switchFlag;
 
 
     private Bundle venueDetail;
@@ -68,12 +74,42 @@ public class VenueDetailPopup extends BottomPopupView {
         return R.layout.venuedetail_popup;
     }
 
+
     @Override
     protected void onCreate() {
         super.onCreate();
 
+
+
+
+
         venueName = findViewById(R.id.venueName_map_popup);
         closeButton = findViewById(R.id.close_map_popup);
+        accessibleSwtih = findViewById(R.id.accessible_switch);
+
+
+        SharedPreferences accessibleFlag = getContext().getSharedPreferences("switchFlag", Context.MODE_PRIVATE);
+        switchFlag = accessibleFlag.getBoolean("flag", false);
+        accessibleSwtih.setChecked(switchFlag);
+
+        accessibleSwtih.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    SharedPreferences accessibleFlag = getContext().getSharedPreferences("switchFlag", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = accessibleFlag.edit();
+                    editor.putBoolean("flag", true);
+                    editor.apply();
+                }else {
+                    SharedPreferences accessibleFlag = getContext().getSharedPreferences("switchFlag", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = accessibleFlag.edit();
+                    editor.putBoolean("flag", false);
+                    editor.apply();
+                }
+            }
+        });
+
+
 
         venueType = findViewById(R.id.venueType_map_popup);
         venueAddress = findViewById(R.id.venueAddress_map_popup);

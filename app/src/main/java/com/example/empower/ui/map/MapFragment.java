@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -120,6 +121,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
     public static final int SEARCH_MAP_FRAGMENT = 1;
 
+    // accessible route flag
+    SharedPreferences accessibleFlag;
+    private Boolean accessibleBoolean;
+
 
     // map search fab
     private FloatingActionButton fab;
@@ -193,6 +198,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
     // initialize the mapFragment
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+
+        // accessible flag
+        accessibleFlag = getActivity().getSharedPreferences("switchFlag",Context.MODE_PRIVATE);
+        accessibleBoolean = accessibleFlag.getBoolean("flag", false);
+        System.out.println(accessibleBoolean.toString());
+
+
+
 
         // get like venue list from live data in about view model
 
@@ -434,7 +448,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                 Toast toast_success = Toast.makeText(getContext(), "Result found", Toast.LENGTH_SHORT);
                 toast_success.show();
             }
-
         }
     }
 
@@ -1082,6 +1095,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                             float_routerButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+
+                                    // accessible flag check
+                                    accessibleFlag = getActivity().getSharedPreferences("switchFlag",Context.MODE_PRIVATE);
+                                    accessibleBoolean = accessibleFlag.getBoolean("flag", false);
+                                    System.out.println(accessibleBoolean.toString());
+
+
+
                                     url = getUrl(currentLocationMarker.getPosition(), marker.getPosition(), "transit");
                                     // add router on the map with selected
                                     new FetchURL().execute(url, "transit");
