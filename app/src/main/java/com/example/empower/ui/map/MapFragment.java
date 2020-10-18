@@ -44,6 +44,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.room.PrimaryKey;
 
 
 import com.example.empower.MainActivity2;
@@ -163,6 +164,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
     // arrayList for all all sports venus read from teh cloud firebase data file
     private ArrayList<Venue> sportsVenueList = new ArrayList<>();
+    private Marker stopMaker;
 
 
     // visual component of the map fragment, include search input, search box, and a progressBar to display progress
@@ -525,12 +527,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     @Override
                     public void onInfoWindowLongClick(Marker marker) {
                         Toast.makeText(getActivity(), "Info window long clicked", Toast.LENGTH_SHORT).show();
-//                        StreetViewFragment fragment2=new StreetViewFragment();
-//                        FragmentManager fragmentManager= getFragmentManager();
-//                        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-//                        fragmentTransaction.replace(R.id.container,fragment2,"tag");
-//                        fragmentTransaction.addToBackStack(null);
-//                        fragmentTransaction.commit();
+
                     }
                 });
 
@@ -805,8 +802,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
     public void AsyncAddStopMarkerOnMap(List<HashMap<String, LatLng>> stopList) {
 
+        if (stopMaker != null) {
+            stopMaker.remove();
+        }
 
         for (int i = 0; i < stopList.size(); i++) {
+
+
             HashMap<String, LatLng> stopInfo = stopList.get(i);
             Map.Entry<String, LatLng> entry = stopInfo.entrySet().iterator().next();
             String stopName = entry.getKey();
@@ -821,7 +823,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
             //Marker tempMaker = tempMakerOptions;
 
-            mapAPI.addMarker(tempMakerOptions);
+            stopMaker = mapAPI.addMarker(tempMakerOptions);
+            stopMaker.setTag(0);
+
+
+
 
         }
 
