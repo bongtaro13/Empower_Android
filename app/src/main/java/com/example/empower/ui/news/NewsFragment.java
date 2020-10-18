@@ -36,6 +36,7 @@ import com.example.empower.R;
 import com.example.empower.api.NewsAPI;
 import com.example.empower.entity.News;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.sdsmdg.tastytoast.TastyToast;
 
 
 import org.w3c.dom.Text;
@@ -49,6 +50,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 
 
 /**
@@ -343,7 +345,9 @@ public class NewsFragment extends Fragment {
             final List<News> newsList = newsAPI.getNewsFromJsonResult();
 
             if (newsList.isEmpty()){
-                defaultText.setVisibility(View.VISIBLE);
+
+                TastyToast.makeText(getContext(), "No news found, you may need 'disability sport'", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                searchNewsWithKeyword("disability%20sport");
             }else {
                 defaultText.setVisibility(View.GONE);
             }
