@@ -1,38 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_round"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/background_round"
         android:orientation="horizontal">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
+
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/background_round"
-            tools:ignore="MissingConstraints">
+            android:layout_height="wrap_content"
+            android:background="#eee"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Venue Information"
+            android:textColor="#000"
+            android:textSize="20sp"
+            tools:ignore="MissingConstraints" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#eee"
-                android:fontFamily="@font/montserrat_bold"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="Venue Information"
-                android:textColor="#000"
-                android:textSize="20sp" />
 
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <ImageView
+        <ImageButton
             android:id="@+id/close_button_likedVenueDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,12 +36,11 @@
             android:clickable="true"
             android:paddingEnd="5dp"
             android:src="@drawable/ic_close_24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/appBarLayout"
-            app:layout_constraintEnd_toEndOf="@+id/appBarLayout"
-            app:layout_constraintTop_toTopOf="@+id/appBarLayout"
+            app:layout_constraintEnd_toEndOf="@+id/textView"
+            app:layout_constraintHorizontal_bias="0.956"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            tools:layout_editor_absoluteY="4dp"
             tools:ignore="MissingConstraints" />
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -285,16 +280,16 @@
     </LinearLayout>
 
 
-    <Button
-        android:id="@+id/close_likedVenueDetail_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/ripple_effect"
-        android:fontFamily="@font/opensans_bold"
-        android:padding="10dp"
-        android:text="Close"
-        android:textColor="#333" />
+<!--    <Button-->
+<!--        android:id="@+id/close_likedVenueDetail_button"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:background="@drawable/ripple_effect"-->
+<!--        android:fontFamily="@font/opensans_bold"-->
+<!--        android:padding="10dp"-->
+<!--        android:text="Close"-->
+<!--        android:textColor="#333" />-->
 
 
 </LinearLayout>

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -67,9 +68,9 @@ public class LikedVenuePopup extends BottomPopupView {
     private ImageView shareByMessage;
     private ImageView shareByEmail;
 
-    private ImageView closeButton;
+    private ImageButton closeButton;
 
-    private Button closeVenueDetail;
+//    private Button closeVenueDetail;
 
     private String selectedPlaceID = "ChIJdX6CmVhE1moRjNjM6yDQJBs";
 
@@ -105,14 +106,14 @@ public class LikedVenuePopup extends BottomPopupView {
         shareByMessage = findViewById(R.id.share_message_detail_textView);
         shareByEmail = findViewById(R.id.share_email_detail_textView);
 
-        closeVenueDetail = findViewById(R.id.close_likedVenueDetail_button);
-
-        closeVenueDetail.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+//        closeVenueDetail = findViewById(R.id.close_likedVenueDetail_button);
+//
+//        closeVenueDetail.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dismiss();
+//            }
+//        });
 
         closeButton = findViewById(R.id.close_button_likedVenueDetail);
         closeButton.setOnClickListener(new OnClickListener() {

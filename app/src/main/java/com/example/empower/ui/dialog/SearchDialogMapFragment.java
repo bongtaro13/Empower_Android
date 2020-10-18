@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -50,6 +51,7 @@ public class SearchDialogMapFragment extends DialogFragment {
     private ArrayList<String> sportArrayList;
 
 
+    private ImageButton close_button;
 
     private RadioGroup nearbyRadioGroup;
     private String nearbyResult;
@@ -100,7 +102,14 @@ public class SearchDialogMapFragment extends DialogFragment {
         nearbyRadioGroup = root.findViewById(R.id.dialog_search_map_radioGroup);
 
         button_searchResult = root.findViewById(R.id.dialog_search_map_confirm_button);
+        close_button = root.findViewById(R.id.close_button_searchDialog);
 
+        close_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
 
 
         venueArrayList = new ArrayList<>();
