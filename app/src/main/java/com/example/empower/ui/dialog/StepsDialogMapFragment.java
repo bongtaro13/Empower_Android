@@ -77,7 +77,7 @@ public class StepsDialogMapFragment extends DialogFragment {
 
         Typeface typeface_mon = getResources().getFont(R.font.montserrat_bold);
         venueNameTextView.setTypeface(typeface_mon);
-        venueNameTextView.setText(venueName);
+        venueNameTextView.setText("Step information");
 
         startAddressTextView.setText( startAddress);
         endAddressTextView.setText(endAddress);

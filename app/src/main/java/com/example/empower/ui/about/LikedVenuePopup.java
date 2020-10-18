@@ -67,6 +67,8 @@ public class LikedVenuePopup extends BottomPopupView {
     private ImageView shareByMessage;
     private ImageView shareByEmail;
 
+    private ImageView closeButton;
+
     private Button closeVenueDetail;
 
     private String selectedPlaceID = "ChIJdX6CmVhE1moRjNjM6yDQJBs";
@@ -106,6 +108,14 @@ public class LikedVenuePopup extends BottomPopupView {
         closeVenueDetail = findViewById(R.id.close_likedVenueDetail_button);
 
         closeVenueDetail.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
+        closeButton = findViewById(R.id.close_button_likedVenueDetail);
+        closeButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
