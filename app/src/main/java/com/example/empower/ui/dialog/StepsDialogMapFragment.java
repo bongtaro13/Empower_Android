@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,6 +44,8 @@ public class StepsDialogMapFragment extends DialogFragment {
     private TextView totalDistanceTextView;
     private TextView durationTextView;
 
+    private ImageButton closeDialog;
+
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -65,6 +68,13 @@ public class StepsDialogMapFragment extends DialogFragment {
         endAddressTextView = root.findViewById(R.id.step_dialog_end_address);
         totalDistanceTextView = root.findViewById(R.id.step_dialog_total_distance);
         durationTextView = root.findViewById(R.id.step_dialog_duration);
+        closeDialog = root.findViewById(R.id.close_button_stepDialog);
+        closeDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
 
 
         String venueName = getArguments().getString("venue_name");
