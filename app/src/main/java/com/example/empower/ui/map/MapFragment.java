@@ -201,11 +201,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
 
         // accessible flag
-        accessibleFlag = getActivity().getSharedPreferences("switchFlag",Context.MODE_PRIVATE);
+        accessibleFlag = getActivity().getSharedPreferences("switchFlag", Context.MODE_PRIVATE);
         accessibleBoolean = accessibleFlag.getBoolean("flag", false);
         System.out.println(accessibleBoolean.toString());
-
-
 
 
         // get like venue list from live data in about view model
@@ -267,13 +265,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         getSportsListFromFireStore();
 
 
-
         mapProgressBar = root.findViewById(R.id.map_search_progressBar);
 
 
         dialogMapFragment = new SearchDialogMapFragment();
         dialogMapFragment.setTargetFragment(this, SEARCH_MAP_FRAGMENT);
-
 
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -492,7 +488,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
             if (combineLocationMapping.size() != 0) {
                 mapAPI.clear();
-
 
 
                 mapAPI.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -754,13 +749,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
                 // Adding all the points in the route to LineOptions
                 lineOptions.addAll(points);
-                if (directionMode.equalsIgnoreCase("walking")) {
-                    lineOptions.width(10);
-
-                    lineOptions.color(Color.MAGENTA);
-                } else {
+                if (directionMode.equalsIgnoreCase("transit")) {
                     lineOptions.width(20);
                     lineOptions.color(Color.BLUE);
+
+                } else {
+                    lineOptions.width(20);
+                    lineOptions.color(Color.MAGENTA);
+
                 }
                 Log.d("mylog", "onPostExecute lineoptions decoded");
             }
@@ -847,8 +843,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
         String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
         // Destination of route
         String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
-        // Mode
-        String mode = "mode=" + directionMode + "&transit_mode=train";
+
+
+        String mode;
+        if (directionMode.equals("transit")) {
+            // Mode
+            mode = "mode=" + directionMode;
+        } else {
+            // Mode
+            mode = "mode=transit"  + "&transit_mode=train";
+        }
 
 
         // Building the parameters to the web service
@@ -1042,7 +1046,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                             Venue foundVenue = venueFilter.findVenueByLatLng(tempLatLng, sportsVenueList);
 
                             Bundle venueDeatilBundle = new Bundle();
-                            venueDeatilBundle.putParcelable("selectLikedVenue",foundVenue);
+                            venueDeatilBundle.putParcelable("selectLikedVenue", foundVenue);
 
 
                             if (foundVenue != null) {
@@ -1097,16 +1101,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                                 public void onClick(View v) {
 
                                     // accessible flag check
-                                    accessibleFlag = getActivity().getSharedPreferences("switchFlag",Context.MODE_PRIVATE);
+                                    accessibleFlag = getActivity().getSharedPreferences("switchFlag", Context.MODE_PRIVATE);
                                     accessibleBoolean = accessibleFlag.getBoolean("flag", false);
                                     System.out.println(accessibleBoolean.toString());
 
+                                    if (accessibleBoolean) {
+                                        url = getUrl(currentLocationMarker.getPosition(), marker.getPosition(), "transit-accessible");
+                                        new FetchURL().execute(url, "transit-accessible");
+                                        Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        url = getUrl(currentLocationMarker.getPosition(), marker.getPosition(), "transit");
+                                        // add router on the map with selected
+                                        new FetchURL().execute(url, "transit");
+                                        Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
+                                    }
 
 
-                                    url = getUrl(currentLocationMarker.getPosition(), marker.getPosition(), "transit");
-                                    // add router on the map with selected
-                                    new FetchURL().execute(url, "transit");
-                                    Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
                                     // move map camera position to start point on the map
                                     getCurrentLocation();
                                     LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
