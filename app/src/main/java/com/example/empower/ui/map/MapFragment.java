@@ -819,13 +819,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
 
             Bitmap drawableBitmap = getBitmap(R.drawable.ic_commute_24dp);
-            tempMakerOptions.icon(BitmapDescriptorFactory.fromBitmap(drawableBitmap));
+            tempMakerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
             //Marker tempMaker = tempMakerOptions;
 
             stopMaker = mapAPI.addMarker(tempMakerOptions);
             stopMaker.setTag(0);
-
 
 
 
