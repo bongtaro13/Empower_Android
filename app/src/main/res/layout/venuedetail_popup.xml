@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/background_round"
     android:orientation="vertical"
     android:showDividers="middle">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#eee"
@@ -15,23 +16,25 @@
 
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_round">
+            android:background="@drawable/background_round"
+            tools:ignore="MissingConstraints">
 
             <TextView
                 android:id="@+id/venueName_map_popup"
-                android:layout_width="250dp"
+                android:layout_width="wrap_content"
+                android:maxWidth="300dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
                 android:background="#eee"
+                android:fontFamily="@font/montserrat_bold"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="venueName"
                 android:textColor="#000"
                 android:textSize="20sp" />
         </com.google.android.material.appbar.AppBarLayout>
-
 
 
         <ImageButton
@@ -41,10 +44,15 @@
             android:layout_gravity="center_vertical"
             android:background="#eee"
             android:clickable="true"
-            android:paddingStart="110dp"
-            android:src="@drawable/ic_close_24dp" />
+            android:src="@drawable/ic_close_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/appBarLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.607"
+            app:layout_constraintStart_toEndOf="@+id/appBarLayout"
+            app:layout_constraintTop_toTopOf="@+id/appBarLayout"
+            tools:ignore="MissingConstraints" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <LinearLayout
