@@ -23,7 +23,7 @@
                 android:id="@+id/venueName_map_popup"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
+                android:fontFamily="@font/montserrat_bold"
                 android:background="#eee"
                 android:gravity="center"
                 android:padding="10dp"
@@ -56,27 +56,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_bold"
-            android:padding="10dp"
+            android:padding="5dp"
             android:text="Type: "
             android:textColor="#000"
-            android:textSize="15sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/venueType_map_popup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"
-            android:padding="10dp"
+            android:padding="5dp"
             android:text="VenueType"
             android:textColor="#000"
-            android:textSize="15sp" />
+            android:textSize="20sp" />
 
         <Switch
             android:id="@+id/accessible_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:switchMinWidth="56dp"
-            android:paddingStart="100dp"
+            android:paddingStart="80dp"
             android:text="Accessible"
             android:checked="true"
             android:textOff="OFF"
@@ -95,20 +95,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_bold"
-            android:padding="10dp"
+            android:padding="5dp"
             android:text="Address: "
             android:textColor="#000"
-            android:textSize="15sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/venueAddress_map_popup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"
-            android:padding="10dp"
+            android:padding="5dp"
             android:text="VenueAddress"
             android:textColor="#000"
-            android:textSize="15sp" />
+            android:textSize="20sp" />
 
     </LinearLayout>
 
@@ -121,20 +121,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_bold"
-            android:padding="10dp"
+            android:padding="5dp"
             android:text="Active time: "
             android:textColor="#000"
-            android:textSize="15sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/active_time_map_popup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"
-            android:padding="10dp"
+            android:padding="5dp"
             android:text="activeTime"
             android:textColor="#000"
-            android:textSize="15sp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -146,20 +146,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_bold"
-            android:padding="10dp"
+            android:padding="5dp"
             android:text="Suburb and Postcode: "
             android:textColor="#000"
-            android:textSize="15sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/suburb_map_popup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"
-            android:padding="10dp"
+            android:padding="5dp"
             android:text="Suburb Postcode"
             android:textColor="#000"
-            android:textSize="15sp" />
+            android:textSize="20sp" />
 
 
 
@@ -174,20 +174,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_bold"
-            android:padding="10dp"
+            android:padding="5dp"
             android:text="Business category: "
             android:textColor="#000"
-            android:textSize="15sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/businessCategory_map_popup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"
-            android:padding="10dp"
+            android:padding="5dp"
             android:text="BusinessVategory"
             android:textColor="#000"
-            android:textSize="15sp" />
+            android:textSize="20sp" />
 
     </LinearLayout>
 
@@ -200,20 +200,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_bold"
-            android:padding="10dp"
+            android:padding="5dp"
             android:text="LGA: "
             android:textColor="#000"
-            android:textSize="15sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/LGA_map_popup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"
-            android:padding="10dp"
+            android:padding="5dp"
             android:text="LGA"
             android:textColor="#000"
-            android:textSize="15sp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
 

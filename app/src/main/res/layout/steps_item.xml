@@ -38,7 +38,6 @@
         android:id="@+id/step_item_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="40dp"
         android:text="distance"
         android:textSize="20sp"
         android:textColor="@color/black"
@@ -51,7 +50,7 @@
         android:id="@+id/step_item_travel_mode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="40dp"
+
         android:text="travel mode"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -64,7 +63,7 @@
         android:id="@+id/step_item_vehicle_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="40dp"
+
         android:visibility="gone"
         android:textSize="20sp"
         android:textColor="@color/black"
@@ -77,7 +76,7 @@
         android:id="@+id/step_item_short_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="40dp"
+
         android:visibility="gone"
         android:textSize="20sp"
         android:textColor="@color/black"
