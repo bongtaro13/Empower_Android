@@ -103,7 +103,6 @@ public class VenueFilter {
                     outputVenue.add(temp);
                 }
 
-
             }
 
             return outputVenue;

@@ -32,6 +32,7 @@ import com.example.empower.database.LikedVenue;
 import com.example.empower.entity.Venue;
 import com.example.empower.ui.dialog.LikedVenueDialogAboutFragment;
 import com.example.empower.ui.dialog.StepsDialogMapFragment;
+import com.example.empower.ui.map.MapFragment;
 import com.example.empower.ui.map.VenueFilter;
 import com.example.empower.ui.news.NewsViewModel;
 import com.google.android.gms.common.api.ApiException;
@@ -194,11 +195,11 @@ public class AboutFragment extends Fragment {
             // 3. WRAP_CONTENT，自身高度，不推荐;
             int height = getResources().getDimensionPixelSize(R.dimen.dp_80);
 
-            SwipeMenuItem addItem = new SwipeMenuItem(getContext()).setBackground(R.drawable.selector_green)
-                    .setImage(R.drawable.ic_map_black_24dp)
-                    .setWidth(width)
-                    .setHeight(height);
-            swipeLeftMenu.addMenuItem(addItem); // 添加菜单到左侧。
+//            SwipeMenuItem addItem = new SwipeMenuItem(getContext()).setBackground(R.drawable.selector_green)
+//                    .setImage(R.drawable.ic_map_black_24dp)
+//                    .setWidth(width)
+//                    .setHeight(height);
+//            swipeLeftMenu.addMenuItem(addItem); // 添加菜单到左侧。
 
 
             SwipeMenuItem closeItem = new SwipeMenuItem(getContext()).setBackground(R.drawable.selector_red)
@@ -213,6 +214,7 @@ public class AboutFragment extends Fragment {
      * RecyclerView的Item中的Menu点击监听。
      */
     private OnItemMenuClickListener mItemMenuClickListener = new OnItemMenuClickListener() {
+        @SuppressLint("ResourceType")
         @Override
         public void onItemClick(SwipeMenuBridge menuBridge, int position) {
             menuBridge.closeMenu();
@@ -241,6 +243,7 @@ public class AboutFragment extends Fragment {
                 menuAdapter.notifyDataSetChanged(dataList);
 
             } else if (direction == SwipeRecyclerView.LEFT_DIRECTION) {
+
                 Toast.makeText(getContext(), "list index " + position + "; left menu " + menuPosition, Toast.LENGTH_SHORT).show();
 
             }
