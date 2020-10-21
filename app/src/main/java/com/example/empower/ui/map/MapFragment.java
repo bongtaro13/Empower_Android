@@ -756,7 +756,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
                 } else {
                     lineOptions.width(20);
-                    lineOptions.color(Color.MAGENTA);
+                    lineOptions.color(Color.GREEN);
+                    //lineOptions.color(Color.rgb(115,214,66));
 
                 }
                 Log.d("mylog", "onPostExecute lineoptions decoded");
@@ -965,63 +966,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     // add mark result on the map
                     new AsyncAddMarkerOnMap().execute(combineLocationMapping1);
 
-//                    if (combineLocationMapping1.size() != 0) {
-//                        mapAPI.clear();
-//
-//                        mapAPI.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-//                            @Override
-//                            public void onInfoWindowClick(Marker marker) {
-//                                url = getUrl(currentLocationMarker.getPosition(), marker.getPosition(), "transit");
-//                                // add router on the map with selected
-//                                new FetchURL().execute(url, "transit");
-//                                Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//
-//                        // long click jump to street view fragment
-//                        mapAPI.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
-//                            @Override
-//                            public void onInfoWindowLongClick(Marker marker) {
-//                                Toast.makeText(getActivity(), "Info window long clicked", Toast.LENGTH_SHORT).show();
-////                        StreetViewFragment fragment2=new StreetViewFragment();
-////                        FragmentManager fragmentManager= getFragmentManager();
-////                        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-////                        fragmentTransaction.replace(R.id.container,fragment2,"tag");
-////                        fragmentTransaction.addToBackStack(null);
-////                        fragmentTransaction.commit();
-//                            }
-//                        });
-//
-//
-//                        for (Venue tempLocationAddressPair : combineLocationMapping1) {
-//                            if (tempLocationAddressPair.getLatitude() == null || tempLocationAddressPair.getLongitude() == null){
-//                                continue;
-//                            }
-//
-//                            LatLng tempSportsVenueLocation = new LatLng(Double.parseDouble(tempLocationAddressPair.getLatitude()),
-//                                    Double.parseDouble(tempLocationAddressPair.getLongitude()));
-//                            Venue tempSportsVenue = tempLocationAddressPair;
-//
-//
-//                            mapAPI.addMarker(new MarkerOptions().position(tempSportsVenueLocation)
-//                                    .title(tempSportsVenue.getName())
-//                                    .snippet(tempSportsVenue.getType() + " " + tempSportsVenue.getAddress() + " " + tempSportsVenue.getPostcode()));
-//
-//                        }
-//                        getCurrentLocation();
-//                        LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-//                        mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap).title("You current location")
-//                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-//
-//                        CameraPosition newCameraPosition = new CameraPosition.Builder()
-//                                .target(currentLocationMarkerOnMap).zoom(10).build();
-//
-//
-//                        mapAPI.animateCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition));
-//                        mapProgressBar.setVisibility(View.GONE);
-//                        Toast toast_success = Toast.makeText(getContext(), "Result found", Toast.LENGTH_SHORT);
-//                        toast_success.show();
-//                    }
 
                 } else if (resultCode == Activity.RESULT_CANCELED) {
 

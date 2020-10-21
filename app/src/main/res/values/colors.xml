@@ -22,6 +22,8 @@
     <color name="grayLite">#DDDDDD</color>
     <color name="splashbackground">#E6E6E6</color>
 
+    <color name="accessibleRoute">#4BE20F</color>
+
 
     <color name="blue_background">#1976D2</color>
     <color name="teal_background">#00796B</color>
