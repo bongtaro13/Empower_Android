@@ -48,6 +48,7 @@ public class SearchDialogMapFragment extends DialogFragment {
     private CheckBox checkBox_football;
     private CheckBox checkBox_basketball;
     private CheckBox checkBox_cricket;
+    private CheckBox checkBox_others;
     private ArrayList<String> sportArrayList;
 
 
@@ -98,6 +99,7 @@ public class SearchDialogMapFragment extends DialogFragment {
         checkBox_football = root.findViewById(R.id.dialog_search_map_football);
         checkBox_basketball = root.findViewById(R.id.dialog_search_map_basketball);
         checkBox_cricket = root.findViewById(R.id.dialog_search_map_cricket);
+        checkBox_others = root.findViewById(R.id.dialog_search_map_others);
 
         nearbyRadioGroup = root.findViewById(R.id.dialog_search_map_radioGroup);
 
@@ -132,6 +134,21 @@ public class SearchDialogMapFragment extends DialogFragment {
         });
 
 
+        checkBox_others.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    checkBox_football.setChecked(false);
+                    checkBox_basketball.setChecked(false);
+                    checkBox_cricket.setChecked(false);
+                    checkBox_allSport.setChecked(false);
+                }
+            }
+        });
+
+
+
+
         checkBox_sportVenue.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -148,7 +165,6 @@ public class SearchDialogMapFragment extends DialogFragment {
                 }
             }
         });
-
 
 
 
@@ -184,6 +200,10 @@ public class SearchDialogMapFragment extends DialogFragment {
                     sportArrayList.add("cricket");
                 }
 
+                if (checkBox_others.isChecked()){
+                    sportArrayList.add("others");
+                }
+
                 for (int i = 0; i< nearbyRadioGroup.getChildCount(); i++){
                     RadioButton radioButton = (RadioButton)nearbyRadioGroup.getChildAt(i);
                     if (radioButton.isChecked()){
@@ -191,7 +211,6 @@ public class SearchDialogMapFragment extends DialogFragment {
                         break;
                     }
                 }
-
 
 
                 Intent intent = new Intent();
