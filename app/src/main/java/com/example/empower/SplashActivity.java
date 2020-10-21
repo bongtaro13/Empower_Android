@@ -68,7 +68,7 @@ public class SplashActivity extends AppCompatActivity {
         // add two visual components to this activity
         tv_version = findViewById(R.id.tv_version);
         gifImage = findViewById(R.id.imageView_gif);
-        Glide.with(this).asGif().load(R.raw.logo_o).into(gifImage);
+        Glide.with(this).asGif().load(R.raw.logo_o2).into(gifImage);
 
 
 

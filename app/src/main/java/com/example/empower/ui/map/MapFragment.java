@@ -511,7 +511,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     }
                 });
 
-
                 mapAPI.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
@@ -815,17 +814,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
             LatLng stopLatlng = entry.getValue();
             MarkerOptions tempMakerOptions = new MarkerOptions();
             tempMakerOptions.position(stopLatlng);
-            tempMakerOptions.title("Stop: " +stopName);
+            tempMakerOptions.title("Stop: " + stopName);
 
 
             Bitmap drawableBitmap = getBitmap(R.drawable.ic_commute_24dp);
-            tempMakerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+            tempMakerOptions.icon(BitmapDescriptorFactory.fromResource(R.raw.stop1));
+            // tempMakerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
             //Marker tempMaker = tempMakerOptions;
 
             stopMaker = mapAPI.addMarker(tempMakerOptions);
             stopMaker.setTag(0);
-
 
 
         }
@@ -1183,7 +1182,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                                     }
                                 });
 
-                            }else {
+                            } else {
                                 floatBarLayout.setVisibility(View.INVISIBLE);
                             }
 
