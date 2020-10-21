@@ -132,6 +132,26 @@ public class SearchDialogMapFragment extends DialogFragment {
         });
 
 
+        checkBox_sportVenue.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!checkBox_sportVenue.isChecked() && !checkBox_openSpace.isChecked()){
+                    checkBox_sportVenue.setChecked(true);
+                }
+            }
+        });
+        checkBox_openSpace.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!checkBox_sportVenue.isChecked() && !checkBox_openSpace.isChecked()){
+                    checkBox_sportVenue.setChecked(true);
+                }
+            }
+        });
+
+
+
+
         nearbyResult = null;
 
 

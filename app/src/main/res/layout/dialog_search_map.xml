@@ -239,9 +239,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:textColor="@color/white"
         android:background="@drawable/ripple_effect_primarycolor"
         android:fontFamily="@font/opensans_bold"
-        android:text="Search Result" />
+        android:text="Search" />
 
 
 </LinearLayout>

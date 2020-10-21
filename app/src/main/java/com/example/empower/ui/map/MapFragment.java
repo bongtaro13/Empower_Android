@@ -277,7 +277,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
         mapProgressBar = root.findViewById(R.id.map_search_progressBar);
 
-
         dialogMapFragment = new SearchDialogMapFragment();
         dialogMapFragment.setTargetFragment(this, SEARCH_MAP_FRAGMENT);
 
