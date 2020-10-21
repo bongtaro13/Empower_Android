@@ -7,6 +7,7 @@ import com.example.empower.entity.Venue;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class VenueFilter {
 
@@ -22,9 +23,7 @@ public class VenueFilter {
                 outputVenue.add(tempVenue);
             }
         }
-
         return outputVenue;
-
     }
 
 
@@ -34,7 +33,6 @@ public class VenueFilter {
         if (venueTypeList.size() == 0) {
             return outputVenue;
         }
-        ArrayList test = venueTypeList;
 
         for (int i = 0; i < venueTypeList.size(); i++) {
             for (Venue tempVenue : inputVeneus) {
@@ -44,11 +42,8 @@ public class VenueFilter {
             }
         }
 
-        if (outputVenue.size() > 0) {
-            return outputVenue;
-        } else {
-            return inputVeneus;
-        }
+
+        return outputVenue;
 
 
     }
@@ -60,19 +55,21 @@ public class VenueFilter {
             return outputVenue;
         }
 
+        if (venueSportList.contains("all")){
+            return inputVeneus;
+        }
+
         for (int i = 0; i < venueSportList.size(); i++) {
             for (Venue tempVenue : inputVeneus) {
-                if (tempVenue.getBusinessCategory().contains(venueSportList.get(i))) {
+                if (tempVenue.getBusinessCategory().toLowerCase().contains(venueSportList.get(i).toLowerCase())) {
                     outputVenue.add(tempVenue);
                 }
             }
         }
 
-        if (outputVenue.size() > 0) {
-            return outputVenue;
-        } else {
-            return inputVeneus;
-        }
+
+        return outputVenue;
+
     }
 
     // filter venue with distance
@@ -154,13 +151,13 @@ public class VenueFilter {
     }
 
 
-    public Boolean checkIfCurrentVeneuLiked (Venue currentSelectedVeneu, ArrayList<LikedVenue> likedVenueArrayList){
-        if (likedVenueArrayList.isEmpty()){
+    public Boolean checkIfCurrentVeneuLiked(Venue currentSelectedVeneu, ArrayList<LikedVenue> likedVenueArrayList) {
+        if (likedVenueArrayList.isEmpty()) {
             return false;
         }
 
-        for (LikedVenue tempVenue: likedVenueArrayList){
-            if (currentSelectedVeneu.getVenueID().equals(tempVenue.venueID)){
+        for (LikedVenue tempVenue : likedVenueArrayList) {
+            if (currentSelectedVeneu.getVenueID().equals(tempVenue.venueID)) {
                 return true;
             }
         }
@@ -170,10 +167,10 @@ public class VenueFilter {
     }
 
 
-    public Venue findVenueByLatLng (LatLng location, ArrayList<Venue> inputVeneus){
+    public Venue findVenueByLatLng(LatLng location, ArrayList<Venue> inputVeneus) {
         Venue outputVenue = null;
-        for (Venue tempVenue: inputVeneus){
-            if (tempVenue.getLatitude().equals(String.valueOf(location.latitude)) && tempVenue.getLongitude().equals(String.valueOf(location.longitude))){
+        for (Venue tempVenue : inputVeneus) {
+            if (tempVenue.getLatitude().equals(String.valueOf(location.latitude)) && tempVenue.getLongitude().equals(String.valueOf(location.longitude))) {
                 outputVenue = tempVenue;
                 break;
             }
@@ -181,17 +178,16 @@ public class VenueFilter {
         return outputVenue;
     }
 
-    public Venue findVenueByVenueId (String inputVenueID, ArrayList<Venue> inputVeneus){
+    public Venue findVenueByVenueId(String inputVenueID, ArrayList<Venue> inputVeneus) {
         Venue outputVenue = null;
-        for (Venue tempVenue: inputVeneus){
-            if (inputVenueID.equals(tempVenue.getVenueID())){
+        for (Venue tempVenue : inputVeneus) {
+            if (inputVenueID.equals(tempVenue.getVenueID())) {
                 outputVenue = tempVenue;
                 break;
             }
         }
         return outputVenue;
     }
-
 
 
 }

@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:gravity="center"
-                android:text="Select all sport" />
+                android:text="All sports provided" />
 
             <CheckBox
                 android:id="@+id/dialog_search_map_football"
@@ -127,13 +127,6 @@
                 android:gravity="center"
                 android:text="Cricket" />
 
-            <CheckBox
-                android:id="@+id/dialog_search_map_others"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:gravity="center"
-                android:text="Others" />
 
         </LinearLayout>
         ​
