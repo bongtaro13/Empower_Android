@@ -1,12 +1,12 @@
 package com.example.empower.ui.about;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,8 +29,6 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.FetchPhotoRequest;
 import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.gson.JsonArray;
-import com.google.type.LatLng;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 
@@ -39,7 +37,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -65,8 +62,7 @@ public class LikedVenuePopup extends BottomPopupView {
     private TextView venueLga;
 
 
-    private ImageView shareByMessage;
-    private ImageView shareByEmail;
+    private ImageView shareVenueInfo;
 
     private ImageButton closeButton;
 
@@ -88,6 +84,7 @@ public class LikedVenuePopup extends BottomPopupView {
     }
 
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate() {
         super.onCreate();
@@ -102,18 +99,9 @@ public class LikedVenuePopup extends BottomPopupView {
         venueBusinessCategory = findViewById(R.id.businessCategory_detail_textView);
         venueLga = findViewById(R.id.LGA_detail_textView);
 
+        shareVenueInfo = findViewById(R.id.share_email_detail_textView);
 
-        shareByMessage = findViewById(R.id.share_message_detail_textView);
-        shareByEmail = findViewById(R.id.share_email_detail_textView);
 
-//        closeVenueDetail = findViewById(R.id.close_likedVenueDetail_button);
-//
-//        closeVenueDetail.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dismiss();
-//            }
-//        });
 
         closeButton = findViewById(R.id.close_button_likedVenueDetail);
         closeButton.setOnClickListener(new OnClickListener() {
@@ -206,13 +194,18 @@ public class LikedVenuePopup extends BottomPopupView {
                         .build();
                 placesClient.fetchPhoto(photoRequest).addOnSuccessListener((fetchPhotoResponse) -> {
                     Bitmap bitmap = fetchPhotoResponse.getBitmap();
-                    venueImage.setImageBitmap(bitmap);
+                    if (bitmap != null) {
+                        venueImage.setImageBitmap(bitmap);
+                    }else {
+                        venueImage.setImageResource(R.raw.likedvenue_pic1);
+                    }
                 }).addOnFailureListener((exception) -> {
                     if (exception instanceof ApiException) {
                         final ApiException apiException = (ApiException) exception;
                         Log.e(TAG, "Place not found: " + exception.getMessage());
                         final int statusCode = apiException.getStatusCode();
-                        // TODO: Handle error with given status code.
+
+
                     }
                 });
             });
@@ -221,23 +214,20 @@ public class LikedVenuePopup extends BottomPopupView {
 
 
 
+
+
         }
 
 
-        shareByMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "message share: click");
-                sendSms(getContext(), "Hi, I found a sport venue in " + selectLikedVenue.getAddress());
-            }
-        });
 
-
-        shareByEmail.setOnClickListener(new View.OnClickListener() {
+        shareVenueInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "email share: click");
-                sendMail(getContext(), "Venue share", "Hi, I found a sport venue in " + selectLikedVenue.getAddress());
+                sendMail(getContext(), "Venue share",
+                        "Hi, I found a sport venue in "
+                                + selectLikedVenue.getAddress() + "called "
+                                +  selectLikedVenue.getName());
             }
         });
 

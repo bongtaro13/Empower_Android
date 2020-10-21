@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.empower.R;
+import com.example.empower.entity.Venue;
 
 import java.util.List;
 
@@ -36,9 +37,12 @@ public class MainAdapter extends BaseAdapter<MainAdapter.ViewHolder> {
         return new ViewHolder(getInflater().inflate(R.layout.item_liked_venue, parent, false));
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.setData(mDataList.get(position));
+        holder.setData(mDataList.get(position), position);
+
+
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -54,13 +58,14 @@ public class MainAdapter extends BaseAdapter<MainAdapter.ViewHolder> {
             tvPostcode = itemView.findViewById(R.id.tv_postcode);
         }
 
-        public void setData(String title) {
+        public void setData(String title, int position) {
             String[] totalString = title.split(";");
 
             String selectedLikedVenueID = totalString[0].replace("venueID=", "");
             String selectedLikedVenueName = totalString[1].replace("name=", "");
             String selectedLikedVenuePostcode = totalString[2].replace("postcode=", "");
-            this.tvTitle.setText(selectedLikedVenueID);
+            Integer listIndex = position + 1;
+            this.tvTitle.setText(listIndex.toString());
             this.tvName.setText(selectedLikedVenueName);
             this.tvPostcode.setText(selectedLikedVenuePostcode);
         }

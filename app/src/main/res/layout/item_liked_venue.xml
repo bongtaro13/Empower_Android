@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_bold"
             android:textSize="15sp"
-            android:text="Venue ID: " />
+            android:text="List index: " />
 
         <TextView
             android:id="@+id/tv_title"
