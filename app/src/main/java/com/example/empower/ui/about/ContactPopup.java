@@ -59,15 +59,6 @@ public class ContactPopup extends BottomPopupView {
             }
 
 
-
-//                Bundle bundle = new Bundle();
-//                String url = "https://docs.google.com/forms/d/e/1FAIpQLSdtNt9-3_nZlKA4ZjP0uaClP6-B1Ok9EoU-qlcYuS0oOxWWkw/viewform";
-//                bundle.putString("URL",url);
-//                Intent intent = new Intent();
-//                intent.setClass(Objects.requireNonNull(v.getContext()),WebDetailActivity.class);
-//                intent.putExtras(bundle);
-//                getContext().startActivity(intent, bundle);
-
         });
 
     }
