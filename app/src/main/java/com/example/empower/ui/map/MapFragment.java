@@ -997,7 +997,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                 mapAPI.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
-                        Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
+
+                        //Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
                         floatBarLayout.setVisibility(View.INVISIBLE);
                         showStreetViewDialog(marker.getPosition(), marker.getTitle());
                     }
@@ -1008,7 +1009,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                 mapAPI.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
                     @Override
                     public void onInfoWindowLongClick(Marker marker) {
-                        Toast.makeText(getActivity(), "Info window long clicked", Toast.LENGTH_SHORT).show();
+
+                        //Toast.makeText(getActivity(), "Info window long clicked", Toast.LENGTH_SHORT).show();
 
                     }
                 });
@@ -1032,8 +1034,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                                 Bundle venueDeatilBundle = new Bundle();
                                 venueDeatilBundle.putParcelable("selectLikedVenue", foundVenue);
 
-
-                                Toast.makeText(getActivity(), "Related venue found", Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "Related venue found" );
+                                //Toast.makeText(getActivity(), "Related venue found", Toast.LENGTH_SHORT).show();
                                 if (venueFilter.checkIfCurrentVeneuLiked(foundVenue, currentLikedVenues)) {
                                     float_heartButton.setLiked(true);
                                     venueDeatilBundle.putBoolean("heartFlag", true);
@@ -1090,12 +1092,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                                         if (accessibleBoolean) {
                                             url = getUrl(currentLocationMarker.getPosition(), marker.getPosition(), "transit-accessible");
                                             new FetchURL().execute(url, "transit-accessible");
-                                            Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
+                                            Log.d(TAG, "Info window clicked" );
+                                            //Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
                                         } else {
                                             url = getUrl(currentLocationMarker.getPosition(), marker.getPosition(), "transit");
                                             // add router on the map with selected
                                             new FetchURL().execute(url, "transit");
-                                            Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
+                                            Log.d(TAG, "Info window clicked" );
+                                            //Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
                                         }
 
 //                                    // add stop marker on the map of selected route
@@ -1137,7 +1141,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     @Override
                     public void onMapClick(LatLng latLng) {
                         floatBarLayout.setVisibility(View.INVISIBLE);
-                        Toast.makeText(getActivity(), "Map clicked", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "Map clicked" );
+                        //Toast.makeText(getActivity(), "Map clicked", Toast.LENGTH_SHORT).show();
                     }
                 });
 

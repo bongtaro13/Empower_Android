@@ -50,6 +50,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.type.LatLng;
 import com.lxj.xpopup.XPopup;
+import com.sdsmdg.tastytoast.TastyToast;
 import com.yanzhenjie.recyclerview.OnItemClickListener;
 import com.yanzhenjie.recyclerview.OnItemMenuClickListener;
 import com.yanzhenjie.recyclerview.SwipeMenu;
@@ -218,7 +219,7 @@ public class AboutFragment extends Fragment {
             int menuPosition = menuBridge.getPosition(); // 菜单在RecyclerView的Item中的Position。
 
             if (direction == SwipeRecyclerView.RIGHT_DIRECTION) {
-                Toast.makeText(getContext(), "list index" + position + "; deleted " + menuPosition, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "list index" + position + "; deleted " + menuPosition, Toast.LENGTH_SHORT).show();
 
                 String[] totalString = dataList.get(position).split(";");
 
@@ -236,6 +237,8 @@ public class AboutFragment extends Fragment {
                     defaultTextview.setVisibility(View.INVISIBLE);
                 }
                 menuAdapter.notifyDataSetChanged(dataList);
+
+                TastyToast.makeText(getContext(), "Liked venue deleted", TastyToast.LENGTH_LONG, TastyToast.SUCCESS);
 
             } else if (direction == SwipeRecyclerView.LEFT_DIRECTION) {
 

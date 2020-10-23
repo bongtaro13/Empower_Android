@@ -191,9 +191,11 @@ public class NewsFragment extends Fragment {
 
                             initalText += dataString + "+";
 
-                            Toast.makeText(getActivity(), "Selected Ids : " + selectedIds.get(i) + "\n" +
+                            Log.d(TAG,"Dialog cancelled");
+
+                            /*Toast.makeText(getActivity(), "Selected Ids : " + selectedIds.get(i) + "\n" +
                                     "Selected Names : " + selectedNames.get(i) + "\n" +
-                                    "DataString : " + dataString, Toast.LENGTH_SHORT).show();
+                                    "DataString : " + dataString, Toast.LENGTH_SHORT).show();*/
                         }
 
                         searchNewsWithKeyword(initalText);
@@ -346,7 +348,7 @@ public class NewsFragment extends Fragment {
 
             if (newsList.isEmpty()){
 
-                TastyToast.makeText(getContext(), "No news found, you may need 'disability sport'", TastyToast.LENGTH_LONG, TastyToast.ERROR);
+                TastyToast.makeText(getContext(), "No news found, you may need 'disability sport' news", TastyToast.LENGTH_LONG, TastyToast.ERROR);
                 searchNewsWithKeyword("disability%20sport");
             }else {
                 defaultText.setVisibility(View.GONE);
