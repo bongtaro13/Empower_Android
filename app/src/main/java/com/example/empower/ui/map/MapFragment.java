@@ -35,24 +35,19 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.room.PrimaryKey;
 
 
-import com.example.empower.MainActivity2;
 import com.example.empower.MainActivity3;
 import com.example.empower.R;
 import com.example.empower.api.DataParser;
 import com.example.empower.database.LikedVenue;
-import com.example.empower.database.LikedVenueDatabase;
 import com.example.empower.entity.ActiveHour;
 import com.example.empower.entity.LocationAddressPair;
 import com.example.empower.entity.Step;
@@ -108,7 +103,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
