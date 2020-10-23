@@ -43,7 +43,7 @@
         android:layout_marginEnd="47dp"
         android:layout_marginBottom="150dp"
         android:gravity="center"
-        android:text="Empowering disabled people to stay healthy"
+        android:text="Empowering people with disability to stay healthy"
         android:textColor="@color/black"
         android:textSize="30sp"
         adnroid:ignore="MissingPrefix" />
