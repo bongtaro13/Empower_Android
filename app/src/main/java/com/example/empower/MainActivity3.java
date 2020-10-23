@@ -127,7 +127,8 @@ public class MainActivity3 extends AppCompatActivity {
         tabLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity3.this, "this " + tabLayout.getCurrentPosition(), Toast.LENGTH_SHORT).show();
+
+                //Toast.makeText(MainActivity3.this, "this " + tabLayout.getCurrentPosition(), Toast.LENGTH_SHORT).show();
             }
         });
 
