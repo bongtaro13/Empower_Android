@@ -18,7 +18,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
         }
@@ -112,7 +113,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
 
-
     // navigation bar space layout
     implementation 'eu.long1:spacetablayout:1.0.4'
 
@@ -125,7 +125,6 @@ dependencies {
 
     // get easily http request
     implementation 'com.android.volley:volley:1.1.1'
-
 
     // super toast
     compile 'com.sdsmdg.tastytoast:tastytoast:0.1.1'

@@ -42,7 +42,6 @@ import java.util.List;
 
 import static android.content.ContentValues.TAG;
 import static com.example.empower.ui.dialog.LikedVenueDialogAboutFragment.sendMail;
-import static com.example.empower.ui.dialog.LikedVenueDialogAboutFragment.sendSms;
 
 
 public class LikedVenuePopup extends BottomPopupView {
@@ -217,7 +216,6 @@ public class LikedVenuePopup extends BottomPopupView {
 
 
         }
-
 
 
         shareVenueInfo.setOnClickListener(new View.OnClickListener() {

@@ -117,11 +117,6 @@ public class AboutFragment extends Fragment {
         aboutViewModel.initalizeVars(getActivity().getApplication());
 
 
-        // initialize the LikedVenue list with sample example
-//        LikedVenue one = new LikedVenue("1","venue one", "3168");
-//        LikedVenue two = new LikedVenue("2","venue two", "3056");
-//        aboutViewModel.insert(one);
-//        aboutViewModel.insert(two);
 
         menuAdapter = new MainAdapter(getContext());
         mRecyclerView.setAdapter(menuAdapter);
@@ -223,7 +218,7 @@ public class AboutFragment extends Fragment {
             int menuPosition = menuBridge.getPosition(); // 菜单在RecyclerView的Item中的Position。
 
             if (direction == SwipeRecyclerView.RIGHT_DIRECTION) {
-                Toast.makeText(getContext(), "list index" + position + "; delete clicked " + menuPosition, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "list index" + position + "; deleted " + menuPosition, Toast.LENGTH_SHORT).show();
 
                 String[] totalString = dataList.get(position).split(";");
 
