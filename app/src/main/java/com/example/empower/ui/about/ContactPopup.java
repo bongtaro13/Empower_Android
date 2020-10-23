@@ -94,4 +94,6 @@ public class ContactPopup extends BottomPopupView {
         return (int) (XPopupUtils.getWindowHeight(getContext()) * .9f);
     }
 
+
+
 }

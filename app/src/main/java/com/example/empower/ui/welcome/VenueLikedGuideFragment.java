@@ -30,7 +30,7 @@ public class VenueLikedGuideFragment  extends Fragment {
         description = root.findViewById(R.id.description_guide);
 
         Glide.with(this).asGif().load(R.raw.liked_venue_page).into(gif_guide);
-        description.setText("Save and manage liked venue in App");
+        description.setText("manage liked venue in App");
 
 
         return root;
