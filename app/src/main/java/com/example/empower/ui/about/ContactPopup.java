@@ -43,6 +43,7 @@ public class ContactPopup extends BottomPopupView {
                 final GoogleFormBottomPopup textBottomPopup = new GoogleFormBottomPopup(getContext());
                 new XPopup.Builder(getContext())
                         .autoOpenSoftInput(true)
+                        .maxHeight((int) (XPopupUtils.getWindowHeight(getContext()) * 0.9))
 //                        .hasShadowBg(false)
                         .setPopupCallback(new SimpleCallback() {
                             @Override
