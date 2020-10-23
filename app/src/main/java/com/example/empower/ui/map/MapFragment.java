@@ -2,6 +2,7 @@ package com.example.empower.ui.map;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -92,6 +93,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.lxj.xpopup.XPopup;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import org.json.JSONObject;
 
@@ -954,7 +956,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                     combineLocationMapping1 = venueFilter.getVenueNearby(nearbyResult, combineLocationMapping1, currentLocation);
 
                     if (combineLocationMapping1.size() == 0) {
-                        Toast.makeText(getActivity(), "No Result Found", Toast.LENGTH_SHORT).show();
+
+                        //Toast.makeText(getActivity(), "No Result Found", Toast.LENGTH_SHORT).show();
+                        TastyToast.makeText(getContext(), "No Result found", TastyToast.LENGTH_LONG, TastyToast.WARNING);
                     }
 
                     // add mark result on the map
@@ -970,6 +974,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
 
     // put markers of selected sports venues on the google map
+    @SuppressLint("StaticFieldLeak")
     private class AsyncAddMarkerOnMap extends AsyncTask<ArrayList<Venue>, Void, ArrayList<Venue>> {
 
 
@@ -1102,11 +1107,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                                             //Toast.makeText(getActivity(), "Info window clicked", Toast.LENGTH_SHORT).show();
                                         }
 
-//                                    // add stop marker on the map of selected route
-//                                    if (stopsLatlng != null) {
-//                                        // add stop marker on map
-//                                        new AsyncAddStopMarkerOnMap().execute(stopsLatlng);
-//                                    }
 
                                         // move map camera position to start point on the map
                                         getCurrentLocation();
@@ -1181,8 +1181,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
                 mapAPI.animateCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition));
                 mapProgressBar.setVisibility(View.GONE);
-                Toast toast_success = Toast.makeText(getContext(), "Result found", Toast.LENGTH_SHORT);
-                toast_success.show();
+
+                TastyToast.makeText(getContext(), "Result found", TastyToast.LENGTH_LONG, TastyToast.SUCCESS);
+
+//                Toast toast_success = Toast.makeText(getContext(), "Result found", Toast.LENGTH_SHORT);
+//                toast_success.show();
             }
             mapProgressBar.setVisibility(View.GONE);
         }
