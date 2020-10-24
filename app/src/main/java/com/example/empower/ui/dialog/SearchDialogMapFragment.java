@@ -21,6 +21,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.empower.R;
 import com.ramotion.foldingcell.FoldingCell;
+import com.ramotion.foldingcell.views.FoldingCellView;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -69,9 +70,6 @@ public class SearchDialogMapFragment extends DialogFragment {
 
         foldingCell = root.findViewById(R.id.folding_cell);
         foldingCell.initialize(2000, Color.GRAY, 4);
-        foldingCell.setClipToPadding(false);
-        foldingCell.setClipChildren(false);
-
 
 
         foldingCell.setOnClickListener(new View.OnClickListener() {
@@ -84,8 +82,7 @@ public class SearchDialogMapFragment extends DialogFragment {
 
         foldingCell2 = root.findViewById(R.id.folding_cell_2);
         foldingCell2.initialize(1000, Color.GRAY, 3);
-        foldingCell2.setClipToPadding(false);
-        foldingCell2.setClipChildren(false);
+
 
         foldingCell2.setOnClickListener(new View.OnClickListener() {
             @Override
