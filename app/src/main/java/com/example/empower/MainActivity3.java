@@ -90,7 +90,7 @@ public class MainActivity3 extends AppCompatActivity {
         aboutImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity3.this, "About clicked", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity3.this, "About clicked", Toast.LENGTH_SHORT).show();
                 new XPopup.Builder(v.getContext())
                         .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
                         .enableDrag(true)
