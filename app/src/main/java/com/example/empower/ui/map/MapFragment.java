@@ -1126,7 +1126,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                                 floatBarLayout.setVisibility(View.INVISIBLE);
                             }
 
-                            Toast.makeText(getActivity(), "Marker selected", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getActivity(), "Marker selected", Toast.LENGTH_SHORT).show();
 
                         } else {
                             floatBarLayout.setVisibility(View.INVISIBLE);
