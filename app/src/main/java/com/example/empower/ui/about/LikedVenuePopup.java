@@ -90,7 +90,7 @@ public class LikedVenuePopup extends BottomPopupView {
 
         venueImage = findViewById(R.id.venuePicture);
 
-        venueID = findViewById(R.id.venueID_detail_textView);
+        //venueID = findViewById(R.id.venueID_detail_textView);
         venueName = findViewById(R.id.venueName_detail_textView);
         venueType = findViewById(R.id.venueType_detail_textView);
         venueAddress = findViewById(R.id.venueAddress_detail_textView);
@@ -113,7 +113,7 @@ public class LikedVenuePopup extends BottomPopupView {
 
         Venue selectLikedVenue = venueInformation.getParcelable("selectLikedVenue");
         if (selectLikedVenue != null) {
-            venueID.setText(selectLikedVenue.getVenueID());
+            //venueID.setText(selectLikedVenue.getVenueID());
             venueName.setText(selectLikedVenue.getName());
             venueType.setText(selectLikedVenue.getType());
             venueAddress.setText(selectLikedVenue.getAddress());

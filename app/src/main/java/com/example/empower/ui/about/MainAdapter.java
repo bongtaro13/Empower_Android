@@ -47,13 +47,13 @@ public class MainAdapter extends BaseAdapter<MainAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvTitle;
+        //TextView tvTitle;
         TextView tvName;
         TextView tvPostcode;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvTitle = itemView.findViewById(R.id.tv_title);
+            //tvTitle = itemView.findViewById(R.id.tv_title);
             tvName = itemView.findViewById(R.id.tv_name);
             tvPostcode = itemView.findViewById(R.id.tv_postcode);
         }
@@ -65,7 +65,7 @@ public class MainAdapter extends BaseAdapter<MainAdapter.ViewHolder> {
             String selectedLikedVenueName = totalString[1].replace("name=", "");
             String selectedLikedVenuePostcode = totalString[2].replace("postcode=", "");
             Integer listIndex = position + 1;
-            this.tvTitle.setText(listIndex.toString());
+            //this.tvTitle.setText(listIndex.toString());
             this.tvName.setText(selectedLikedVenueName);
             this.tvPostcode.setText(selectedLikedVenuePostcode);
         }
