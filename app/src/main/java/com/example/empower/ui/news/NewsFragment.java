@@ -351,9 +351,9 @@ public class NewsFragment extends Fragment {
                 ToastUtils.init(getActivity().getApplication());
                 ToastUtils.setView(R.layout.toast_news_result_view);
                 ToastUtils.setGravity(Gravity.CENTER, 0, 0);
-                ToastUtils.show("No news found, you may need 'disability sport' news");
+                ToastUtils.show("No related news found, Please choose another topic");
 
-                searchNewsWithKeyword("disability%20sport");
+                searchNewsWithKeyword("Paralympic");
             }else {
                 defaultText.setVisibility(View.GONE);
             }
