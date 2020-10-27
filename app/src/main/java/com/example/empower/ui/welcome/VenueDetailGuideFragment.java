@@ -32,7 +32,7 @@ public class VenueDetailGuideFragment extends Fragment {
         description = root.findViewById(R.id.description_guide);
 
         Glide.with(this).asGif().load(R.raw.venue_detail_router).into(gif_guide);
-        description.setText("Get operation by select venue");
+        description.setText("Get route navigation");
 
 
         return root;
