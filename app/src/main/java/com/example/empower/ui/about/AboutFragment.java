@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,8 +50,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.type.LatLng;
+import com.hjq.toast.ToastUtils;
 import com.lxj.xpopup.XPopup;
-import com.sdsmdg.tastytoast.TastyToast;
 import com.yanzhenjie.recyclerview.OnItemClickListener;
 import com.yanzhenjie.recyclerview.OnItemMenuClickListener;
 import com.yanzhenjie.recyclerview.SwipeMenu;
@@ -238,7 +239,12 @@ public class AboutFragment extends Fragment {
                 }
                 menuAdapter.notifyDataSetChanged(dataList);
 
-                TastyToast.makeText(getContext(), "Liked venue deleted", TastyToast.LENGTH_LONG, TastyToast.SUCCESS);
+                ToastUtils.init(getActivity().getApplication());
+                ToastUtils.setView(R.layout.toast_map_result0_view);
+                ToastUtils.setGravity(Gravity.CENTER, 0, 0);
+                ToastUtils.show("Liked venue deleted");
+
+                //TastyToast.makeText(getContext(), "Liked venue deleted", TastyToast.LENGTH_LONG, TastyToast.SUCCESS);
 
             } else if (direction == SwipeRecyclerView.LEFT_DIRECTION) {
 

@@ -36,7 +36,8 @@ import com.example.empower.R;
 import com.example.empower.api.NewsAPI;
 import com.example.empower.entity.News;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.sdsmdg.tastytoast.TastyToast;
+import com.hjq.toast.ToastUtils;
+
 
 
 import org.w3c.dom.Text;
@@ -347,8 +348,11 @@ public class NewsFragment extends Fragment {
             final List<News> newsList = newsAPI.getNewsFromJsonResult();
 
             if (newsList.isEmpty()){
+                ToastUtils.init(getActivity().getApplication());
+                ToastUtils.setView(R.layout.toast_news_result_view);
+                ToastUtils.setGravity(Gravity.CENTER, 0, 0);
+                ToastUtils.show("No news found, you may need 'disability sport' news");
 
-                TastyToast.makeText(getContext(), "No news found, you may need 'disability sport' news", TastyToast.LENGTH_LONG, TastyToast.ERROR);
                 searchNewsWithKeyword("disability%20sport");
             }else {
                 defaultText.setVisibility(View.GONE);
@@ -380,7 +384,7 @@ public class NewsFragment extends Fragment {
                     Uri content_url = Uri.parse(newsList.get(position).getNewsUrl());
                     intent.setData(content_url);
                     startActivity(intent);
-                    Toast.makeText(getActivity(), "Clicked news: " + position + 1, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Clicked news: " + position + 1, Toast.LENGTH_SHORT).show();
                 }
             });
 

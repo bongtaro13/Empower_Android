@@ -21,6 +21,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,10 +91,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.hjq.toast.ToastUtils;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.lxj.xpopup.XPopup;
-import com.sdsmdg.tastytoast.TastyToast;
 
 import org.json.JSONObject;
 
@@ -957,8 +958,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
                     if (combineLocationMapping1.size() == 0) {
 
-                        //Toast.makeText(getActivity(), "No Result Found", Toast.LENGTH_SHORT).show();
-                        TastyToast.makeText(getContext(), "No Result found", TastyToast.LENGTH_LONG, TastyToast.WARNING);
+                        ToastUtils.init(getActivity().getApplication());
+                        ToastUtils.setView(R.layout.toast_map_result1_view);
+                        ToastUtils.setGravity(Gravity.CENTER, 0, 0);
+                        ToastUtils.show("No Result found");
+
                     }
 
                     // add mark result on the map
@@ -1182,10 +1186,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                 mapAPI.animateCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition));
                 mapProgressBar.setVisibility(View.GONE);
 
-                TastyToast.makeText(getContext(), "Result found", TastyToast.LENGTH_LONG, TastyToast.SUCCESS);
+                ToastUtils.init(getActivity().getApplication());
+                ToastUtils.setView(R.layout.toast_map_result0_view);
+                ToastUtils.setGravity(Gravity.CENTER, 0, 0);
+                ToastUtils.show("Result found");
 
-//                Toast toast_success = Toast.makeText(getContext(), "Result found", Toast.LENGTH_SHORT);
-//                toast_success.show();
+                //TastyToast.makeText(getContext(), "Result found", TastyToast.LENGTH_LONG, TastyToast.SUCCESS);
+
             }
             mapProgressBar.setVisibility(View.GONE);
         }
