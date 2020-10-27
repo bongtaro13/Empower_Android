@@ -344,7 +344,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
 
         LatLng currentLocationMarkerOnMap = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         MarkerOptions currentLocationMarker = new MarkerOptions().position(currentLocationMarkerOnMap)
-                .title("You current location")
+                .title("Your current location")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
 
         mapAPI.addMarker(currentLocationMarker).showInfoWindow();
@@ -435,7 +435,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, OnStree
                         .snippet(closedLocationAddressPair.getSportsVenueInfo().getAddress()
                                 + " " + closedLocationAddressPair.getSportsVenueInfo().getPostcode()));
 
-                mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap).title("You current location")
+                mapAPI.addMarker(new MarkerOptions().position(currentLocationMarkerOnMap).title("Your current location")
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
                 CameraPosition newCameraPosition = new CameraPosition.Builder()
