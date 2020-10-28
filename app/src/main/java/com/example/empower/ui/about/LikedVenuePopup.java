@@ -223,9 +223,10 @@ public class LikedVenuePopup extends BottomPopupView {
             public void onClick(View v) {
                 Log.d(TAG, "email share: click");
                 sendMail(getContext(), "Venue share",
-                        "Hi, I found a sport venue in "
-                                + selectLikedVenue.getAddress() + "called "
-                                +  selectLikedVenue.getName());
+                        "Hey, I found a sport venue at "
+                                + selectLikedVenue.getAddress() + " called "
+                                +  selectLikedVenue.getName()
+                                + ".");
             }
         });
 
