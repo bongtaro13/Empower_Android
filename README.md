@@ -25,11 +25,28 @@
 
 - Which API used in this project
 
-  - [Google custom search](https://developers.google.com/custom-search/v1/overview)
+  - [Migrating to the New Places SDK Client (Getting active hour and place photo)](https://developers.google.com/places/android-sdk/client-migration)
+  - [Map SDK for Android (Basic google map in app)](https://developers.google.com/maps/documentation/android-sdk/overview)
+  - [Direction API (Get direction information in router planner)](https://developers.google.com/maps/documentation/directions/overview)
+  - [Street view API (Get street view of a specific location)](https://developers.google.com/maps/documentation/javascript/streetview)
+  - [Google Custom Search Engine (Gathering different sources of the news)](https://developers.google.com/custom-search/docs/tutorial/creatingcse)
+  - [Firebase (Cloud FireStore, NoSql database)](https://firebase.google.com/docs/android/setup)
+  - [Room (Local database for liked venue)](https://developer.android.com/jetpack/androidx/releases/room)
   
-  - [Google Geolocation API](https://developers.google.com/maps/documentation/geolocation/overview)
-  
-  - [Map SDK for Android](https://developers.google.com/maps/documentation/android-sdk/start)
+- Open source package used in this project
+  - [ToastUtils (Toast message)](https://github.com/getActivity/ToastUtils)
+  - [Volley (The asynchronous call)](https://developer.android.com/training/volley)
+  - [Android-Multi-Select-Dialog (News topic selection)](https://github.com/abumoallim/Android-Multi-Select-Dialog)
+  - [SpaceTabLayout (Bottom navigation bar)](https://github.com/long1eu/SpaceTabLayout)
+  - [Glide (Picture render)](https://github.com/bumptech/glide)
+  - [LikeButton (Heart button for liked venue)](https://github.com/jd-alexander/LikeButton)
+  - [XPopup (Bottom popup window for venue detail, liked venue, and contact us page)](https://github.com/li-xiaojun/XPopup)
+  - [SwipeRecyclerView (List of liked venue)](https://github.com/yanzhenjie/SwipeRecyclerView)
+  - [Welcome-android (Welcome page when user use app in the first time)](https://github.com/stephentuso/welcome-android)
+  - [Folding-cell-android (Folding cell in search dialogue)](https://github.com/Ramotion/folding-cell-android)
+  - [Dexter (Permission check with location access)](https://github.com/Karumi/Dexter)
+  - [Recyclerview (News list)](https://developer.android.com/jetpack/androidx/releases/recyclerview)
+
   
   ### Database
   The database is hosted in Google Cloud, but the final database was put together using the script in the following Jupyter notebook: [Wrangling Script](https://drive.google.com/file/d/1fWHJjWf_doOC0YR1SyBd359tWoxenIsj/view?usp=sharing)
