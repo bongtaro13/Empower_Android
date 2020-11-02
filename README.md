@@ -53,4 +53,4 @@
 
   ### Related document
   Maintenance document, support document, and product document are all included in this handover packed link:
-  [Handover Package](https://drive.google.com/drive/folders/1ELqJCSaORytftdmegKxWL5sdHvfmDYv9?usp=sharing)
+  [Handover Package](https://drive.google.com/drive/folders/1L3bIKywBo6kXwB4WL0Zn6MAQzUez_b7F?usp=sharing)
