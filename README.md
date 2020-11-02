@@ -2,7 +2,7 @@
 
 - What the project does
 
-  This porject is aim to build the Android application "Empower". Which will be helping the physically disabled people get more involved in sports and keep their spirits up. 
+  This project is aim to build the Android application "Empower". Which will be helping the physically disabled people get more involved in sports and keep their spirits up. 
 
 - Why the project is useful
 
@@ -21,7 +21,8 @@
 
 - Who maintains and contributes to the project.
 
-  Our team called **Transformers** will works and this project and contribued with data research, application security, project management and application development for the whole project.
+  Our team called **Transformers** will works and this project and contributed with data research, application security, project management and application development for the whole project.
+
 
 - Which API used in this project
 
@@ -46,8 +47,10 @@
   - [Folding-cell-android (Folding cell in search dialogue)](https://github.com/Ramotion/folding-cell-android)
   - [Dexter (Permission check with location access)](https://github.com/Karumi/Dexter)
   - [Recyclerview (News list)](https://developer.android.com/jetpack/androidx/releases/recyclerview)
-
-  
+ 
   ### Database
   The database is hosted in Google Cloud, but the final database was put together using the script in the following Jupyter notebook: [Wrangling Script](https://drive.google.com/file/d/1fWHJjWf_doOC0YR1SyBd359tWoxenIsj/view?usp=sharing)
 
+  ### Related document
+  Maintenance document, support document, and product document are all included in this handover packed link
+  [Handover Package](https://drive.google.com/drive/folders/1ELqJCSaORytftdmegKxWL5sdHvfmDYv9?usp=sharing)
