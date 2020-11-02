@@ -52,5 +52,5 @@
   The database is hosted in Google Cloud, but the final database was put together using the script in the following Jupyter notebook: [Wrangling Script](https://drive.google.com/file/d/1fWHJjWf_doOC0YR1SyBd359tWoxenIsj/view?usp=sharing)
 
   ### Related document
-  Maintenance document, support document, and product document are all included in this handover packed link
+  Maintenance document, support document, and product document are all included in this handover packed link\\
   [Handover Package](https://drive.google.com/drive/folders/1ELqJCSaORytftdmegKxWL5sdHvfmDYv9?usp=sharing)
