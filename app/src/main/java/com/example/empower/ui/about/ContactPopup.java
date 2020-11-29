@@ -35,7 +35,7 @@ public class ContactPopup extends BottomPopupView {
         contactButton = findViewById(R.id.report_button);
         contactDetail = findViewById(R.id.contact_detail_textView);
 
-        contactDetail.setText("Please contact us with email: \n empower@gmail.com");
+        contactDetail.setText("Please contact us with email: \n empower.ma5@gmail.com");
 
         contactButton.setOnClickListener(new OnClickListener() {
             @Override
